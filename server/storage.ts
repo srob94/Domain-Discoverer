@@ -6,7 +6,9 @@ import type {
   SavedSearch, 
   InsertSavedSearch,
   PortfolioItem,
-  InsertPortfolioItem
+  InsertPortfolioItem,
+  Notification,
+  InsertNotification
 } from "@shared/schema";
 
 export interface IStorage {
@@ -25,6 +27,11 @@ export interface IStorage {
   getPortfolio(): Promise<PortfolioItem[]>;
   addToPortfolio(item: InsertPortfolioItem): Promise<PortfolioItem>;
   removeFromPortfolio(id: string): Promise<boolean>;
+  
+  getNotifications(userId: string): Promise<Notification[]>;
+  createNotification(userId: string, notification: InsertNotification): Promise<Notification>;
+  markNotificationAsRead(id: string, userId: string): Promise<Notification | undefined>;
+  markAllNotificationsAsRead(userId: string): Promise<void>;
 }
 
 const mockDomains: Domain[] = [
@@ -145,12 +152,14 @@ export class MemStorage implements IStorage {
   private watchlist: Map<string, WatchlistItem>;
   private savedSearches: Map<string, SavedSearch>;
   private portfolio: Map<string, PortfolioItem>;
+  private notifications: Map<string, Notification>;
 
   constructor() {
     this.domains = new Map();
     this.watchlist = new Map();
     this.savedSearches = new Map();
     this.portfolio = new Map();
+    this.notifications = new Map();
 
     mockDomains.forEach((domain) => {
       this.domains.set(domain.id, domain);
@@ -186,6 +195,97 @@ export class MemStorage implements IStorage {
     initialSearches.forEach((search) => {
       this.savedSearches.set(search.id, search);
     });
+
+    this.seedDemoNotifications();
+  }
+
+  private seedDemoNotifications() {
+    const demoUserId = "demo-user";
+    const now = new Date();
+    
+    const demoNotifications: Notification[] = [
+      {
+        id: "notif-1",
+        userId: demoUserId,
+        type: "drop_soon",
+        domainId: "10",
+        title: "Domain dropping soon",
+        message: "starlink.co drops in 2 hours",
+        createdAt: new Date(now.getTime() - 1000 * 60 * 30).toISOString(),
+        readAt: null
+      },
+      {
+        id: "notif-2",
+        userId: demoUserId,
+        type: "premium_warning",
+        domainId: "2",
+        title: "Premium renewal warning",
+        message: "aiventure.com renewal is $89.99/yr",
+        createdAt: new Date(now.getTime() - 1000 * 60 * 60 * 2).toISOString(),
+        readAt: null
+      },
+      {
+        id: "notif-3",
+        userId: demoUserId,
+        type: "search_match",
+        domainId: null,
+        title: "New matches found",
+        message: "5 new domains match 'AI .com score > 80'",
+        createdAt: new Date(now.getTime() - 1000 * 60 * 60 * 4).toISOString(),
+        readAt: null
+      },
+      {
+        id: "notif-4",
+        userId: demoUserId,
+        type: "drop_soon",
+        domainId: "9",
+        title: "Domain dropping soon",
+        message: "webflow.dev drops in 5 hours",
+        createdAt: new Date(now.getTime() - 1000 * 60 * 60 * 6).toISOString(),
+        readAt: new Date(now.getTime() - 1000 * 60 * 60 * 5).toISOString()
+      }
+    ];
+
+    demoNotifications.forEach(n => this.notifications.set(n.id, n));
+  }
+
+  seedUserNotifications(userId: string) {
+    const now = new Date();
+    
+    const userNotifications: Notification[] = [
+      {
+        id: randomUUID(),
+        userId,
+        type: "drop_soon",
+        domainId: "10",
+        title: "Domain dropping soon",
+        message: "starlink.co drops in 2 hours",
+        createdAt: new Date(now.getTime() - 1000 * 60 * 30).toISOString(),
+        readAt: null
+      },
+      {
+        id: randomUUID(),
+        userId,
+        type: "premium_warning",
+        domainId: "2",
+        title: "Premium renewal warning",
+        message: "aiventure.com renewal is $89.99/yr",
+        createdAt: new Date(now.getTime() - 1000 * 60 * 60 * 2).toISOString(),
+        readAt: null
+      },
+      {
+        id: randomUUID(),
+        userId,
+        type: "search_match",
+        domainId: null,
+        title: "New matches found",
+        message: "5 new domains match 'AI .com score > 80'",
+        createdAt: new Date(now.getTime() - 1000 * 60 * 60 * 4).toISOString(),
+        readAt: null
+      }
+    ];
+
+    userNotifications.forEach(n => this.notifications.set(n.id, n));
   }
 
   async getDomains(): Promise<Domain[]> {
@@ -266,6 +366,51 @@ export class MemStorage implements IStorage {
 
   async removeFromPortfolio(id: string): Promise<boolean> {
     return this.portfolio.delete(id);
+  }
+
+  async getNotifications(userId: string): Promise<Notification[]> {
+    const userNotifications = Array.from(this.notifications.values())
+      .filter(n => n.userId === userId);
+    
+    if (userNotifications.length === 0 && userId !== "demo-user") {
+      this.seedUserNotifications(userId);
+      return Array.from(this.notifications.values())
+        .filter(n => n.userId === userId)
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    }
+    
+    return userNotifications.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  async createNotification(userId: string, notification: InsertNotification): Promise<Notification> {
+    const newNotification: Notification = {
+      ...notification,
+      id: randomUUID(),
+      userId,
+      domainId: notification.domainId || null,
+      createdAt: new Date().toISOString(),
+      readAt: null
+    };
+    this.notifications.set(newNotification.id, newNotification);
+    return newNotification;
+  }
+
+  async markNotificationAsRead(id: string, userId: string): Promise<Notification | undefined> {
+    const notification = this.notifications.get(id);
+    if (!notification || notification.userId !== userId) return undefined;
+
+    const updated = { ...notification, readAt: new Date().toISOString() };
+    this.notifications.set(id, updated);
+    return updated;
+  }
+
+  async markAllNotificationsAsRead(userId: string): Promise<void> {
+    const now = new Date().toISOString();
+    Array.from(this.notifications.entries()).forEach(([id, notification]) => {
+      if (notification.userId === userId && !notification.readAt) {
+        this.notifications.set(id, { ...notification, readAt: now });
+      }
+    });
   }
 }
 

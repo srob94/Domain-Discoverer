@@ -8,7 +8,8 @@ The project follows a full-stack TypeScript architecture with a React frontend a
 
 ## Recent Changes
 
-- **Pro Features & Upgrade System** (Feb 2026): Added $79/mo Pro tier with upgrade modal, feature gating, and contextual upgrade prompts
+- **Notifications System** (Feb 2026): Added NotificationBell component with 4 notification types (drop_soon, search_match, premium_warning, upgrade_signal), badge count, dropdown panel, and mark-as-read functionality
+- **Pro Features & Upgrade System** (Feb 2026): Added $79/mo Pro tier with upgrade modal, feature gating, and contextual upgrade prompts with 7-day trial offer
 - **Replit Auth Integration**: Implemented OIDC-based authentication with session management
 - **Domain Card Enhancements**: Added reason tags (Strong Buy, Trending, Solid Pick) and investor interest badges
 - **Feature Locks**: Pro-only features (Saved Searches, AI Builder, Portfolio) show lock overlays for free users
@@ -74,6 +75,18 @@ Current data models include:
 - Watchlist items (user-tracked domains)
 - Saved searches (search configurations with alerts)
 - Portfolio items (owned domain tracking)
+- Notifications (with type, message, and read status)
+
+### Notifications System
+- **Types**: drop_soon (domains dropping < 12h), search_match (Pro only), premium_warning, upgrade_signal
+- **UI**: NotificationBell component in Navbar with unread count badge; shows "Sign in" prompt for visitors
+- **Storage**: In-memory with demo seeding for new users on first access
+- **Validation**: Zod schema (insertNotificationSchema) validates notification type and required fields
+- **API Routes**:
+  - GET /api/notifications - Get user's notifications
+  - POST /api/notifications - Create notification (with Zod validation)
+  - PATCH /api/notifications/:id/read - Mark single notification as read (with ownership check)
+  - PATCH /api/notifications/read-all - Mark all user's notifications as read
 
 ### Shared Code
 The `shared/` directory contains TypeScript types and schemas used by both frontend and backend, ensuring type safety across the stack.

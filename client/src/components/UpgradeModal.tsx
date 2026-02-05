@@ -1,6 +1,5 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Crown, Check, Zap, Bell, Sparkles, TrendingUp, Users, Briefcase } from "lucide-react";
 
 interface UpgradeModalProps {
@@ -19,6 +18,10 @@ const proFeatures = [
 ];
 
 export function UpgradeModal({ open, onOpenChange, triggerReason }: UpgradeModalProps) {
+  const handleStartTrial = () => {
+    window.open("https://buy.stripe.com/placeholder-trial", "_blank");
+  };
+
   const handleUpgrade = () => {
     window.open("https://buy.stripe.com/placeholder", "_blank");
   };
@@ -31,7 +34,7 @@ export function UpgradeModal({ open, onOpenChange, triggerReason }: UpgradeModal
             <Crown className="w-8 h-8 text-amber-600 dark:text-amber-400" />
           </div>
           <DialogTitle className="text-2xl font-bold text-center">
-            Don't miss drops. Automate your deal flow.
+            Pro investors automate deal flow with alerts + saved searches.
           </DialogTitle>
           {triggerReason && (
             <DialogDescription className="text-center text-base mt-2">
@@ -66,16 +69,31 @@ export function UpgradeModal({ open, onOpenChange, triggerReason }: UpgradeModal
           </div>
 
           <Button 
-            onClick={handleUpgrade}
+            onClick={handleStartTrial}
             className="w-full h-12 text-base gap-2"
-            data-testid="button-upgrade-checkout"
+            data-testid="button-start-trial"
           >
             <Crown className="w-5 h-5" />
-            Upgrade to Pro — $79/mo
+            Start 7-Day Free Trial
+          </Button>
+
+          <div className="flex items-center gap-2">
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-xs text-muted-foreground">or</span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+
+          <Button 
+            onClick={handleUpgrade}
+            variant="outline"
+            className="w-full h-10 text-sm"
+            data-testid="button-upgrade-checkout"
+          >
+            Subscribe Now — $79/mo
           </Button>
 
           <p className="text-xs text-center text-muted-foreground">
-            Cancel anytime. 7-day money-back guarantee.
+            No credit card required for trial. Cancel anytime.
           </p>
         </div>
       </DialogContent>

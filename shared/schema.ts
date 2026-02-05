@@ -98,3 +98,27 @@ export const explainScoreRequestSchema = z.object({
   domain: z.string().min(1),
   score: z.number().min(0).max(100),
 });
+
+// Notification types
+export const notificationTypeEnum = z.enum(["drop_soon", "search_match", "premium_warning", "upgrade_signal"]);
+export type NotificationType = z.infer<typeof notificationTypeEnum>;
+
+export interface Notification {
+  id: string;
+  userId: string;
+  type: NotificationType;
+  domainId: string | null;
+  title: string;
+  message: string;
+  createdAt: string;
+  readAt: string | null;
+}
+
+export const insertNotificationSchema = z.object({
+  type: notificationTypeEnum,
+  title: z.string().min(1),
+  message: z.string().min(1),
+  domainId: z.string().nullable().optional(),
+});
+
+export type InsertNotification = z.infer<typeof insertNotificationSchema>;

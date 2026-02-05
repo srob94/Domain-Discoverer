@@ -1,0 +1,216 @@
+What the Admin Portal Needs (MVP)
+
+The admin portal exists for 3 things:
+
+Control the domain feed
+
+Manage users + subscriptions
+
+Monitor ingestion + alerts
+
+Nothing else.
+
+Core Admin Features
+1. Domain Feed Management
+Admin should be able to:
+
+View today’s ingested domains
+
+See scoring distribution
+
+Remove bad/spam domains manually
+
+Pin “Featured” domains (optional)
+
+Domain moderation actions:
+
+Hide domain from feed
+
+Flag as junk
+
+Override score (rare)
+
+This prevents bad drops from hurting trust.
+
+2. Data Pipeline Status (Most Important)
+
+Admin dashboard should show:
+
+Last drop list ingestion run
+
+Domains imported today
+
+Pricing checks completed
+
+Errors / failed API calls
+
+Example widget:
+
+Drop ingest: ✅ 3:05am
+
+Domains processed: 12,482
+
+Premium flagged: 94
+
+Failures: 7
+
+This is critical ops visibility.
+
+3. User Management
+
+Admin can:
+
+Search users by email
+
+See plan status (Free / Pro / Trial)
+
+View watchlist count + saved searches
+
+Disable abusive accounts
+
+Minimal fields:
+
+email
+
+created date
+
+subscription tier
+
+last active
+
+4. Subscription + Billing Oversight
+
+If using Stripe:
+
+Admin should see:
+
+Active Pro subscribers
+
+Trial users ending soon
+
+Failed payments
+
+MRR snapshot
+
+Actions:
+
+Cancel subscription (support)
+
+Grant free Pro access (manual comp)
+
+5. Alerts + Notifications Monitoring
+
+Admin view:
+
+Alerts sent today
+
+Failed email deliveries
+
+Queue backlog (if any)
+
+Basic metrics:
+
+Drop alerts sent: 132
+
+Saved search matches: 58
+
+Failed emails: 2
+
+6. Saved Search & Watchlist Analytics
+
+This is your product intelligence.
+
+Admin should see:
+
+Most watched domains
+
+Most common saved search filters
+
+Trending keywords users care about
+
+This informs roadmap.
+
+7. TLD & Pricing Controls
+
+Admin should manage:
+
+Enabled TLDs in the feed
+
+Blacklist low-quality TLDs
+
+Premium renewal threshold settings
+
+Example:
+
+Block: .xyz, .top
+
+Premium renewal warning if renewal > $100/year
+
+8. Feature Flags (Optional but Valuable)
+
+Admin toggles:
+
+Enable AI Builder
+
+Enable Google Trends badges
+
+Enable Investor Interest counts
+
+Helps you ship safely.
+
+Admin Portal Pages (Minimal Set)
+Admin Dashboard
+
+Pipeline health
+
+Subscriber count
+
+Alerts sent
+
+Errors
+
+Domains
+
+Feed list + moderation tools
+
+Users
+
+Search + subscription status
+
+Billing (Stripe link)
+
+Subscriber overview
+
+Alerts Log
+
+Sent + failed notifications
+
+Settings
+
+TLD allowlist/blocklist
+
+Premium renewal thresholds
+
+That’s it.
+
+What NOT to Build in Admin Early
+
+Skip:
+
+full CRM system
+
+custom analytics suite
+
+role-based permission complexity
+
+internal auction tools
+
+manual domain editing at scale
+
+Keep it lean.
+
+Recommended Role + Permission Model
+Role	Permissions
+User	Feed + watchlist + Pro features
+Admin	Full access + moderation + ops
+Support (later)	User help only, no billing/data controls

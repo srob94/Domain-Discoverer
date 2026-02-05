@@ -1,0 +1,227 @@
+Awesome — here’s the **exact two-tier pricing page layout + upgrade gating copy** for **Free → Pro**, written ready to paste into your site/app.
+
+---
+
+# Pricing Page Copy (2-Tier Model)
+
+## Page Header
+
+**Upgrade to Pro**
+Automate your domain investing with alerts, trend signals, and unlimited tracking.
+
+**Subheader**
+Starter is great for browsing. Pro is built for investors who want deal flow on autopilot.
+
+---
+
+## Plan Cards
+
+---
+
+### Starter (Free)
+
+**Best for exploring drops**
+
+Price: **$0**
+
+Includes:
+
+* Daily Drop Feed (Top 25/day)
+* Domain scoring + renewal warnings
+* Watchlist (up to 10 domains)
+* Basic filters (.com, score threshold)
+
+Button: **Start Free**
+
+Small text:
+No credit card required.
+
+---
+
+### Pro (Investor)
+
+**Best for serious domain buyers**
+
+Price: **$79/month**
+(or early access pricing: $49/month)
+
+Includes everything in Starter, plus:
+
+* Unlimited watchlist tracking
+* Saved searches + automated alerts
+* AI Domain Builder
+* Google Trends keyword signals
+* Investor interest counts (“12 investors watching”)
+* Portfolio renewal exposure tracker
+
+Button: **Start 7-Day Pro Trial**
+
+Small text:
+Cancel anytime. Alerts stay active while subscribed.
+
+---
+
+## Comparison Strip (Simple)
+
+| Feature                  | Starter | Pro       |
+| ------------------------ | ------- | --------- |
+| Daily feed               | Top 25  | Top 100   |
+| Watchlist                | 10 max  | Unlimited |
+| Saved searches           | Locked  | Unlimited |
+| Alerts                   | Locked  | Included  |
+| AI Builder               | Locked  | Included  |
+| Trend signals            | Locked  | Included  |
+| Investor interest counts | Locked  | Included  |
+| Portfolio tracker        | Locked  | Included  |
+
+---
+
+## FAQ Section
+
+### Do I need Pro to browse domains?
+
+No — Starter lets you explore the daily feed for free.
+
+### What do Pro investors use most?
+
+Saved searches + alerts. That’s how investors catch drops before others.
+
+### Can I cancel anytime?
+
+Yes. Pro is month-to-month.
+
+---
+
+## Closing CTA
+
+**Don’t miss drops while you sleep.**
+Upgrade to Pro and automate your deal flow.
+
+Button: **Start Pro Trial**
+
+---
+
+---
+
+# Upgrade Gating Copy (In-App)
+
+These are the exact locked-feature prompts.
+
+---
+
+## Watchlist Limit Reached
+
+Title: **Watchlist Full**
+Body:
+Starter accounts can watch up to 10 domains.
+Upgrade to Pro for unlimited tracking and drop alerts.
+
+Button: **Upgrade to Pro**
+
+---
+
+## Saved Searches Locked
+
+Title: **Automate Your Deal Flow**
+Body:
+Saved Searches notify you instantly when high-score domains drop in your niche.
+
+Pro unlocks:
+
+* Unlimited searches
+* Match alerts
+* Trend + investor interest signals
+
+Button: **Start Pro Trial**
+
+---
+
+## Alerts Toggle Locked
+
+Title: **Drop Alerts Are Pro**
+Body:
+Get notified before watched domains drop or auctions end.
+
+Button: **Unlock Alerts with Pro**
+
+---
+
+## AI Domain Builder Locked
+
+Title: **AI Domain Builder (Pro)**
+Body:
+Generate investable domain ideas instantly, checked for availability and renewal safety.
+
+Button: **Start Pro Trial**
+
+---
+
+## Trend Signals Locked
+
+Title: **Trend Signals Are Pro**
+Body:
+See when keywords are rising in search demand before the market catches up.
+
+Button: **Upgrade to Pro**
+
+---
+
+## Investor Interest Counts Locked
+
+Title: **Investor Interest (Pro)**
+Body:
+Pro users can see how many investors are watching a domain to gauge competition.
+
+Button: **Unlock with Pro**
+
+---
+
+## Portfolio Tracker Locked
+
+Title: **Portfolio Tracker (Pro)**
+Body:
+Track renewals, holding costs, and domains expiring soon — all in one place.
+
+Button: **Upgrade to Pro**
+
+---
+
+---
+
+# Post-Upgrade Success Copy
+
+Title: **Welcome to Pro**
+Body:
+Your alerts and saved searches are now active.
+You’re fully unlocked.
+
+Button: **Create Your First Saved Search**
+
+---
+
+# Trial Ending Reminder Copy
+
+Subject: Your Pro trial ends in 2 days
+Body:
+Keep your alerts, saved searches, and investor signals running without interruption.
+
+Button: **Continue Pro**
+
+---
+
+# Final Recommendation (Best SaaS Simplicity)
+
+## Keep only two plans:
+
+* Starter (Free) = Browse + Light Watch
+* Pro (Paid) = Automation + Signals + Tools
+
+No middle tier until you have:
+
+* API access
+* Bulk checks
+* Team accounts
+
+---
+
+If you want, I can generate the exact React/Tailwind pricing page component and the modal gating components using this copy.

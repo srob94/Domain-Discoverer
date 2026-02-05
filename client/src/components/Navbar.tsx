@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { NotificationBell } from "@/components/NotificationBell";
 import { Search, Terminal, Crown, Home, Bookmark, Sparkles, Briefcase, LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUser } from "@/contexts/UserContext";
@@ -99,16 +100,20 @@ export function Navbar({ searchQuery, onSearchChange, user }: NavbarProps) {
           </div>
         </div>
 
-        <Button
-          data-testid="button-upgrade"
-          variant="default"
-          size="sm"
-          className="gap-1.5 hidden sm:flex"
-          onClick={handleUpgradeClick}
-        >
-          <Crown className="w-4 h-4" />
-          Upgrade to Pro
-        </Button>
+        <div className="flex items-center gap-2">
+          <NotificationBell />
+          
+          <Button
+            data-testid="button-upgrade"
+            variant="default"
+            size="sm"
+            className="gap-1.5 hidden sm:flex"
+            onClick={handleUpgradeClick}
+          >
+            <Crown className="w-4 h-4" />
+            Upgrade to Pro
+          </Button>
+        </div>
 
         {user && (
           <DropdownMenu>
