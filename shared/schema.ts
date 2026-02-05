@@ -199,6 +199,11 @@ export interface AdminStats {
   alertsSentToday: number;
   failedEmails: number;
   lastIngestTime: string | null;
+  conversationSearch: {
+    totalQueries: number;
+    uniqueUsers: number;
+    queriesThisMonth: number;
+  };
 }
 
 export interface AdminUser {

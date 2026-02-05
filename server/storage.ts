@@ -452,6 +452,7 @@ export class MemStorage implements IStorage {
     const allLogs = getEmailLogs();
     const today = new Date().toISOString().split('T')[0];
     const todayLogs = allLogs.filter(log => log.sentAt.startsWith(today));
+    const conversationSearchStats = await this.getConversationSearchStats();
     
     return {
       totalUsers: 42,
@@ -460,7 +461,8 @@ export class MemStorage implements IStorage {
       domainsToday: domains.length,
       alertsSentToday: todayLogs.filter(l => l.type.includes('alert')).length,
       failedEmails: todayLogs.filter(l => l.status === 'failed').length,
-      lastIngestTime: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString()
+      lastIngestTime: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
+      conversationSearch: conversationSearchStats
     };
   }
 

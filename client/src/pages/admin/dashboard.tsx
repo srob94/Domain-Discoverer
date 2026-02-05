@@ -9,7 +9,8 @@ import {
   AlertTriangle, 
   CheckCircle, 
   Clock,
-  Activity
+  Activity,
+  MessageSquare
 } from "lucide-react";
 import type { AdminStats } from "@shared/schema";
 import { formatDistanceToNow } from "date-fns";
@@ -37,7 +38,7 @@ export default function AdminDashboard() {
         </Badge>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <Card data-testid="card-stat-users">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 gap-2">
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
@@ -79,6 +80,19 @@ export default function AdminDashboard() {
           <CardContent>
             <div className="text-2xl font-bold">{stats?.alertsSentToday || 0}</div>
             <p className="text-xs text-muted-foreground">Today</p>
+          </CardContent>
+        </Card>
+
+        <Card data-testid="card-stat-ai-search">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 gap-2">
+            <CardTitle className="text-sm font-medium">AI Searches</CardTitle>
+            <MessageSquare className="w-4 h-4 text-primary" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats?.conversationSearch?.queriesThisMonth || 0}</div>
+            <p className="text-xs text-muted-foreground">
+              {stats?.conversationSearch?.uniqueUsers || 0} users this month
+            </p>
           </CardContent>
         </Card>
       </div>

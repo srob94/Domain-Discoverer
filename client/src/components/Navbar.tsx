@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { NotificationBell } from "@/components/NotificationBell";
+import { ConversationSearch } from "@/components/ConversationSearch";
 import { Search, Terminal, Crown, Home, Bookmark, Sparkles, Briefcase, LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUser } from "@/contexts/UserContext";
@@ -97,6 +98,7 @@ export function Navbar({ searchQuery, onSearchChange, user }: NavbarProps) {
         </div>
 
         <div className="flex items-center gap-2">
+          <ConversationSearch />
           <NotificationBell />
           
           {!isPro && (
