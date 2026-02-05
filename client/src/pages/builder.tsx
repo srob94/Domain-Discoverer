@@ -1,41 +1,71 @@
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ScoreBadge";
-import { Sparkles, Crown, Wand2, Lock, ArrowRight, Eye, ExternalLink } from "lucide-react";
-
-const mockGeneratedDomains = [
-  { fqdn: "aisynergy.com", score: 87, available: true },
-  { fqdn: "quantumleap.io", score: 84, available: true },
-  { fqdn: "nexustech.co", score: 82, available: false },
-  { fqdn: "cloudpulse.dev", score: 79, available: true },
-  { fqdn: "dataforge.ai", score: 91, available: true },
-  { fqdn: "cybervault.net", score: 76, available: false }
-];
+import { Sparkles, Crown, Wand2, Lock, ArrowRight, Eye, ExternalLink, Info } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+import type { GeneratedDomain } from "@shared/schema";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function Builder() {
   const [keyword, setKeyword] = useState("");
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedDomains, setGeneratedDomains] = useState<typeof mockGeneratedDomains>([]);
-  const [hasGenerated, setHasGenerated] = useState(false);
+  const [generatedDomains, setGeneratedDomains] = useState<GeneratedDomain[]>([]);
+  const [explanation, setExplanation] = useState<{ domain: string; text: string } | null>(null);
+  const { toast } = useToast();
+
+  const generateMutation = useMutation({
+    mutationFn: async (keyword: string) => {
+      const response = await apiRequest("POST", "/api/ai/generate-domains", { keyword, count: 30 });
+      return response.json() as Promise<GeneratedDomain[]>;
+    },
+    onSuccess: (data) => {
+      setGeneratedDomains(data);
+      toast({
+        title: "Domains Generated",
+        description: `Generated ${data.length} domain suggestions for "${keyword}"`,
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Generation Failed",
+        description: "Failed to generate domain suggestions. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const explainMutation = useMutation({
+    mutationFn: async ({ domain, score }: { domain: string; score: number }) => {
+      const response = await apiRequest("POST", "/api/ai/explain-score", { domain, score });
+      return response.json() as Promise<{ explanation: string }>;
+    },
+    onSuccess: (data, variables) => {
+      setExplanation({ domain: variables.domain, text: data.explanation });
+    },
+  });
 
   const handleGenerate = () => {
     if (!keyword.trim()) return;
-    
-    setIsGenerating(true);
-    setTimeout(() => {
-      setGeneratedDomains(mockGeneratedDomains);
-      setHasGenerated(true);
-      setIsGenerating(false);
-    }, 1500);
+    setExplanation(null);
+    generateMutation.mutate(keyword.trim());
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       handleGenerate();
     }
+  };
+
+  const handleExplainScore = (domain: string, score: number) => {
+    explainMutation.mutate({ domain, score });
   };
 
   return (
@@ -76,10 +106,10 @@ export default function Builder() {
           <Button
             data-testid="button-generate"
             onClick={handleGenerate}
-            disabled={!keyword.trim() || isGenerating}
+            disabled={!keyword.trim() || generateMutation.isPending}
             className="h-12 px-6 gap-2"
           >
-            {isGenerating ? (
+            {generateMutation.isPending ? (
               <>
                 <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                 Generating...
@@ -114,17 +144,33 @@ export default function Builder() {
         </div>
       </Card>
 
-      {hasGenerated && (
+      {explanation && (
+        <Card className="p-4 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">
+          <div className="flex items-start gap-3">
+            <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
+            <div>
+              <p className="font-medium text-blue-900 dark:text-blue-200 mb-1">
+                Score Explanation for {explanation.domain}
+              </p>
+              <p className="text-sm text-blue-700 dark:text-blue-300">
+                {explanation.text}
+              </p>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {generatedDomains.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-foreground">
               Generated Domains
               <span className="text-sm font-normal text-muted-foreground ml-2">
-                (Demo Results)
+                ({generatedDomains.length} suggestions)
               </span>
             </h2>
             <Badge variant="outline" className="text-xs">
-              {generatedDomains.filter(d => d.available).length} available
+              Powered by AI
             </Badge>
           </div>
 
@@ -133,46 +179,58 @@ export default function Builder() {
               <Card 
                 key={domain.fqdn} 
                 data-testid={`generated-domain-${index}`}
-                className={`p-4 transition-all duration-200 ${
-                  domain.available 
-                    ? "hover-elevate" 
-                    : "opacity-60"
-                }`}
+                className="p-4 hover-elevate transition-all duration-200"
               >
-                <div className="flex items-center justify-between gap-3">
+                <div className="flex items-start justify-between gap-3 mb-2">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-foreground truncate">
-                        {domain.fqdn}
-                      </span>
-                      {!domain.available && (
-                        <Badge variant="secondary" className="text-xs">
-                          Taken
-                        </Badge>
-                      )}
-                    </div>
+                    <span className="font-semibold text-foreground">
+                      {domain.fqdn}
+                    </span>
+                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                      {domain.reason}
+                    </p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <ScoreBadge score={domain.score} size="sm" />
-                    {domain.available && (
-                      <div className="flex gap-1">
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <ScoreBadge score={domain.score} size="sm" />
+                </div>
+                <div className="flex items-center justify-between mt-3 pt-2 border-t border-border/50">
+                  <Badge variant="secondary" className="text-xs">
+                    {domain.tld}
+                  </Badge>
+                  <div className="flex gap-1">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-8 w-8"
+                          onClick={() => handleExplainScore(domain.fqdn, domain.score)}
+                          disabled={explainMutation.isPending}
+                          data-testid={`button-explain-${index}`}
+                        >
                           <Eye className="w-4 h-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                      </TooltipTrigger>
+                      <TooltipContent>Explain Score</TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-8 w-8"
+                          onClick={() => window.open(`https://www.namecheap.com/domains/registration/results/?domain=${domain.fqdn}`, '_blank')}
+                          data-testid={`button-register-${index}`}
+                        >
                           <ExternalLink className="w-4 h-4" />
                         </Button>
-                      </div>
-                    )}
+                      </TooltipTrigger>
+                      <TooltipContent>Check Availability</TooltipContent>
+                    </Tooltip>
                   </div>
                 </div>
               </Card>
             ))}
           </div>
-
-          <p className="text-xs text-muted-foreground text-center py-2">
-            These are demo results. Upgrade to Pro for real AI-powered domain suggestions.
-          </p>
         </section>
       )}
     </div>

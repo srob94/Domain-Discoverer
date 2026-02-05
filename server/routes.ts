@@ -2,6 +2,12 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
+import { generateDomainNames, explainDomainScore } from "./ai";
+import { 
+  insertPortfolioItemSchema, 
+  generateDomainsRequestSchema, 
+  explainScoreRequestSchema 
+} from "@shared/schema";
 
 const insertSavedSearchSchema = z.object({
   name: z.string().min(1),
@@ -126,6 +132,75 @@ export async function registerRoutes(
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ error: "Failed to delete saved search" });
+    }
+  });
+
+  app.post("/api/ai/generate-domains", async (req, res) => {
+    try {
+      const parsed = generateDomainsRequestSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.issues });
+      }
+      const { keyword, count } = parsed.data;
+      const domains = await generateDomainNames(keyword.trim(), count);
+      res.json(domains);
+    } catch (error) {
+      console.error("AI generation error:", error);
+      res.status(500).json({ error: "Failed to generate domains" });
+    }
+  });
+
+  app.post("/api/ai/explain-score", async (req, res) => {
+    try {
+      const parsed = explainScoreRequestSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.issues });
+      }
+      const { domain, score } = parsed.data;
+      const explanation = await explainDomainScore(domain, score);
+      res.json({ explanation });
+    } catch (error) {
+      console.error("AI explanation error:", error);
+      res.status(500).json({ error: "Failed to explain score" });
+    }
+  });
+
+  app.get("/api/portfolio", async (req, res) => {
+    try {
+      const portfolio = await storage.getPortfolio();
+      res.json(portfolio);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch portfolio" });
+    }
+  });
+
+  app.post("/api/portfolio", async (req, res) => {
+    try {
+      const parsed = insertPortfolioItemSchema.safeParse({
+        domain: req.body.domain,
+        purchasePrice: Number(req.body.purchasePrice) || 0,
+        renewalDate: req.body.renewalDate || null,
+        renewalCost: Number(req.body.renewalCost) || 0
+      });
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.issues });
+      }
+      const item = await storage.addToPortfolio(parsed.data);
+      res.status(201).json(item);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to add to portfolio" });
+    }
+  });
+
+  app.delete("/api/portfolio/:id", async (req, res) => {
+    try {
+      const success = await storage.removeFromPortfolio(req.params.id);
+      if (!success) {
+        return res.status(404).json({ error: "Portfolio item not found" });
+      }
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ error: "Failed to remove from portfolio" });
     }
   });
 

@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Terminal, Crown, Home, Bookmark, Sparkles } from "lucide-react";
+import { Search, Terminal, Crown, Home, Bookmark, Sparkles, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface NavbarProps {
@@ -15,7 +15,8 @@ export function Navbar({ searchQuery, onSearchChange }: NavbarProps) {
   const navLinks = [
     { href: "/", label: "Feed", icon: Home },
     { href: "/watchlist", label: "Watchlist", icon: Bookmark },
-    { href: "/builder", label: "AI Builder", icon: Sparkles }
+    { href: "/builder", label: "AI Builder", icon: Sparkles },
+    { href: "/portfolio", label: "Portfolio", icon: Briefcase }
   ];
 
   return (

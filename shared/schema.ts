@@ -76,3 +76,40 @@ export interface DomainFilters {
   premiumOnly: boolean;
   searchQuery: string;
 }
+
+// Portfolio item for owned domains
+export interface PortfolioItem {
+  id: string;
+  domain: string;
+  purchasePrice: number;
+  renewalDate: string | null;
+  renewalCost: number;
+  addedAt: string;
+}
+
+export const insertPortfolioItemSchema = z.object({
+  domain: z.string().min(1),
+  purchasePrice: z.number().min(0).default(0),
+  renewalDate: z.string().nullable().default(null),
+  renewalCost: z.number().min(0).default(0),
+});
+
+export type InsertPortfolioItem = z.infer<typeof insertPortfolioItemSchema>;
+
+// AI Generated domain
+export interface GeneratedDomain {
+  fqdn: string;
+  score: number;
+  reason: string;
+  tld: string;
+}
+
+export const generateDomainsRequestSchema = z.object({
+  keyword: z.string().min(1).max(100),
+  count: z.number().min(1).max(50).default(30),
+});
+
+export const explainScoreRequestSchema = z.object({
+  domain: z.string().min(1),
+  score: z.number().min(0).max(100),
+});

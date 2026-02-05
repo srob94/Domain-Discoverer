@@ -4,7 +4,9 @@ import type {
   DomainStatus, 
   WatchlistItem, 
   SavedSearch, 
-  InsertSavedSearch 
+  InsertSavedSearch,
+  PortfolioItem,
+  InsertPortfolioItem
 } from "@shared/schema";
 
 export interface IStorage {
@@ -19,6 +21,10 @@ export interface IStorage {
   createSavedSearch(search: InsertSavedSearch): Promise<SavedSearch>;
   updateSavedSearchAlerts(id: string, alertsEnabled: boolean): Promise<SavedSearch | undefined>;
   deleteSavedSearch(id: string): Promise<boolean>;
+  
+  getPortfolio(): Promise<PortfolioItem[]>;
+  addToPortfolio(item: InsertPortfolioItem): Promise<PortfolioItem>;
+  removeFromPortfolio(id: string): Promise<boolean>;
 }
 
 const mockDomains: Domain[] = [
@@ -138,11 +144,13 @@ export class MemStorage implements IStorage {
   private domains: Map<string, Domain>;
   private watchlist: Map<string, WatchlistItem>;
   private savedSearches: Map<string, SavedSearch>;
+  private portfolio: Map<string, PortfolioItem>;
 
   constructor() {
     this.domains = new Map();
     this.watchlist = new Map();
     this.savedSearches = new Map();
+    this.portfolio = new Map();
 
     mockDomains.forEach((domain) => {
       this.domains.set(domain.id, domain);
@@ -240,6 +248,24 @@ export class MemStorage implements IStorage {
 
   async deleteSavedSearch(id: string): Promise<boolean> {
     return this.savedSearches.delete(id);
+  }
+
+  async getPortfolio(): Promise<PortfolioItem[]> {
+    return Array.from(this.portfolio.values());
+  }
+
+  async addToPortfolio(item: InsertPortfolioItem): Promise<PortfolioItem> {
+    const portfolioItem: PortfolioItem = {
+      ...item,
+      id: randomUUID(),
+      addedAt: new Date().toISOString()
+    };
+    this.portfolio.set(portfolioItem.id, portfolioItem);
+    return portfolioItem;
+  }
+
+  async removeFromPortfolio(id: string): Promise<boolean> {
+    return this.portfolio.delete(id);
   }
 }
 

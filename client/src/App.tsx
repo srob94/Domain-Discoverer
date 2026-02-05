@@ -8,6 +8,7 @@ import { Navbar } from "@/components/Navbar";
 import DailyDropFeed from "@/pages/daily-drop-feed";
 import Watchlist from "@/pages/watchlist";
 import Builder from "@/pages/builder";
+import Portfolio from "@/pages/portfolio";
 import NotFound from "@/pages/not-found";
 
 function Router({ searchQuery }: { searchQuery: string }) {
@@ -18,6 +19,7 @@ function Router({ searchQuery }: { searchQuery: string }) {
       </Route>
       <Route path="/watchlist" component={Watchlist} />
       <Route path="/builder" component={Builder} />
+      <Route path="/portfolio" component={Portfolio} />
       <Route component={NotFound} />
     </Switch>
   );
