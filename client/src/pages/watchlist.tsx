@@ -147,10 +147,10 @@ export default function Watchlist() {
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-foreground flex items-center gap-2">
             <Bookmark className="w-7 h-7 text-primary" />
-            Watchlist
+            Your Watchlist
           </h1>
           <p className="text-muted-foreground mt-1">
-            Track your favorite domains and saved searches
+            Track domains you care about and act at the right moment. Watched domains update automatically as drop time approaches.
           </p>
         </div>
       </div>
@@ -188,11 +188,11 @@ export default function Watchlist() {
             </div>
             <h3 className="font-semibold text-foreground mb-1">No saved searches</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Create a search to track domains matching your criteria
+              Create your first saved search to never miss drops in your niche.
             </p>
             <Button onClick={() => setIsModalOpen(true)} size="sm">
               <Plus className="w-4 h-4 mr-1.5" />
-              Create Search
+              New Search
             </Button>
           </Card>
         ) : (

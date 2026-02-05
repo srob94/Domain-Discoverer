@@ -1,0 +1,151 @@
+What Conversation Search Does
+1. Natural-Language Domain Discovery
+
+Users can type requests like:
+
+“Show me 2-word AI .com domains dropping in the next 48 hours under $30 renewal”
+
+“Find trending finance names with score above 85”
+
+“What are the best drops today similar to AgentVault?”
+
+The system translates this into structured filters:
+
+status = dropping
+
+tld = .com
+
+score ≥ 85
+
+renewal_price ≤ 30
+
+drop_time ≤ 48h
+
+Then returns ranked results instantly.
+
+2. Explain-Why Layer (Trust + Clarity)
+
+Users can ask:
+
+“Why is VaultLedger.io scored so high?”
+
+Response includes:
+
+short + clean format
+
+trending keyword match
+
+safe renewal cost
+
+investor interest (Pro)
+
+This increases confidence and reduces guesswork.
+
+3. Conversational Saved Searches (High Value)
+
+Instead of building rules manually, users can type:
+
+“Alert me when AI healthcare .com domains drop with score above 80”
+
+Conversation Search converts that into a saved search automatically.
+
+This reduces friction and improves Pro retention.
+
+4. Smart Suggestions + Similar Domains
+
+Users can ask:
+
+“What else like this is dropping soon?”
+
+System suggests:
+
+keyword-adjacent names
+
+similar patterns
+
+same niche + high score
+
+This improves discovery and session depth.
+
+Where It Lives in the MVP UI
+Placement
+
+Top navigation search bar expands into “Ask the Terminal…”
+
+Pro badge next to the feature
+
+Example placeholder:
+
+“Ask: Find 2-word .com drops under $30 renewal…”
+
+Pro Gating + Pricing Impact
+
+Conversation Search is a strong Pro differentiator because it adds:
+
+speed
+
+intelligence
+
+automation
+
+perceived premium value
+
+Starter (Free)
+
+Filter UI only
+
+No conversational queries
+
+Pro ($79/mo)
+
+Includes:
+
+Conversation Search (limited usage)
+
+Saved searches + alerts
+
+AI Builder
+
+Trend + investor signals
+
+Usage Limits (Cost Control)
+
+Because each query uses an LLM call, Pro should include a monthly quota:
+
+Pro: 200 Conversation Searches/month
+
+Extra usage: optional add-on later
+
+This prevents heavy users from creating runaway AI cost.
+
+Backend Logic (MVP Implementation)
+
+Conversation Search is a thin AI layer on top of your existing database.
+
+Input
+
+User message → LLM parses into JSON:
+
+{
+  "tlds": [".com"],
+  "min_score": 80,
+  "max_renewal": 30,
+  "status": ["dropping"],
+  "time_window_hours": 48
+}
+
+Execution
+
+Backend runs a normal SQL query:
+
+filter domains
+
+sort by score
+
+return top results
+
+Output
+
+UI renders the same DomainCard list.
+
+No new data sources required.

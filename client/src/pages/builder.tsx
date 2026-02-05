@@ -80,7 +80,7 @@ export default function Builder() {
             AI Domain Builder
           </h1>
           <p className="text-muted-foreground mt-1">
-            Generate high-value domain ideas using AI
+            Generate investable domain ideas instantly. Enter a niche or keyword and we'll suggest brandable names, checked for availability and renewal safety.
           </p>
         </div>
         <Badge
@@ -103,7 +103,7 @@ export default function Builder() {
               <Input
                 data-testid="input-keyword"
                 type="text"
-                placeholder="Enter a keyword or niche (e.g., fintech, health, crypto)"
+                placeholder='"AI accounting", "pet wellness", "fintech vault"'
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -114,7 +114,8 @@ export default function Builder() {
               data-testid="button-generate"
               onClick={handleGenerate}
               disabled={!keyword.trim() || generateMutation.isPending}
-              className="h-12 px-6 gap-2"
+              size="lg"
+              className="gap-2"
             >
               {generateMutation.isPending ? (
                 <>

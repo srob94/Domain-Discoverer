@@ -9,12 +9,12 @@ interface UpgradeModalProps {
 }
 
 const proFeatures = [
-  { icon: Zap, text: "Unlimited watchlist tracking" },
-  { icon: Bell, text: "Drop alerts + saved searches" },
-  { icon: Sparkles, text: "AI domain builder" },
-  { icon: TrendingUp, text: "Trend + investor interest signals" },
-  { icon: Briefcase, text: "Portfolio renewal tracker" },
-  { icon: Users, text: "See who's watching domains" },
+  { icon: Zap, text: "Unlimited watchlist" },
+  { icon: Bell, text: "Saved searches + alerts" },
+  { icon: Sparkles, text: "AI Domain Builder" },
+  { icon: TrendingUp, text: "Google Trends signals" },
+  { icon: Users, text: "Investor interest counts" },
+  { icon: Briefcase, text: "Portfolio renewal tracking" },
 ];
 
 export function UpgradeModal({ open, onOpenChange, triggerReason }: UpgradeModalProps) {
@@ -34,8 +34,11 @@ export function UpgradeModal({ open, onOpenChange, triggerReason }: UpgradeModal
             <Crown className="w-8 h-8 text-amber-600 dark:text-amber-400" />
           </div>
           <DialogTitle className="text-2xl font-bold text-center">
-            Pro investors automate deal flow with alerts + saved searches.
+            Upgrade to Pro
           </DialogTitle>
+          <p className="text-center text-muted-foreground mt-1">
+            Automate domain investing with alerts, trend signals, and unlimited tracking.
+          </p>
           {triggerReason && (
             <DialogDescription className="text-center text-base mt-2">
               {triggerReason}
@@ -70,7 +73,8 @@ export function UpgradeModal({ open, onOpenChange, triggerReason }: UpgradeModal
 
           <Button 
             onClick={handleStartTrial}
-            className="w-full h-12 text-base gap-2"
+            size="lg"
+            className="w-full gap-2"
             data-testid="button-start-trial"
           >
             <Crown className="w-5 h-5" />
@@ -86,7 +90,7 @@ export function UpgradeModal({ open, onOpenChange, triggerReason }: UpgradeModal
           <Button 
             onClick={handleUpgrade}
             variant="outline"
-            className="w-full h-10 text-sm"
+            className="w-full"
             data-testid="button-upgrade-checkout"
           >
             Subscribe Now — $79/mo

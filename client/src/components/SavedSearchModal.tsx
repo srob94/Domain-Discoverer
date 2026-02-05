@@ -99,6 +99,7 @@ export function SavedSearchModal({ open, onOpenChange, onSave }: SavedSearchModa
 
           <div className="grid gap-2">
             <Label>Keywords</Label>
+            <p className="text-xs text-muted-foreground -mt-1">Optional — focus on niches like "agent", "vault", "ledger"</p>
             <div className="flex gap-2">
               <Input
                 data-testid="input-keyword"
@@ -175,6 +176,7 @@ export function SavedSearchModal({ open, onOpenChange, onSave }: SavedSearchModa
               <Label>Minimum Score</Label>
               <span className="text-sm font-medium text-muted-foreground">{minScore}+</span>
             </div>
+            <p className="text-xs text-muted-foreground -mt-1">Higher scores = better resale quality</p>
             <Slider
               data-testid="slider-min-score"
               value={[minScore]}
@@ -187,7 +189,8 @@ export function SavedSearchModal({ open, onOpenChange, onSave }: SavedSearchModa
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="max-renewal">Max Renewal Cost (optional)</Label>
+            <Label htmlFor="max-renewal">Max Renewal Cost</Label>
+            <p className="text-xs text-muted-foreground -mt-1">Avoid premium renewal traps</p>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
               <Input
@@ -205,7 +208,7 @@ export function SavedSearchModal({ open, onOpenChange, onSave }: SavedSearchModa
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="alerts-toggle">Enable Alerts</Label>
-              <p className="text-xs text-muted-foreground">Get notified when new matches are found</p>
+              <p className="text-xs text-muted-foreground">Get notified automatically when matches appear</p>
             </div>
             <Switch
               id="alerts-toggle"

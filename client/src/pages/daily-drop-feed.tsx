@@ -130,9 +130,8 @@ export default function DailyDropFeed({ searchQuery }: DailyDropFeedProps) {
             <TrendingUp className="w-7 h-7 text-primary" />
             Daily Drop Feed
           </h1>
-          <p className="text-muted-foreground mt-1 flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
-            Top domains dropping soon • Updated {today}
+          <p className="text-muted-foreground mt-1">
+            Top dropping domains ranked by resale potential — updated every day.
           </p>
         </div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 px-3 py-2 rounded-md">
@@ -154,9 +153,9 @@ export default function DailyDropFeed({ searchQuery }: DailyDropFeedProps) {
           <div className="p-4 bg-muted rounded-full mb-4">
             <TrendingUp className="w-8 h-8 text-muted-foreground" />
           </div>
-          <h3 className="text-lg font-semibold text-foreground mb-1">No domains found</h3>
+          <h3 className="text-lg font-semibold text-foreground mb-1">No domains match your filters</h3>
           <p className="text-muted-foreground max-w-sm">
-            Try adjusting your filters or search query to find more domains.
+            Try lowering the score threshold or expanding TLDs.
           </p>
         </div>
       ) : (

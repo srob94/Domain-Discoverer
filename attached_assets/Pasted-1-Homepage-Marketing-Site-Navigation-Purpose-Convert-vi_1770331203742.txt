@@ -1,0 +1,201 @@
+1. Homepage / Marketing Site Navigation
+Purpose
+
+Convert visitors → signup → upgrade.
+
+Keep it minimal, trust-building, not feature-heavy.
+
+Top Nav (Logged Out)
+
+Product
+
+Pricing
+
+FAQ (optional)
+
+Login
+
+Get Started Free (primary CTA)
+
+That’s it.
+
+Why so few?
+
+Visitors don’t want dashboards yet — they want:
+
+what is this?
+
+why trust it?
+
+how much?
+
+how do I start?
+
+Homepage Sections (Scroll-Based)
+
+Instead of extra pages:
+
+Hero
+
+How it works
+
+Pro features
+
+Testimonials (later)
+
+CTA
+
+2. Homepage Footer Navigation
+Purpose
+
+Legitimacy + legal + support.
+
+Footer Columns
+Product
+
+Pricing
+
+Pro Features
+
+Changelog (later)
+
+Company
+
+About
+
+Contact / Support
+
+Legal (Required)
+
+Privacy Policy
+
+Terms of Service
+
+Refund Policy (subscriptions)
+
+Optional SEO Later
+
+TLD Glossary
+
+Blog
+
+3. Portal Navigation (Logged-In App)
+Purpose
+
+Daily workflow + retention + upgrade triggers.
+
+This is where investors live.
+
+Top Nav (Portal)
+
+Left:
+
+Logo → Feed
+
+Center:
+
+Search bar (“Search domains…”)
+
+Right:
+
+Notifications bell
+
+Plan badge (Starter / Pro)
+
+Upgrade button (if Starter)
+
+Profile menu
+
+Sidebar / Main App Nav
+Core (All Users)
+
+Daily Drop Feed
+
+Watchlist
+
+Pro Features (Locked for Starter)
+
+Saved Searches
+
+AI Builder
+
+Portfolio
+
+Account
+
+Settings
+
+Billing
+
+4. Portal Footer (Usually None)
+
+In SaaS apps, you typically don’t show a footer inside the portal.
+
+If needed, put small links in Settings:
+
+Terms
+
+Privacy
+
+Support
+
+5. Logged Out vs Logged In Sitemap
+Logged Out (Marketing)
+
+/ Home
+
+/pricing
+
+/login
+
+/signup
+
+/terms
+
+/privacy
+
+/support
+
+Logged In (Portal)
+
+/app/feed
+
+/app/watchlist
+
+/app/searches (Pro)
+
+/app/builder (Pro)
+
+/app/portfolio (Pro)
+
+/app/settings
+
+/app/billing
+
+6. Key Rule
+Marketing nav answers:
+
+“What is this and why should I trust it?”
+
+Portal nav answers:
+
+“What should I buy today and how do I track it?”
+
+Do not mix them.
+
+Final Recommended Navigation (MVP Perfect)
+Website Header
+
+Product | Pricing | Login | Get Started
+
+Website Footer
+
+About | Support | Privacy | Terms
+
+Portal Sidebar
+
+Feed | Watchlist | Saved Searches (Pro) | AI Builder (Pro) | Portfolio (Pro)
+
+Portal Top Right
+
+Notifications | Plan Badge | Upgrade | Profile

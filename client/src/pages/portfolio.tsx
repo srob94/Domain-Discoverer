@@ -103,10 +103,10 @@ export default function Portfolio() {
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-foreground flex items-center gap-2">
             <Briefcase className="w-7 h-7 text-primary" />
-            Portfolio Lite
+            Portfolio Tracker
           </h1>
           <p className="text-muted-foreground mt-1">
-            Track your owned domains and renewal costs
+            Stay ahead of renewals and holding costs.
           </p>
         </div>
         <Badge
@@ -129,7 +129,7 @@ export default function Portfolio() {
                 <DollarSign className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Annual Renewal Cost</p>
+                <p className="text-sm text-muted-foreground">Annual Renewal Exposure</p>
                 <p className="text-xl font-bold text-foreground">${totalRenewalCost.toFixed(2)}</p>
               </div>
             </div>
@@ -140,7 +140,7 @@ export default function Portfolio() {
                 <Calendar className="w-5 h-5 text-amber-600 dark:text-amber-400" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Renewals Due (30 days)</p>
+                <p className="text-sm text-muted-foreground">Renewals Due Soon</p>
                 <p className="text-xl font-bold text-foreground">{renewalsDueSoon.length}</p>
               </div>
             </div>
@@ -271,7 +271,7 @@ export default function Portfolio() {
           <Briefcase className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
           <h3 className="text-lg font-medium text-foreground mb-2">No Domains Yet</h3>
           <p className="text-muted-foreground mb-4">
-            Add your first domain to start tracking your portfolio.
+            Add your first domain to track renewal costs and portfolio health.
           </p>
         </Card>
       ) : (
