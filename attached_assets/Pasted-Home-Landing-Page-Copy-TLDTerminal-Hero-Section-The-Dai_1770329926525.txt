@@ -1,0 +1,235 @@
+Home Landing Page Copy — TLDTerminal
+Hero Section
+
+The Daily Terminal for Domain Investors
+Find the best dropping domains before anyone else — ranked by resale potential, protected from premium renewal traps, and delivered with alerts.
+
+CTA Buttons
+
+View Today’s Drop Feed
+
+Start Free Account
+
+Subtext
+No noise. No junk lists. Just investable domains, scored and ready.
+
+Social Proof Strip
+
+Trusted by early domain investors tracking drops, trends, and renewal risk daily.
+
+Core Value Props (3 Cards)
+
+Daily Ranked Drops
+Top domains dropping soon, filtered and scored so you don’t waste hours digging.
+
+Renewal Trap Protection
+Instantly see premium renewal risk before you buy a name that costs $500/year.
+
+Automated Deal Flow
+Saved searches + alerts notify you when new high-score domains appear.
+
+How It Works (3 Steps)
+
+1. Browse Today’s Best Drops
+We surface the top opportunities from the drop cycle every day.
+
+2. Watch What Matters
+Save domains and track timing automatically.
+
+3. Act Before the Market Does
+Get notified when domains drop or match your criteria.
+
+Pro Upgrade Section
+
+Unlock Pro Automation
+Serious investors don’t search manually — they automate deal flow.
+
+Pro includes:
+
+Unlimited watchlists
+
+Saved searches + alerts
+
+AI Domain Builder
+
+Trend + investor interest signals
+
+Portfolio renewal tracking
+
+CTA: Start Pro Trial
+
+Closing CTA
+
+Start finding better domains today.
+Create a free account and see today’s ranked drop feed.
+
+Button: Get Started Free
+
+Core App Page Copy
+Daily Drop Feed Page (/)
+Header
+
+Daily Drop Feed
+Top dropping domains ranked by resale potential — updated every day.
+
+Helper Text
+
+Filter by score, renewal cost, and extension to find investable opportunities fast.
+
+Empty State
+
+No domains match your filters. Try lowering the score threshold or expanding TLDs.
+
+Domain Card Labels
+
+Drops in: 12h
+
+Score: 87
+
+Renewal: $12/yr
+
+Premium Renewal Warning
+Renewal cost is unusually high. Review before investing.
+
+Buttons:
+
+Watch
+
+Buy
+
+Watchlist Page (/watchlist)
+Header
+
+Your Watchlist
+Track domains you care about and act at the right moment.
+
+Subtext
+
+Watched domains update automatically as drop time approaches.
+
+Watchlist Limit (Starter)
+
+You’ve reached your watchlist limit.
+Upgrade to Pro for unlimited tracking and alerts.
+
+Button: Upgrade to Pro
+
+Saved Searches Section
+Title
+
+Saved Searches
+Automate discovery — get notified when new domains match your criteria.
+
+Button: New Search
+
+Empty State:
+Create your first saved search to never miss drops in your niche.
+
+Saved Search Builder Modal
+Title
+
+Create Saved Search
+
+Fields helper copy:
+
+Keywords: Optional — focus on niches like “agent”, “vault”, “ledger”
+
+Minimum Score: Higher scores = better resale quality
+
+Max Renewal Cost: Avoid premium renewal traps
+
+Alerts: Get notified automatically when matches appear
+
+Button: Save Search
+
+AI Domain Builder Page (/builder)
+Header
+
+AI Domain Builder (Pro)
+Generate investable domain ideas instantly.
+
+Subtext
+
+Enter a niche or keyword and we’ll suggest brandable names, checked for availability and renewal safety.
+
+Input placeholder:
+“AI accounting”, “pet wellness”, “fintech vault”
+
+Button: Generate Domains
+
+Locked State (Starter):
+Upgrade to Pro to unlock AI domain generation.
+
+Portfolio Page (/portfolio)
+Header
+
+Portfolio Tracker (Pro)
+Stay ahead of renewals and holding costs.
+
+Dashboard Metrics
+
+Annual renewal exposure
+
+Renewals due soon
+
+High-risk premium renewals
+
+Empty State:
+Add your first domain to track renewal costs and portfolio health.
+
+Button: Add Domain
+
+Notifications Widget Copy
+Header
+
+Notifications
+
+Examples:
+
+{{domain}} drops in 3 hours
+
+5 new domains match your saved search
+
+Premium renewal warning on {{domain}}
+
+Footer link: View all alerts
+
+Pricing Page Copy
+Header
+
+Upgrade to Pro
+Automate domain investing with alerts, trend signals, and unlimited tracking.
+
+Starter (Free)
+
+Daily feed (Top 25)
+
+Watchlist (10 domains)
+
+Scoring + renewal warnings
+
+Pro ($79/mo)
+
+Unlimited watchlist
+
+Saved searches + alerts
+
+AI Domain Builder
+
+Google Trends signals
+
+Investor interest counts
+
+Portfolio renewal tracking
+
+Button: Start 7-Day Trial
+
+Key Taglines (Reusable)
+
+Find the best drops before they drop.
+
+Domain investing, ranked and automated.
+
+Avoid renewal traps. Track real opportunity.
+
+Your daily terminal for domain deals.
