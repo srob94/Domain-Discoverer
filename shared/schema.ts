@@ -163,6 +163,33 @@ export interface EmailLog {
   status: "sent" | "failed" | "mock";
 }
 
+// Conversation Search types
+export interface ConversationSearchResult {
+  filters: {
+    keywords: string[];
+    tlds: string[];
+    minScore: number | null;
+    maxScore: number | null;
+    maxRenewalPrice: number | null;
+    status: "dropping" | "expiring" | "all" | null;
+    timeWindowHours: number | null;
+    trending: boolean | null;
+    queryType: "search" | "explain" | "similar" | "create_alert";
+    targetDomain: string | null;
+    explanation: string;
+  };
+  domains: Domain[];
+  explanation?: string;
+  suggestedSavedSearch?: InsertSavedSearch;
+}
+
+export interface ConversationSearchUsage {
+  userId: string;
+  month: string; // "2026-02"
+  count: number;
+  limit: number;
+}
+
 // Admin types
 export interface AdminStats {
   totalUsers: number;

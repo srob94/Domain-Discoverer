@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
-import { generateDomainNames, explainDomainScore } from "./ai";
+import { generateDomainNames, explainDomainScore, parseConversationQuery, explainWhyDomain } from "./ai";
 import { 
   insertPortfolioItemSchema, 
   generateDomainsRequestSchema, 
@@ -290,6 +290,110 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ error: "Failed to mark all notifications as read" });
+    }
+  });
+
+  app.get("/api/conversation-search/usage", async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      const usage = await storage.getConversationSearchUsage(req.user.id);
+      res.json(usage);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch usage" });
+    }
+  });
+
+  app.post("/api/conversation-search", async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      
+      const { query } = req.body;
+      if (!query || typeof query !== "string") {
+        return res.status(400).json({ error: "Query is required" });
+      }
+
+      const usage = await storage.getConversationSearchUsage(req.user.id);
+      if (usage.count >= usage.limit) {
+        return res.status(429).json({ 
+          error: "Monthly search limit reached", 
+          usage,
+          message: `You've used all ${usage.limit} conversation searches for this month.`
+        });
+      }
+
+      const filters = await parseConversationQuery(query);
+      await storage.incrementConversationSearchUsage(req.user.id);
+
+      const allDomains = await storage.getDomains();
+      let filteredDomains = allDomains;
+
+      if (filters.tlds.length > 0) {
+        filteredDomains = filteredDomains.filter(d => filters.tlds.includes(d.tld));
+      }
+      if (filters.minScore !== null) {
+        filteredDomains = filteredDomains.filter(d => d.score >= filters.minScore!);
+      }
+      if (filters.maxScore !== null) {
+        filteredDomains = filteredDomains.filter(d => d.score <= filters.maxScore!);
+      }
+      if (filters.maxRenewalPrice !== null) {
+        filteredDomains = filteredDomains.filter(d => d.renewalPrice <= filters.maxRenewalPrice!);
+      }
+      if (filters.status && filters.status !== "all") {
+        filteredDomains = filteredDomains.filter(d => d.status === filters.status);
+      }
+      if (filters.trending === true) {
+        filteredDomains = filteredDomains.filter(d => d.trending);
+      }
+      if (filters.keywords.length > 0) {
+        const keywordLower = filters.keywords.map(k => k.toLowerCase());
+        filteredDomains = filteredDomains.filter(d => 
+          keywordLower.some(kw => d.fqdn.toLowerCase().includes(kw))
+        );
+      }
+
+      filteredDomains.sort((a, b) => b.score - a.score);
+      filteredDomains = filteredDomains.slice(0, 20);
+
+      let explanation: string | undefined;
+      if (filters.queryType === "explain" && filters.targetDomain) {
+        const targetDomain = allDomains.find(d => 
+          d.fqdn.toLowerCase().includes(filters.targetDomain!.toLowerCase())
+        );
+        if (targetDomain) {
+          explanation = await explainWhyDomain(targetDomain.fqdn, targetDomain.score, targetDomain.trending);
+        }
+      }
+
+      let suggestedSavedSearch;
+      if (filters.queryType === "create_alert") {
+        suggestedSavedSearch = {
+          name: filters.explanation || "New Alert",
+          keywords: filters.keywords,
+          tlds: filters.tlds.length > 0 ? filters.tlds : [".com", ".io", ".net"],
+          status: filters.status || "all",
+          minScore: filters.minScore || 0,
+          maxRenewalCost: filters.maxRenewalPrice,
+          alertsEnabled: true
+        };
+      }
+
+      const updatedUsage = await storage.getConversationSearchUsage(req.user.id);
+
+      res.json({
+        filters,
+        domains: filteredDomains,
+        explanation,
+        suggestedSavedSearch,
+        usage: updatedUsage
+      });
+    } catch (error) {
+      console.error("Conversation search error:", error);
+      res.status(500).json({ error: "Failed to process search query" });
     }
   });
 

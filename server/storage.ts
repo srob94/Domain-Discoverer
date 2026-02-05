@@ -12,7 +12,8 @@ import type {
   AdminStats,
   AdminDomain,
   AdminUser,
-  AdminSettings
+  AdminSettings,
+  ConversationSearchUsage
 } from "@shared/schema";
 import { getEmailLogs } from "./emailService";
 
@@ -46,6 +47,10 @@ export interface IStorage {
   getAdminSettings(): Promise<AdminSettings>;
   updateAdminSettings(settings: Partial<AdminSettings>): Promise<AdminSettings>;
   getAdminAlertLogs(): Promise<any[]>;
+  
+  getConversationSearchUsage(userId: string): Promise<ConversationSearchUsage>;
+  incrementConversationSearchUsage(userId: string): Promise<ConversationSearchUsage>;
+  getConversationSearchStats(): Promise<{ totalQueries: number; uniqueUsers: number; queriesThisMonth: number }>;
 }
 
 const mockDomains: Domain[] = [
@@ -169,6 +174,7 @@ export class MemStorage implements IStorage {
   private notifications: Map<string, Notification>;
   private adminDomainState: Map<string, { isHidden: boolean; isFlagged: boolean; isFeatured: boolean }>;
   private adminSettings: AdminSettings;
+  private conversationSearchUsage: Map<string, ConversationSearchUsage>;
 
   constructor() {
     this.domains = new Map();
@@ -177,6 +183,7 @@ export class MemStorage implements IStorage {
     this.portfolio = new Map();
     this.notifications = new Map();
     this.adminDomainState = new Map();
+    this.conversationSearchUsage = new Map();
     this.adminSettings = {
       enabledTlds: [".com", ".io", ".net", ".dev", ".co"],
       blockedTlds: [".xyz", ".top", ".info"],
@@ -518,6 +525,43 @@ export class MemStorage implements IStorage {
   async getAdminAlertLogs(): Promise<any[]> {
     const allLogs = getEmailLogs();
     return allLogs.slice(0, 50);
+  }
+
+  async getConversationSearchUsage(userId: string): Promise<ConversationSearchUsage> {
+    const month = new Date().toISOString().slice(0, 7);
+    const key = `${userId}-${month}`;
+    const existing = this.conversationSearchUsage.get(key);
+    if (existing) return existing;
+    
+    const usage: ConversationSearchUsage = {
+      userId,
+      month,
+      count: 0,
+      limit: 200
+    };
+    this.conversationSearchUsage.set(key, usage);
+    return usage;
+  }
+
+  async incrementConversationSearchUsage(userId: string): Promise<ConversationSearchUsage> {
+    const month = new Date().toISOString().slice(0, 7);
+    const key = `${userId}-${month}`;
+    const existing = await this.getConversationSearchUsage(userId);
+    const updated = { ...existing, count: existing.count + 1 };
+    this.conversationSearchUsage.set(key, updated);
+    return updated;
+  }
+
+  async getConversationSearchStats(): Promise<{ totalQueries: number; uniqueUsers: number; queriesThisMonth: number }> {
+    const month = new Date().toISOString().slice(0, 7);
+    const allUsage = Array.from(this.conversationSearchUsage.values());
+    const thisMonthUsage = allUsage.filter(u => u.month === month);
+    
+    return {
+      totalQueries: allUsage.reduce((sum, u) => sum + u.count, 0),
+      uniqueUsers: new Set(allUsage.map(u => u.userId)).size,
+      queriesThisMonth: thisMonthUsage.reduce((sum, u) => sum + u.count, 0)
+    };
   }
 }
 
