@@ -1,0 +1,195 @@
+Build a modern SaaS dashboard web app called TLDTerminal Lite, a domain investing terminal that helps users discover high-quality dropping domains.
+
+Tech Requirements
+
+Use Next.js (App Router) + TypeScript
+
+Use TailwindCSS for styling
+
+Frontend only for now (mock JSON data)
+
+Supabase client included but auth/database can be stubbed
+
+No backend logic yet
+
+Core Pages
+1. Daily Drop Feed (Home)
+
+Route: /
+
+This is the main screen showing the best domains dropping soon.
+
+Layout:
+
+Top navigation bar with:
+
+Logo: TLDTerminal
+
+Search bar: “Search domains…”
+
+Upgrade button: “Upgrade to Pro”
+
+Page content:
+
+Title: “Daily Drop Feed”
+
+Subtitle: “Top domains dropping soon • Updated today”
+
+Filters row:
+
+TLD selector (default: .com)
+
+Minimum score dropdown (75+)
+
+Premium renewal toggle
+
+Clear filters
+
+Domain cards list (mock data):
+Each card shows:
+
+Domain name (large)
+
+Score badge (0–100)
+
+Status pill (Dropping / Expiring)
+
+Countdown timer (“Drops in 12h”)
+
+Renewal price
+
+Premium renewal warning box if renewal is high
+
+Buttons: Watch + Buy
+
+2. Watchlist + Saved Searches
+
+Route: /watchlist
+
+Two sections:
+
+Saved Searches (grid cards):
+
+Search name
+
+Match count
+
+Alerts toggle
+
+Watchlist table:
+
+Domain
+
+Score
+
+Drop countdown
+
+Renewal cost
+
+Remove button
+
+3. Saved Search Builder Modal
+
+Accessible from Watchlist page.
+
+Modal fields:
+
+Search name
+
+Keywords input (chips)
+
+TLD multi-select
+
+Status selector
+
+Minimum score slider
+
+Max renewal cost input
+
+Enable alerts toggle
+
+Save button
+
+4. AI Domain Builder (Pro Feature Stub)
+
+Route: /builder
+
+Simple interface:
+
+Input: “Enter a keyword or niche”
+
+Button: Generate domains
+
+Output list (mock)
+
+Mark as “Pro Feature”
+
+5. Portfolio (Pro Feature Stub)
+
+Route: /portfolio
+
+Simple portfolio table:
+
+Domain
+
+Purchase price
+
+Renewal date
+
+Strategy (Hold / Drop)
+
+UI Style
+
+Clean investor SaaS aesthetic (Stripe-style)
+
+White background, subtle borders, rounded-xl cards
+
+Score badge prominent
+
+Premium renewal warnings clearly highlighted
+
+Responsive layout
+
+Mock Data
+
+Create a file: data/mockDomains.ts
+
+Include at least 8 sample domains with fields:
+
+fqdn
+
+score
+
+status
+
+dropsIn
+
+renewalPrice
+
+premiumRenewal
+
+trending
+
+Deliverable
+
+Return a complete Next.js project scaffold with:
+
+/app/page.tsx (Daily Feed)
+
+/app/watchlist/page.tsx
+
+/app/builder/page.tsx
+
+/app/portfolio/page.tsx
+
+Components folder:
+
+DomainCard
+
+ScoreBadge
+
+FilterBar
+
+SavedSearchModal
+
+Supabase client file included but unused
