@@ -8,6 +8,7 @@ The project follows a full-stack TypeScript architecture with a React frontend a
 
 ## Recent Changes
 
+- **Conversation Search** (Feb 2026): Added AI-powered natural language search for domains. Users can ask "Find AI .com domains under $30" or "Why is VaultLedger.io scored high?". Pro feature with 200 queries/month limit. Admin dashboard shows search stats.
 - **Admin Portal** (Feb 2026): Added admin-only portal at /admin with dashboard, domain moderation, user management, and settings pages
 - **Pricing Page & Portal** (Feb 2026): Added dedicated /pricing page with two-tier layout (Starter Free vs Pro $79/mo), feature comparison table, FAQ section, and CTA sections
 - **ProFeatureLock Enhancements** (Feb 2026): Updated with specific gating copy for each feature type (ai_builder, saved_searches, portfolio, alerts, trend_signals, investor_interest)

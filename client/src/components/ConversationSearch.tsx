@@ -121,7 +121,7 @@ export function ConversationSearch({ onDomainSelect }: ConversationSearchProps) 
               </div>
               <Button
                 onClick={handleSearch}
-                disabled={!query.trim() || searchMutation.isPending}
+                disabled={!query.trim() || searchMutation.isPending || (usage && usage.count >= usage.limit)}
                 data-testid="button-search-submit"
               >
                 {searchMutation.isPending ? (
@@ -155,7 +155,9 @@ export function ConversationSearch({ onDomainSelect }: ConversationSearchProps) 
               <Card className="border-destructive">
                 <CardContent className="pt-4">
                   <p className="text-destructive text-sm">
-                    {(searchMutation.error as any)?.message || "Failed to process your search. Please try again."}
+                    {(searchMutation.error as any)?.message?.includes("429") 
+                      ? "You've reached your monthly search limit. Upgrade to Pro for more searches."
+                      : (searchMutation.error as any)?.message || "Failed to process your search. Please try again."}
                   </p>
                 </CardContent>
               </Card>
@@ -173,21 +175,21 @@ export function ConversationSearch({ onDomainSelect }: ConversationSearchProps) 
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">{result.filters.explanation}</p>
+                    <p className="text-sm text-muted-foreground">{result.filters?.explanation || "Searching..."}</p>
                     <div className="flex flex-wrap gap-1 mt-2">
-                      {result.filters.keywords.map((kw, i) => (
+                      {(result.filters?.keywords || []).map((kw, i) => (
                         <Badge key={i} variant="secondary">{kw}</Badge>
                       ))}
-                      {result.filters.tlds.map((tld, i) => (
+                      {(result.filters?.tlds || []).map((tld, i) => (
                         <Badge key={i} variant="outline">{tld}</Badge>
                       ))}
-                      {result.filters.minScore && (
+                      {result.filters?.minScore && (
                         <Badge variant="outline">Score {result.filters.minScore}+</Badge>
                       )}
-                      {result.filters.maxRenewalPrice && (
+                      {result.filters?.maxRenewalPrice && (
                         <Badge variant="outline">${result.filters.maxRenewalPrice} max</Badge>
                       )}
-                      {result.filters.trending && (
+                      {result.filters?.trending && (
                         <Badge className="gap-1"><TrendingUp className="w-3 h-3" /> Trending</Badge>
                       )}
                     </div>
@@ -205,16 +207,16 @@ export function ConversationSearch({ onDomainSelect }: ConversationSearchProps) 
                   </Card>
                 )}
 
-                {result.domains.length > 0 && (
+                {(result.domains?.length || 0) > 0 && (
                   <Card>
                     <CardHeader className="pb-2">
                       <CardTitle className="text-sm font-medium">
-                        Found {result.domains.length} domains
+                        Found {result.domains?.length || 0} domains
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
-                        {result.domains.map((domain) => (
+                        {(result.domains || []).map((domain) => (
                           <div
                             key={domain.id}
                             className="flex items-center justify-between p-2 rounded-md hover-elevate cursor-pointer border"
@@ -241,7 +243,7 @@ export function ConversationSearch({ onDomainSelect }: ConversationSearchProps) 
                   </Card>
                 )}
 
-                {result.domains.length === 0 && !result.explanation && (
+                {(result.domains?.length || 0) === 0 && !result.explanation && (
                   <Card>
                     <CardContent className="py-8 text-center">
                       <p className="text-muted-foreground">No domains match your criteria. Try a broader search.</p>
