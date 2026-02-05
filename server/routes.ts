@@ -7,8 +7,11 @@ import {
   insertPortfolioItemSchema, 
   generateDomainsRequestSchema, 
   explainScoreRequestSchema,
-  insertNotificationSchema
+  insertNotificationSchema,
+  sendEmailRequestSchema,
+  emailTypeEnum
 } from "@shared/schema";
+import { sendEmail, getEmailLogs, renderEmailPreview } from "./emailService";
 import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
 
 const insertSavedSearchSchema = z.object({
@@ -72,6 +75,24 @@ export async function registerRoutes(
       if (!item) {
         return res.status(404).json({ error: "Domain not found" });
       }
+      
+      if (req.user?.email) {
+        sendEmail(req.user.id, "watchlist_confirmation", req.user.email, {
+          first_name: req.user.firstName || "there",
+          domain: item.domain.fqdn,
+          status: item.domain.status,
+          drops_in: item.domain.dropsIn,
+          renewal_price: item.domain.renewalPrice
+        }).catch(console.error);
+        
+        const watchlist = await storage.getWatchlist();
+        if (watchlist.length >= 10) {
+          sendEmail(req.user.id, "watchlist_limit_upgrade", req.user.email, {
+            first_name: req.user.firstName || "there"
+          }).catch(console.error);
+        }
+      }
+      
       res.status(201).json(item);
     } catch (error) {
       res.status(500).json({ error: "Failed to add to watchlist" });
@@ -261,6 +282,49 @@ export async function registerRoutes(
       res.status(201).json(notification);
     } catch (error) {
       res.status(500).json({ error: "Failed to create notification" });
+    }
+  });
+
+  app.post("/api/emails/send", async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      const parsed = sendEmailRequestSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.issues });
+      }
+      const { type, to, variables } = parsed.data;
+      const log = await sendEmail(req.user.id, type, to, variables);
+      res.status(201).json(log);
+    } catch (error) {
+      console.error("Email send error:", error);
+      res.status(500).json({ error: "Failed to send email" });
+    }
+  });
+
+  app.get("/api/emails/logs", async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      const logs = getEmailLogs(req.user.id);
+      res.json(logs);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch email logs" });
+    }
+  });
+
+  app.post("/api/emails/preview", async (req, res) => {
+    try {
+      const typeResult = emailTypeEnum.safeParse(req.body.type);
+      if (!typeResult.success) {
+        return res.status(400).json({ error: "Invalid email type" });
+      }
+      const preview = renderEmailPreview(typeResult.data, req.body.variables || {});
+      res.json(preview);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to render email preview" });
     }
   });
 

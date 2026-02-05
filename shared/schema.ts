@@ -122,3 +122,43 @@ export const insertNotificationSchema = z.object({
 });
 
 export type InsertNotification = z.infer<typeof insertNotificationSchema>;
+
+// Email types for transactional emails
+export const emailTypeEnum = z.enum([
+  "welcome",
+  "activation_nudge",
+  "watchlist_confirmation",
+  "watchlist_limit_upgrade",
+  "saved_search_locked",
+  "trial_start",
+  "drop_alert",
+  "search_match_alert",
+  "premium_renewal_warning",
+  "investor_interest",
+  "trial_ending",
+  "conversion",
+  "churn_save",
+  "weekly_digest"
+]);
+
+export type EmailType = z.infer<typeof emailTypeEnum>;
+
+// Email send request schema
+export const sendEmailRequestSchema = z.object({
+  type: emailTypeEnum,
+  to: z.string().email(),
+  variables: z.record(z.string(), z.union([z.string(), z.number()])).optional(),
+});
+
+export type SendEmailRequest = z.infer<typeof sendEmailRequestSchema>;
+
+// Email log for tracking sent emails
+export interface EmailLog {
+  id: string;
+  userId: string;
+  type: EmailType;
+  to: string;
+  subject: string;
+  sentAt: string;
+  status: "sent" | "failed" | "mock";
+}
