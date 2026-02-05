@@ -1,14 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { MarketingHeader } from "@/components/MarketingHeader";
+import { MarketingFooter } from "@/components/MarketingFooter";
 import { 
-  Terminal, 
   TrendingUp, 
   Bell, 
   Shield, 
   Sparkles,
   ArrowRight,
-  CheckCircle,
   Zap,
   Search,
   Eye,
@@ -74,30 +74,10 @@ const sampleDomains = [
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="fixed top-0 w-full z-[1000] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-primary rounded-md">
-              <Terminal className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="text-lg font-bold text-foreground">TLDTerminal</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" asChild data-testid="button-login">
-              <a href="/api/login">Log in</a>
-            </Button>
-            <Button asChild data-testid="button-signup">
-              <a href="/api/login" className="gap-2">
-                Start Free Account
-                <ArrowRight className="w-4 h-4" />
-              </a>
-            </Button>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-background flex flex-col">
+      <MarketingHeader />
 
-      <main className="pt-16">
+      <main className="flex-1 pt-16">
         <section className="py-20 px-4">
           <div className="container mx-auto max-w-6xl">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -134,7 +114,7 @@ export default function Landing() {
 
               <div className="relative">
                 <Card className="p-6 bg-card/50 backdrop-blur">
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between gap-2 mb-4">
                     <h3 className="font-semibold text-foreground">Today's Top Drops</h3>
                     <Badge variant="outline">Live Preview</Badge>
                   </div>
@@ -142,7 +122,7 @@ export default function Landing() {
                     {sampleDomains.map((domain) => (
                       <div 
                         key={domain.name}
-                        className="flex items-center justify-between p-3 bg-background rounded-lg border border-border"
+                        className="flex items-center justify-between gap-2 p-3 bg-background rounded-lg border border-border"
                       >
                         <div className="flex items-center gap-3">
                           <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold ${
@@ -191,7 +171,7 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="py-20 px-4">
+        <section id="features" className="py-20 px-4">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-foreground mb-4">
@@ -238,7 +218,7 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="py-20 px-4">
+        <section id="pro-features" className="py-20 px-4">
           <div className="container mx-auto max-w-4xl">
             <Card className="p-8 bg-gradient-to-br from-primary/5 via-background to-accent/10 border-primary/20">
               <div className="text-center mb-8">
@@ -293,21 +273,7 @@ export default function Landing() {
         </section>
       </main>
 
-      <footer className="border-t border-border py-8 px-4">
-        <div className="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="p-1 bg-primary rounded">
-              <Terminal className="w-4 h-4 text-primary-foreground" />
-            </div>
-            <span className="text-sm text-muted-foreground">
-              TLDTerminal
-            </span>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            Your daily terminal for domain deals.
-          </p>
-        </div>
-      </footer>
+      <MarketingFooter />
     </div>
   );
 }

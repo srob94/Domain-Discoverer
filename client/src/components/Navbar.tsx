@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -11,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { NotificationBell } from "@/components/NotificationBell";
 import { ConversationSearch } from "@/components/ConversationSearch";
-import { Search, Terminal, Crown, Home, Bookmark, Sparkles, Briefcase, LogOut, User } from "lucide-react";
+import { Search, Terminal, Crown, Home, Bookmark, Sparkles, Briefcase, LogOut, Lock, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUser } from "@/contexts/UserContext";
 import type { User as AuthUser } from "@shared/schema";
@@ -24,13 +25,13 @@ interface NavbarProps {
 
 export function Navbar({ searchQuery, onSearchChange, user }: NavbarProps) {
   const [location] = useLocation();
-  const { isPro } = useUser();
+  const { isPro, triggerUpgrade } = useUser();
 
   const navLinks = [
-    { href: "/", label: "Feed", icon: Home },
-    { href: "/watchlist", label: "Watchlist", icon: Bookmark },
-    { href: "/builder", label: "AI Builder", icon: Sparkles },
-    { href: "/portfolio", label: "Portfolio", icon: Briefcase }
+    { href: "/", label: "Feed", icon: Home, proOnly: false },
+    { href: "/watchlist", label: "Watchlist", icon: Bookmark, proOnly: false },
+    { href: "/builder", label: "AI Builder", icon: Sparkles, proOnly: true },
+    { href: "/portfolio", label: "Portfolio", icon: Briefcase, proOnly: true }
   ];
 
   const getInitials = () => {
@@ -77,6 +78,9 @@ export function Navbar({ searchQuery, onSearchChange, user }: NavbarProps) {
                 >
                   <Icon className="w-4 h-4" />
                   {link.label}
+                  {link.proOnly && !isPro && (
+                    <Lock className="w-3 h-3 text-muted-foreground" />
+                  )}
                 </Button>
               </Link>
             );
@@ -100,7 +104,26 @@ export function Navbar({ searchQuery, onSearchChange, user }: NavbarProps) {
         <div className="flex items-center gap-2">
           <ConversationSearch />
           <NotificationBell />
-          
+
+          {isPro ? (
+            <Badge
+              variant="secondary"
+              className="hidden sm:flex gap-1 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+              data-testid="badge-plan-pro"
+            >
+              <Crown className="w-3 h-3" />
+              Pro
+            </Badge>
+          ) : (
+            <Badge
+              variant="outline"
+              className="hidden sm:flex"
+              data-testid="badge-plan-starter"
+            >
+              Starter
+            </Badge>
+          )}
+
           {!isPro && (
             <Link href="/pricing">
               <Button
@@ -110,7 +133,7 @@ export function Navbar({ searchQuery, onSearchChange, user }: NavbarProps) {
                 className="gap-1.5 hidden sm:flex"
               >
                 <Crown className="w-4 h-4" />
-                Upgrade to Pro
+                Upgrade
               </Button>
             </Link>
           )}
@@ -134,8 +157,24 @@ export function Navbar({ searchQuery, onSearchChange, user }: NavbarProps) {
                 {user.email && user.firstName && (
                   <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                 )}
+                <div className="mt-1">
+                  {isPro ? (
+                    <Badge variant="secondary" className="text-xs gap-1 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                      <Crown className="w-2.5 h-2.5" />
+                      Pro
+                    </Badge>
+                  ) : (
+                    <Badge variant="outline" className="text-xs">Starter</Badge>
+                  )}
+                </div>
               </div>
               <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/pricing" className="flex items-center gap-2 cursor-pointer">
+                  <Settings className="w-4 h-4" />
+                  Billing
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <a href="/api/logout" className="flex items-center gap-2 cursor-pointer">
                   <LogOut className="w-4 h-4" />
