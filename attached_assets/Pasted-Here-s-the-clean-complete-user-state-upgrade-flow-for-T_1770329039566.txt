@@ -1,0 +1,256 @@
+Here’s the clean, complete **user state + upgrade flow** for **TLDTerminal Lite**, exactly how it should work from first visit → paid Pro.
+
+---
+
+# User State Flow — TLDTerminal Lite
+
+## Core States
+
+There are 4 user states:
+
+1. **Logged Out (Visitor)**
+2. **Logged In (Free / Starter)**
+3. **Logged In (Pro Trial Optional)**
+4. **Logged In (Paid Pro Subscriber)**
+
+---
+
+# 1. Logged Out Experience (Visitor Mode)
+
+### Goal
+
+Let users immediately see value before signing up.
+
+### What visitors can do:
+
+* View sample Daily Drop Feed (limited)
+* See scores + premium renewal warnings
+* Click Upgrade CTAs
+* Explore UI but locked actions
+
+### Restrictions:
+
+* No watchlist saving
+* No saved searches
+* No alerts
+* AI Builder locked
+* Portfolio locked
+
+### UX Pattern:
+
+* Soft paywall, not hard block
+
+Example banner:
+
+> “Create a free account to watch domains and get drop alerts.”
+
+Primary CTA:
+
+* **Sign Up Free**
+
+Secondary CTA:
+
+* **Upgrade to Pro**
+
+---
+
+# 2. Logged In — Starter (Free Account)
+
+### Goal
+
+Hook users into habit loop (feed + watchlist).
+
+### Starter users get:
+
+## Included
+
+* Full Daily Drop Feed (Top 25/day)
+* Basic filters (TLD, min score)
+* Watchlist (up to 10 domains)
+* Premium renewal warnings
+* Basic scoring
+
+## Locked (Pro Teasers)
+
+* Saved searches
+* Alerts
+* AI Builder
+* Portfolio tracker
+* Investor interest metrics
+* Google Trends signals
+
+### Upgrade surfaces
+
+* Sidebar Pro badges
+* Locked feature click → upgrade modal
+* Top-right “Upgrade to Pro”
+
+---
+
+# 3. Upgrade Trigger Points (Conversion Moments)
+
+Users upgrade when they hit friction:
+
+### Trigger 1: Watchlist Limit
+
+Starter:
+
+> “Watchlist limit reached (10). Upgrade for unlimited tracking.”
+
+### Trigger 2: Saved Search Click
+
+User clicks “New Search” →
+
+> “Saved Searches are Pro — automate deal flow.”
+
+### Trigger 3: Alerts Toggle
+
+User enables alerts →
+
+> “Drop alerts are Pro. Get notified instantly.”
+
+### Trigger 4: Investor Interest Reveal
+
+User sees:
+
+> “Watchlisted by [Pro] investors”
+
+### Trigger 5: Google Trends Badge Locked
+
+> “Trend signals available on Pro.”
+
+---
+
+# 4. Upgrade Flow (Free → Paid)
+
+### Step-by-step experience:
+
+1. User clicks **Upgrade to Pro**
+2. Pricing modal opens:
+
+## Pro Plan — $79/mo
+
+Includes:
+
+* Unlimited watchlist
+* Saved searches + alerts
+* AI Builder
+* Portfolio renewal tracker
+* Trend + investor interest signals
+
+3. Checkout via Stripe
+4. Instant unlock
+
+Post-upgrade success:
+
+> “Welcome to Pro — alerts are now active.”
+
+---
+
+# 5. Logged In — Pro Subscriber Experience
+
+### Goal
+
+Make the product feel like infrastructure.
+
+Pro users unlock:
+
+## Deal Discovery
+
+* Top 100 domains/day
+* Advanced filters
+* Trend + investor interest metrics
+
+## Automation
+
+* Unlimited saved searches
+* Email alerts (drop, match, availability)
+
+## Tools
+
+* AI Domain Builder
+* Portfolio Lite tracker
+
+## Social Proof Signals
+
+* Watchlist counts (“12 investors watching”)
+
+---
+
+# Feature Access Matrix
+
+| Feature                  | Logged Out   | Starter Free | Pro Paid        |
+| ------------------------ | ------------ | ------------ | --------------- |
+| Daily Drop Feed          | Preview only | Top 25/day   | Top 100/day     |
+| Domain Scoring           | Yes          | Yes          | Yes + breakdown |
+| Premium Renewal Warnings | Yes          | Yes          | Yes             |
+| Watchlist                | No           | 10 max       | Unlimited       |
+| Saved Searches           | No           | Locked       | Unlimited       |
+| Alerts (Email)           | No           | Locked       | Included        |
+| AI Domain Builder        | No           | Locked       | Included        |
+| Google Trends Signal     | No           | Locked       | Included        |
+| Investor Interest Counts | No           | Locked       | Included        |
+| Portfolio Lite           | No           | Locked       | Included        |
+
+---
+
+# Ideal Onboarding Flow (First Session)
+
+### Step 1: Sign Up
+
+Minimal fields:
+
+* Email
+* Password
+* Optional: preferred TLDs
+
+### Step 2: First Feed View
+
+Show:
+
+* “3 domains dropping today match AI keywords”
+
+### Step 3: Watch Prompt
+
+User clicks Watch →
+
+> “Watched. Upgrade for alerts when it drops.”
+
+### Step 4: Upgrade Hook
+
+After 3 watches:
+
+> “Investors use Pro to automate drop tracking.”
+
+---
+
+# Upgrade Copy (Best Performing)
+
+### Upgrade Modal Title
+
+**Don’t miss drops. Automate your deal flow.**
+
+### Bullets
+
+* Unlimited watchlists
+* Drop alerts + saved searches
+* AI domain builder
+* Trend + investor interest signals
+* Portfolio renewal tracking
+
+CTA:
+**Upgrade to Pro — $79/mo**
+
+---
+
+# Final Recommended Flow Summary
+
+* Visitors see value instantly
+* Free users build habit via watchlist
+* Pro unlocks automation + signals
+* Upgrade triggers are contextual (limits + locked actions)
+* Product stays simple but monetizes naturally
+
+---
+
+If you want, I can write the exact Supabase auth + Stripe subscription gating logic (route protection + plan checks) so this flow is implemented cleanly in Next.js.

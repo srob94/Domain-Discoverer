@@ -1,0 +1,257 @@
+LDTerminal Lite (MVP + Pro Signals)
+
+These are the only features you need to launch, validate, and monetize.
+
+1. Daily Drop Feed (Primary Product)
+
+Purpose: Show investors what domains are worth buying today.
+
+Includes:
+
+Ranked list of top dropping/expiring domains
+
+Updated daily
+
+Domain score (0–100)
+
+Drop countdown (“Drops in 12h”)
+
+Status badge (Dropping / Expiring / Auction)
+
+Renewal price displayed clearly
+
+Premium renewal warning badge
+
+Actions: Watch + Buy
+
+2. Domain Scoring Engine (Decision Layer)
+
+Purpose: Convert raw lists into investable opportunities.
+
+Score inputs (V1):
+
+Length bonus (short = better)
+
+Clean format (no hyphens/numbers)
+
+Extension weighting (.com highest)
+
+Keyword quality + readability
+
+Trend boost (optional)
+
+Renewal risk penalty
+
+Output:
+
+Total score
+
+Reason tag (“Trending”, “Strong Buy”)
+
+3. Premium Renewal Trap Detection (Key Differentiator)
+
+Purpose: Prevent investors from buying domains with hidden holding costs.
+
+Shows:
+
+Registration price
+
+Renewal price/year
+
+Premium renewal warning if renewal is abnormally high
+
+Example:
+
+Renewal: $250/year ⚠️ Premium Renewal
+
+4. Filtering + Search (Investor Workflow)
+
+Purpose: Let users narrow the feed instantly.
+
+Filters:
+
+TLD selector (All / .com / .io / .ai)
+
+Minimum score threshold (75+, 85+)
+
+Hide premium renewals toggle
+
+Trending only toggle (optional)
+
+Search:
+
+Domain search bar (“Search domains…”)
+
+5. Watchlist (Retention Core)
+
+Purpose: Save domains and track them over time.
+
+Includes:
+
+Watch/unwatch button on each domain
+
+Dedicated Watchlist page
+
+Drop countdown + renewal cost visible
+
+Quick access for follow-up purchases
+
+6. Saved Searches + Alerts Builder (Highest SaaS Value)
+
+Purpose: Automate deal discovery.
+
+Saved Search builder modal:
+
+Search name
+
+Keywords (optional)
+
+TLD multi-select
+
+Status selection (Dropping / Expiring / Auction)
+
+Minimum score slider
+
+Max renewal price cap
+
+Enable alerts toggle
+
+Saved Search cards show:
+
+Current matches count
+
+Alerts status (On/Off)
+
+7. Alerts System (Email MVP)
+
+Purpose: Drive urgency + habit.
+
+Alerts trigger when:
+
+Domain drops within X hours
+
+Saved search finds new match
+
+Domain becomes available
+
+Auction ending soon (Phase 2)
+
+Delivery:
+
+Email only (push later)
+
+8. AI Domain Builder (Pro Feature)
+
+Purpose: Generate investable name ideas instantly.
+
+Workflow:
+
+User enters keyword/niche (“AI accounting”)
+
+AI generates 20–50 domain candidates
+
+App checks availability + renewal safety (mock early)
+
+User can Watch or Buy immediately
+
+9. Google Trends Keyword Signal (Pro Add-On)
+
+Purpose: Add real-world demand context.
+
+Displays:
+
+“Keyword trending ↑” badge
+
+Trend score (Flat / Rising / Breakout)
+
+MVP-lite implementation:
+
+Only check top keywords daily
+
+Store simple trend boost, not full charts
+
+10. Investor Interest Metrics (Pro Monetization Feature)
+
+Purpose: Social proof + urgency.
+
+Pro users see:
+
+“Watchlisted by 12 investors”
+
+“Saved in 4 portfolios”
+
+Starter users see:
+
+“Investor interest (Pro)”
+
+This is a major upgrade driver.
+
+11. Portfolio Lite (Renewal Exposure Tracker)
+
+Purpose: Make the platform sticky long-term.
+
+Portfolio MVP includes:
+
+Domain name
+
+Purchase price (manual entry)
+
+Renewal date
+
+Renewal cost/year
+
+Strategy: Hold / Drop
+
+Dashboard shows:
+
+Total annual renewal exposure
+
+Renewals due soon
+
+Drop candidates (low score + high renewal)
+
+12. Pro Upgrade + Gating (Business Layer)
+
+Purpose: Monetize early.
+
+Starter plan:
+
+Daily feed
+
+Watchlist
+
+Basic scoring
+
+Pro plan:
+
+Saved searches + alerts
+
+AI builder
+
+Google Trends signals
+
+Investor interest counts
+
+Portfolio Lite
+
+Upgrade CTAs:
+
+Top nav button
+
+Feature locks on sidebar
+
+Final Core MVP Bundle (What You Ship First)
+
+If you want the cleanest launch:
+
+Daily Drop Feed
+
+Scoring + Premium Renewal Flags
+
+Watchlist
+
+Saved Searches Builder
+
+AI Builder (stub)
+
+Pro Upgrade gating
