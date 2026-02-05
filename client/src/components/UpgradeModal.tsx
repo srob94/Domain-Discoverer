@@ -31,7 +31,7 @@ export function UpgradeModal({ open, onOpenChange, triggerReason }: UpgradeModal
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="text-center pb-2">
-          <div className="mx-auto mb-3 p-3 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-full w-fit">
+          <div className="mx-auto mb-3 p-3 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-full w-fit animate-score-up">
             <Crown className="w-8 h-8 text-amber-600 dark:text-amber-400" />
           </div>
           <DialogTitle className="text-2xl font-bold text-center">
@@ -62,7 +62,11 @@ export function UpgradeModal({ open, onOpenChange, triggerReason }: UpgradeModal
 
             <div className="space-y-3">
               {proFeatures.map((feature, index) => (
-                <div key={index} className="flex items-center gap-3">
+                <div
+                  key={index}
+                  className="flex items-center gap-3 animate-fade-in-up"
+                  style={{ animationDelay: `${100 + index * 50}ms` }}
+                >
                   <div className="p-1 bg-primary/10 rounded">
                     <Check className="w-4 h-4 text-primary" />
                   </div>
@@ -103,7 +107,7 @@ export function UpgradeModal({ open, onOpenChange, triggerReason }: UpgradeModal
           
           <Link href="/pricing" onClick={() => onOpenChange(false)}>
             <Button 
-              variant="link" 
+              variant="ghost" 
               className="w-full text-sm"
               data-testid="link-view-pricing"
             >

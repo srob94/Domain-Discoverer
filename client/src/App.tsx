@@ -54,7 +54,7 @@ function AuthenticatedApp({ searchQuery, setSearchQuery }: {
         onSearchChange={setSearchQuery}
         user={user}
       />
-      <main className="container mx-auto px-4 py-6">
+      <main className="container mx-auto px-4 py-6 animate-fade-in">
         <Router searchQuery={searchQuery} />
       </main>
       <UpgradeModal

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -48,6 +48,9 @@ function getNotificationColor(type: NotificationType) {
 export function NotificationBell() {
   const { isLoggedIn, isPro, triggerUpgrade } = useUser();
   const [isOpen, setIsOpen] = useState(false);
+  const [shouldShake, setShouldShake] = useState(false);
+  const [shouldPop, setShouldPop] = useState(false);
+  const prevUnreadRef = useRef(0);
 
   const { data: notifications = [] } = useQuery<Notification[]>({
     queryKey: ["/api/notifications"],
@@ -73,6 +76,21 @@ export function NotificationBell() {
   });
 
   const unreadCount = notifications.filter((n) => !n.readAt).length;
+
+  useEffect(() => {
+    if (unreadCount > 0 && unreadCount > prevUnreadRef.current) {
+      setShouldShake(true);
+      setShouldPop(true);
+      const shakeTimer = setTimeout(() => setShouldShake(false), 600);
+      const popTimer = setTimeout(() => setShouldPop(false), 300);
+      prevUnreadRef.current = unreadCount;
+      return () => {
+        clearTimeout(shakeTimer);
+        clearTimeout(popTimer);
+      };
+    }
+    prevUnreadRef.current = unreadCount;
+  }, [unreadCount]);
 
   const handleNotificationClick = (notification: Notification) => {
     if (!notification.readAt) {
@@ -107,10 +125,10 @@ export function NotificationBell() {
           className="relative"
           data-testid="button-notifications"
         >
-          <Bell className="w-5 h-5" />
+          <Bell className={`w-5 h-5 ${shouldShake ? 'animate-bell-shake' : ''}`} />
           {isLoggedIn && unreadCount > 0 && (
             <Badge 
-              className="absolute -top-1 -right-1 h-5 min-w-5 px-1.5 text-xs bg-destructive text-destructive-foreground border-0"
+              className={`absolute -top-1 -right-1 h-5 min-w-5 px-1.5 text-xs bg-destructive text-destructive-foreground border-0 ${shouldPop ? 'animate-badge-pop' : ''}`}
             >
               {unreadCount > 9 ? "9+" : unreadCount}
             </Badge>

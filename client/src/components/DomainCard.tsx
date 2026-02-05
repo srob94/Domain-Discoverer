@@ -124,10 +124,10 @@ export function DomainCard({ domain, onWatch, onBuy, isWatched = false }: Domain
             data-testid={`watch-button-${domain.id}`}
             variant={isWatched ? "secondary" : "outline"}
             size="sm"
-            className="flex-1"
+            className="flex-1 transition-all duration-200"
             onClick={() => onWatch?.(domain)}
           >
-            <Eye className="w-4 h-4 mr-1.5" />
+            <Eye className={`w-4 h-4 mr-1.5 transition-colors duration-200 ${isWatched ? 'text-primary' : ''}`} />
             {isWatched ? "Watching" : "Watch"}
           </Button>
           <Button

@@ -2,8 +2,8 @@ import { useState, useMemo } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { DomainCard } from "@/components/DomainCard";
+import { DomainCardSkeleton } from "@/components/DomainCardSkeleton";
 import { FilterBar } from "@/components/FilterBar";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/contexts/UserContext";
 import { TrendingUp, Calendar, AlertCircle } from "lucide-react";
@@ -145,7 +145,7 @@ export default function DailyDropFeed({ searchQuery }: DailyDropFeedProps) {
       {isLoading ? (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {[...Array(6)].map((_, i) => (
-            <Skeleton key={i} className="h-48 rounded-lg" />
+            <DomainCardSkeleton key={i} index={i} />
           ))}
         </div>
       ) : filteredDomains.length === 0 ? (
@@ -160,14 +160,19 @@ export default function DailyDropFeed({ searchQuery }: DailyDropFeedProps) {
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {filteredDomains.map((domain) => (
-            <DomainCard
+          {filteredDomains.map((domain, index) => (
+            <div
               key={domain.id}
-              domain={domain}
-              isWatched={watchedDomainIds.has(domain.id)}
-              onWatch={handleWatch}
-              onBuy={handleBuy}
-            />
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${Math.min(index * 30, 300)}ms` }}
+            >
+              <DomainCard
+                domain={domain}
+                isWatched={watchedDomainIds.has(domain.id)}
+                onWatch={handleWatch}
+                onBuy={handleBuy}
+              />
+            </div>
           ))}
         </div>
       )}

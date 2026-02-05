@@ -1,8 +1,10 @@
+import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MarketingHeader } from "@/components/MarketingHeader";
 import { MarketingFooter } from "@/components/MarketingFooter";
+import { useInView } from "@/hooks/use-in-view";
 import { 
   TrendingUp, 
   Bell, 
@@ -73,6 +75,10 @@ const sampleDomains = [
 ];
 
 export default function Landing() {
+  const [featuresRef, featuresInView] = useInView();
+  const [howRef, howInView] = useInView();
+  const [proRef, proInView] = useInView();
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <MarketingHeader />
@@ -81,7 +87,7 @@ export default function Landing() {
         <section className="py-20 px-4">
           <div className="container mx-auto max-w-6xl">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
+              <div className="space-y-6 animate-fade-in-up">
                 <Badge variant="secondary" className="gap-1.5">
                   <Zap className="w-3 h-3" />
                   For Domain Investors
@@ -112,17 +118,18 @@ export default function Landing() {
                 </p>
               </div>
 
-              <div className="relative">
+              <div className="relative animate-fade-in-up" style={{ animationDelay: "150ms" }}>
                 <Card className="p-6 bg-card/50 backdrop-blur">
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <h3 className="font-semibold text-foreground">Today's Top Drops</h3>
                     <Badge variant="outline">Live Preview</Badge>
                   </div>
                   <div className="space-y-3">
-                    {sampleDomains.map((domain) => (
+                    {sampleDomains.map((domain, i) => (
                       <div 
                         key={domain.name}
-                        className="flex items-center justify-between gap-2 p-3 bg-background rounded-lg border border-border"
+                        className="flex items-center justify-between gap-2 p-3 bg-background rounded-lg border border-border animate-fade-in-up"
+                        style={{ animationDelay: `${300 + i * 100}ms` }}
                       >
                         <div className="flex items-center gap-3">
                           <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold ${
@@ -171,9 +178,9 @@ export default function Landing() {
           </div>
         </section>
 
-        <section id="features" className="py-20 px-4">
+        <section id="features" className="py-20 px-4" ref={featuresRef}>
           <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-12">
+            <div className={`text-center mb-12 transition-all duration-500 ${featuresInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <h2 className="text-3xl font-bold text-foreground mb-4">
                 Everything you need to find deals
               </h2>
@@ -184,7 +191,11 @@ export default function Landing() {
             </div>
             <div className="grid sm:grid-cols-3 gap-6">
               {valueProps.map((prop, i) => (
-                <Card key={i} className="p-6 hover-elevate">
+                <Card
+                  key={i}
+                  className={`p-6 hover-elevate transition-all duration-500 ${featuresInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+                  style={{ transitionDelay: featuresInView ? `${i * 100}ms` : '0ms' }}
+                >
                   <div className="p-2 bg-primary/10 rounded-lg w-fit mb-4">
                     <prop.icon className="w-5 h-5 text-primary" />
                   </div>
@@ -196,16 +207,20 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="py-20 px-4 bg-muted/30">
+        <section className="py-20 px-4 bg-muted/30" ref={howRef}>
           <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-12">
+            <div className={`text-center mb-12 transition-all duration-500 ${howInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <h2 className="text-3xl font-bold text-foreground mb-4">
                 How It Works
               </h2>
             </div>
             <div className="grid sm:grid-cols-3 gap-8">
               {howItWorks.map((step) => (
-                <div key={step.step} className="text-center">
+                <div
+                  key={step.step}
+                  className={`text-center transition-all duration-500 ${howInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+                  style={{ transitionDelay: howInView ? `${(step.step - 1) * 120}ms` : '0ms' }}
+                >
                   <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <step.icon className="w-6 h-6 text-primary" />
                   </div>
@@ -218,9 +233,9 @@ export default function Landing() {
           </div>
         </section>
 
-        <section id="pro-features" className="py-20 px-4">
+        <section id="pro-features" className="py-20 px-4" ref={proRef}>
           <div className="container mx-auto max-w-4xl">
-            <Card className="p-8 bg-gradient-to-br from-primary/5 via-background to-accent/10 border-primary/20">
+            <Card className={`p-8 bg-gradient-to-br from-primary/5 via-background to-accent/10 border-primary/20 transition-all duration-600 ${proInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
               <div className="text-center mb-8">
                 <Badge variant="secondary" className="mb-4 gap-1.5 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
                   <Crown className="w-3.5 h-3.5" />
@@ -235,7 +250,11 @@ export default function Landing() {
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
                 {proFeatures.map((feature, i) => (
-                  <div key={i} className="flex items-center gap-3 p-3 bg-background rounded-lg border border-border">
+                  <div
+                    key={i}
+                    className={`flex items-center gap-3 p-3 bg-background rounded-lg border border-border transition-all duration-400 ${proInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                    style={{ transitionDelay: proInView ? `${200 + i * 60}ms` : '0ms' }}
+                  >
                     <div className="p-1.5 bg-primary/10 rounded">
                       <feature.icon className="w-4 h-4 text-primary" />
                     </div>

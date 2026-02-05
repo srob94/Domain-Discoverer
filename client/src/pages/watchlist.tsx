@@ -4,7 +4,6 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
 import { ScoreBadge } from "@/components/ScoreBadge";
 import { SavedSearchCard } from "@/components/SavedSearchCard";
 import { SavedSearchModal } from "@/components/SavedSearchModal";
@@ -177,7 +176,23 @@ export default function Watchlist() {
         {searchesLoading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[...Array(3)].map((_, i) => (
-              <Skeleton key={i} className="h-40 rounded-lg" />
+              <Card key={i} className="p-4 animate-fade-in-up" style={{ animationDelay: `${i * 60}ms` }}>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="h-5 w-32 rounded skeleton-shimmer" />
+                    <div className="h-5 w-16 rounded-full skeleton-shimmer" />
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="h-5 w-12 rounded-full skeleton-shimmer" />
+                    <div className="h-5 w-14 rounded-full skeleton-shimmer" />
+                  </div>
+                  <div className="h-4 w-24 rounded skeleton-shimmer" />
+                  <div className="flex items-center justify-between gap-2 pt-2 border-t border-border">
+                    <div className="h-8 w-20 rounded skeleton-shimmer" />
+                    <div className="h-8 w-8 rounded skeleton-shimmer" />
+                  </div>
+                </div>
+              </Card>
             ))}
           </div>
         ) : savedSearches.length === 0 ? (
@@ -219,10 +234,16 @@ export default function Watchlist() {
         </h2>
 
         {watchlistLoading ? (
-          <Card className="p-4">
+          <Card className="p-4 animate-fade-in">
             <div className="space-y-3">
               {[...Array(3)].map((_, i) => (
-                <Skeleton key={i} className="h-12 rounded" />
+                <div key={i} className="flex items-center gap-4 py-2 animate-fade-in-up" style={{ animationDelay: `${i * 60}ms` }}>
+                  <div className="h-4 flex-1 rounded skeleton-shimmer" />
+                  <div className="h-8 w-8 rounded-full skeleton-shimmer" />
+                  <div className="h-4 w-20 rounded skeleton-shimmer" />
+                  <div className="h-4 w-16 rounded skeleton-shimmer" />
+                  <div className="h-8 w-8 rounded skeleton-shimmer" />
+                </div>
               ))}
             </div>
           </Card>

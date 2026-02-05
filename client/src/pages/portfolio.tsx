@@ -260,8 +260,14 @@ export default function Portfolio() {
       {isLoading ? (
         <div className="space-y-3">
           {[1, 2, 3].map(i => (
-            <Card key={i} className="p-4 animate-pulse">
-              <div className="h-6 bg-muted rounded w-1/3" />
+            <Card key={i} className="p-4 skeleton-shimmer">
+              <div className="flex items-center justify-between gap-4">
+                <div className="space-y-2 flex-1">
+                  <div className="h-5 bg-muted rounded w-2/5" />
+                  <div className="h-4 bg-muted rounded w-1/4" />
+                </div>
+                <div className="h-8 bg-muted rounded w-20" />
+              </div>
             </Card>
           ))}
         </div>
