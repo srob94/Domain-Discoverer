@@ -1,0 +1,269 @@
+Got it — for the **free automated newsletter + popup acquisition flow**, you only need a small, high-impact set of emails.
+
+Here is the complete list of emails needed, with clean copy, scoped for MVP.
+
+---
+
+# Newsletter + Email Capture Emails (MVP Set)
+
+## 1. Newsletter Signup Confirmation (Popup Lead)
+
+**Subject:** You’re in — your first Drop Digest arrives soon
+**Preview:** Top domains dropping this week, ranked and filtered.
+
+Hi {{first_name}},
+
+Welcome to the **TLDTerminal Drop Digest**.
+
+Each week, we’ll send you:
+
+* The top dropping domains (scored)
+* Trend keywords rising in demand
+* Premium renewal traps to avoid
+
+Next digest goes out on {{send_day}}.
+
+In the meantime, you can view today’s ranked feed here:
+→ View Today’s Drops
+
+— TLDTerminal
+
+---
+
+## 2. Weekly Drop Digest (Free Newsletter)
+
+**Subject:** Weekly Drop Digest — Top Domains Dropping Soon
+**Preview:** Ranked opportunities + trending keywords this week.
+
+Hi {{first_name}},
+
+Here are the best dropping domains this week:
+
+### Top Drops (Score 80+)
+
+1. **{{domain_1}}** — Score {{score_1}} — Drops in {{time_1}}
+2. **{{domain_2}}** — Score {{score_2}} — Drops in {{time_2}}
+3. **{{domain_3}}** — Score {{score_3}} — Drops in {{time_3}}
+
+### Trending Keywords
+
+* “{{trend_1}}” ↑
+* “{{trend_2}}” ↑
+* “{{trend_3}}” ↑
+
+### Renewal Trap Warnings
+
+Avoid domains with premium renewals this week:
+
+* {{premium_domain_1}} ⚠️
+* {{premium_domain_2}} ⚠️
+
+Want the full ranked list + alerts before they drop?
+→ Start a Free Account
+
+— TLDTerminal
+
+---
+
+## 3. Newsletter → Account Activation Nudge
+
+(send after 1st digest click)
+
+**Subject:** Want alerts before these domains drop?
+**Preview:** Free accounts can watch domains instantly.
+
+Hi {{first_name}},
+
+If you want to track domains before they drop, create a free account and start watching names directly inside TLDTerminal.
+
+Free accounts include:
+
+* Daily drop feed
+* Watchlist (up to 10 domains)
+* Renewal trap warnings
+
+→ Create Free Account
+
+— TLDTerminal
+
+---
+
+## 4. Newsletter Upsell to Pro (Soft)
+
+(send after 2–3 digests)
+
+**Subject:** Pro investors automate drop tracking
+**Preview:** Saved searches + alerts do the work for you.
+
+Hi {{first_name}},
+
+The best investors don’t manually check drop lists — they automate deal flow.
+
+Pro unlocks:
+
+* Unlimited watchlists
+* Saved searches + instant alerts
+* AI Domain Builder
+* Trend + investor interest signals
+
+→ Start Pro Trial
+
+— TLDTerminal
+
+---
+
+# Core Product Emails (Needed Alongside Newsletter)
+
+## 5. Welcome Email (New Account)
+
+**Subject:** Welcome to TLDTerminal — today’s best drops are live
+**Preview:** Your ranked domain feed is ready.
+
+Hi {{first_name}},
+
+Welcome to **TLDTerminal**.
+
+You now have access to today’s drop feed — ranked, scored, and protected from premium renewal traps.
+
+Start here:
+→ View Today’s Drops
+
+Watch a few domains to get notified before they drop.
+
+— TLDTerminal
+
+---
+
+## 6. Watchlist Confirmation
+
+**Subject:** Added to your watchlist: {{domain}}
+**Preview:** We’ll track this drop timing for you.
+
+Hi {{first_name}},
+
+You just watched: **{{domain}}**
+
+Drops in: {{drops_in}}
+Score: {{score}}
+Renewal: ${{renewal_price}}/yr
+
+→ View Watchlist
+
+— TLDTerminal
+
+---
+
+## 7. Drop Alert (Pro)
+
+**Subject:** {{domain}} drops soon ({{drops_in}})
+**Preview:** This is your window to act.
+
+Hi {{first_name}},
+
+A watched domain is dropping soon:
+
+**{{domain}}**
+Drops in: {{drops_in}}
+Score: {{score}}
+Renewal: ${{renewal_price}}/yr
+
+Buy before it’s gone:
+→ Purchase Link
+
+— TLDTerminal Alerts
+
+---
+
+## 8. Saved Search Match Alert (Pro)
+
+**Subject:** New domains match your saved search: {{search_name}}
+**Preview:** {{match_count}} new opportunities today.
+
+Hi {{first_name}},
+
+Your saved search found **{{match_count}} new matches**.
+
+Top results:
+
+* {{domain_1}} (Score {{score_1}})
+* {{domain_2}} (Score {{score_2}})
+
+→ View Matches
+
+— TLDTerminal
+
+---
+
+# Upgrade + Trial Emails
+
+## 9. Trial Start
+
+**Subject:** Your Pro trial is active — alerts are now running
+**Preview:** Saved searches and automation are unlocked.
+
+Welcome to Pro, {{first_name}}.
+
+You’ve unlocked:
+
+* Unlimited tracking
+* Alerts + saved searches
+* AI Builder
+* Trend signals
+
+Next step:
+→ Create Your First Saved Search
+
+— TLDTerminal
+
+---
+
+## 10. Trial Ending Soon
+
+**Subject:** Your Pro trial ends in {{days_left}} days
+**Preview:** Keep alerts running without interruption.
+
+Hi {{first_name}},
+
+Your Pro trial ends in {{days_left}} days.
+
+Continue Pro to keep:
+
+* Drop alerts
+* Saved searches
+* AI Builder
+* Investor signals
+
+→ Manage Subscription
+
+— TLDTerminal
+
+---
+
+# MVP Newsletter Email Set Summary
+
+### Minimum Required (Launch Ready)
+
+1. Newsletter signup confirmation
+2. Weekly Drop Digest
+3. Welcome email (account)
+4. Drop alert (Pro)
+5. Trial start + trial ending
+
+### Nice-to-have Upsells
+
+6. Newsletter → free account nudge
+7. Pro automation upsell
+
+---
+
+# Best Automation Triggers
+
+* Popup signup → Confirmation email
+* Weekly cron → Digest email
+* Account signup → Welcome email
+* Watch domain → Drop alert (Pro only)
+* Trial start/end → Billing lifecycle
+
+---
+
+If you want, I can package these into a **Customer.io / Loops / Mailchimp import file**, or write the exact Supabase event triggers for sending each one automatically.

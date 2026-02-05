@@ -162,3 +162,44 @@ export interface EmailLog {
   sentAt: string;
   status: "sent" | "failed" | "mock";
 }
+
+// Admin types
+export interface AdminStats {
+  totalUsers: number;
+  proUsers: number;
+  trialUsers: number;
+  domainsToday: number;
+  alertsSentToday: number;
+  failedEmails: number;
+  lastIngestTime: string | null;
+}
+
+export interface AdminUser {
+  id: string;
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  isPro: boolean;
+  isAdmin: boolean;
+  watchlistCount: number;
+  savedSearchCount: number;
+  createdAt: string | null;
+  lastActiveAt: string | null;
+}
+
+export interface AdminDomain extends Domain {
+  isHidden: boolean;
+  isFlagged: boolean;
+  isFeatured: boolean;
+}
+
+export interface AdminSettings {
+  enabledTlds: string[];
+  blockedTlds: string[];
+  premiumRenewalThreshold: number;
+  featureFlags: {
+    aiBuilder: boolean;
+    trendBadges: boolean;
+    investorInterest: boolean;
+  };
+}

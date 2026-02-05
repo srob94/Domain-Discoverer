@@ -12,7 +12,7 @@ import {
   emailTypeEnum
 } from "@shared/schema";
 import { sendEmail, getEmailLogs, renderEmailPreview } from "./emailService";
-import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
+import { setupAuth, registerAuthRoutes, authStorage } from "./replit_integrations/auth";
 
 const insertSavedSearchSchema = z.object({
   name: z.string().min(1),
@@ -26,6 +26,30 @@ const insertSavedSearchSchema = z.object({
 
 const updateAlertsSchema = z.object({
   alertsEnabled: z.boolean()
+});
+
+const updateAdminDomainSchema = z.object({
+  isHidden: z.boolean().optional(),
+  isFlagged: z.boolean().optional(),
+  isFeatured: z.boolean().optional(),
+  score: z.number().min(0).max(100).optional()
+});
+
+const updateAdminUserSchema = z.object({
+  isPro: z.boolean().optional(),
+  isAdmin: z.boolean().optional(),
+  isDisabled: z.boolean().optional()
+});
+
+const updateAdminSettingsSchema = z.object({
+  enabledTlds: z.array(z.string()).optional(),
+  blockedTlds: z.array(z.string()).optional(),
+  premiumRenewalThreshold: z.number().min(0).optional(),
+  featureFlags: z.object({
+    aiBuilder: z.boolean(),
+    trendBadges: z.boolean(),
+    investorInterest: z.boolean()
+  }).optional()
 });
 
 export async function registerRoutes(
@@ -328,6 +352,115 @@ export async function registerRoutes(
       res.json(preview);
     } catch (error) {
       res.status(500).json({ error: "Failed to render email preview" });
+    }
+  });
+
+  const requireAdmin = async (req: any, res: any, next: any) => {
+    if (!req.user || !req.user.claims?.sub) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    try {
+      const dbUser = await authStorage.getUser(req.user.claims.sub);
+      if (!dbUser || !dbUser.isAdmin) {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+      req.dbUser = dbUser;
+      next();
+    } catch (error) {
+      return res.status(500).json({ message: "Failed to verify admin status" });
+    }
+  };
+
+  app.get("/api/admin/stats", requireAdmin, async (req, res) => {
+    try {
+      const stats = await storage.getAdminStats();
+      res.json(stats);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch admin stats" });
+    }
+  });
+
+  app.get("/api/admin/domains", requireAdmin, async (req, res) => {
+    try {
+      const domains = await storage.getAdminDomains();
+      res.json(domains);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch admin domains" });
+    }
+  });
+
+  app.patch("/api/admin/domains/:id", requireAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const parsed = updateAdminDomainSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.issues });
+      }
+      const updated = await storage.updateAdminDomain(id, parsed.data);
+      if (!updated) {
+        return res.status(404).json({ error: "Domain not found" });
+      }
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update domain" });
+    }
+  });
+
+  app.get("/api/admin/users", requireAdmin, async (req, res) => {
+    try {
+      const search = req.query.search as string || "";
+      const users = await storage.getAdminUsers(search);
+      res.json(users);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
+  app.patch("/api/admin/users/:id", requireAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const parsed = updateAdminUserSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.issues });
+      }
+      const updated = await storage.updateAdminUser(id, parsed.data);
+      if (!updated) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update user" });
+    }
+  });
+
+  app.get("/api/admin/settings", requireAdmin, async (req, res) => {
+    try {
+      const settings = await storage.getAdminSettings();
+      res.json(settings);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch settings" });
+    }
+  });
+
+  app.put("/api/admin/settings", requireAdmin, async (req, res) => {
+    try {
+      const parsed = updateAdminSettingsSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.issues });
+      }
+      const settings = await storage.updateAdminSettings(parsed.data);
+      res.json(settings);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update settings" });
+    }
+  });
+
+  app.get("/api/admin/alerts", requireAdmin, async (req, res) => {
+    try {
+      const alerts = await storage.getAdminAlertLogs();
+      res.json(alerts);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch alert logs" });
     }
   });
 

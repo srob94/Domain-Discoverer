@@ -8,8 +8,13 @@ import type {
   PortfolioItem,
   InsertPortfolioItem,
   Notification,
-  InsertNotification
+  InsertNotification,
+  AdminStats,
+  AdminDomain,
+  AdminUser,
+  AdminSettings
 } from "@shared/schema";
+import { getEmailLogs } from "./emailService";
 
 export interface IStorage {
   getDomains(): Promise<Domain[]>;
@@ -32,6 +37,15 @@ export interface IStorage {
   createNotification(userId: string, notification: InsertNotification): Promise<Notification>;
   markNotificationAsRead(id: string, userId: string): Promise<Notification | undefined>;
   markAllNotificationsAsRead(userId: string): Promise<void>;
+  
+  getAdminStats(): Promise<AdminStats>;
+  getAdminDomains(): Promise<AdminDomain[]>;
+  updateAdminDomain(id: string, update: Partial<AdminDomain>): Promise<AdminDomain | undefined>;
+  getAdminUsers(search: string): Promise<AdminUser[]>;
+  updateAdminUser(id: string, update: { isPro?: boolean; isAdmin?: boolean; isDisabled?: boolean }): Promise<AdminUser | undefined>;
+  getAdminSettings(): Promise<AdminSettings>;
+  updateAdminSettings(settings: Partial<AdminSettings>): Promise<AdminSettings>;
+  getAdminAlertLogs(): Promise<any[]>;
 }
 
 const mockDomains: Domain[] = [
@@ -153,6 +167,8 @@ export class MemStorage implements IStorage {
   private savedSearches: Map<string, SavedSearch>;
   private portfolio: Map<string, PortfolioItem>;
   private notifications: Map<string, Notification>;
+  private adminDomainState: Map<string, { isHidden: boolean; isFlagged: boolean; isFeatured: boolean }>;
+  private adminSettings: AdminSettings;
 
   constructor() {
     this.domains = new Map();
@@ -160,6 +176,17 @@ export class MemStorage implements IStorage {
     this.savedSearches = new Map();
     this.portfolio = new Map();
     this.notifications = new Map();
+    this.adminDomainState = new Map();
+    this.adminSettings = {
+      enabledTlds: [".com", ".io", ".net", ".dev", ".co"],
+      blockedTlds: [".xyz", ".top", ".info"],
+      premiumRenewalThreshold: 100,
+      featureFlags: {
+        aiBuilder: true,
+        trendBadges: true,
+        investorInterest: true
+      }
+    };
 
     mockDomains.forEach((domain) => {
       this.domains.set(domain.id, domain);
@@ -411,6 +438,86 @@ export class MemStorage implements IStorage {
         this.notifications.set(id, { ...notification, readAt: now });
       }
     });
+  }
+
+  async getAdminStats(): Promise<AdminStats> {
+    const domains = Array.from(this.domains.values());
+    const allLogs = getEmailLogs();
+    const today = new Date().toISOString().split('T')[0];
+    const todayLogs = allLogs.filter(log => log.sentAt.startsWith(today));
+    
+    return {
+      totalUsers: 42,
+      proUsers: 8,
+      trialUsers: 5,
+      domainsToday: domains.length,
+      alertsSentToday: todayLogs.filter(l => l.type.includes('alert')).length,
+      failedEmails: todayLogs.filter(l => l.status === 'failed').length,
+      lastIngestTime: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString()
+    };
+  }
+
+  async getAdminDomains(): Promise<AdminDomain[]> {
+    const domains = Array.from(this.domains.values());
+    return domains.map(d => ({
+      ...d,
+      isHidden: this.adminDomainState.get(d.id)?.isHidden || false,
+      isFlagged: this.adminDomainState.get(d.id)?.isFlagged || false,
+      isFeatured: this.adminDomainState.get(d.id)?.isFeatured || false
+    }));
+  }
+
+  async updateAdminDomain(id: string, update: Partial<AdminDomain>): Promise<AdminDomain | undefined> {
+    const domain = this.domains.get(id);
+    if (!domain) return undefined;
+    
+    const currentState = this.adminDomainState.get(id) || { isHidden: false, isFlagged: false, isFeatured: false };
+    const newState = { ...currentState, ...update };
+    this.adminDomainState.set(id, newState);
+    
+    if (update.score !== undefined) {
+      this.domains.set(id, { ...domain, score: update.score });
+    }
+    
+    return {
+      ...this.domains.get(id)!,
+      ...newState
+    };
+  }
+
+  async getAdminUsers(search: string): Promise<AdminUser[]> {
+    const mockUsers: AdminUser[] = [
+      { id: "1", email: "john@example.com", firstName: "John", lastName: "Doe", isPro: true, isAdmin: false, watchlistCount: 8, savedSearchCount: 3, createdAt: "2024-01-15", lastActiveAt: "2024-02-04" },
+      { id: "2", email: "jane@example.com", firstName: "Jane", lastName: "Smith", isPro: false, isAdmin: false, watchlistCount: 5, savedSearchCount: 1, createdAt: "2024-02-01", lastActiveAt: "2024-02-05" },
+      { id: "3", email: "admin@tldterminal.com", firstName: "Admin", lastName: "User", isPro: true, isAdmin: true, watchlistCount: 0, savedSearchCount: 0, createdAt: "2024-01-01", lastActiveAt: "2024-02-05" },
+      { id: "4", email: "trial@example.com", firstName: "Trial", lastName: "User", isPro: false, isAdmin: false, watchlistCount: 2, savedSearchCount: 0, createdAt: "2024-02-03", lastActiveAt: "2024-02-05" },
+    ];
+    
+    if (!search) return mockUsers;
+    const searchLower = search.toLowerCase();
+    return mockUsers.filter(u => 
+      u.email?.toLowerCase().includes(searchLower) ||
+      u.firstName?.toLowerCase().includes(searchLower) ||
+      u.lastName?.toLowerCase().includes(searchLower)
+    );
+  }
+
+  async updateAdminUser(id: string, update: { isPro?: boolean; isAdmin?: boolean; isDisabled?: boolean }): Promise<AdminUser | undefined> {
+    return { id, email: "user@example.com", firstName: "Updated", lastName: "User", isPro: update.isPro ?? false, isAdmin: update.isAdmin ?? false, watchlistCount: 0, savedSearchCount: 0, createdAt: "2024-01-01", lastActiveAt: "2024-02-05" };
+  }
+
+  async getAdminSettings(): Promise<AdminSettings> {
+    return this.adminSettings;
+  }
+
+  async updateAdminSettings(settings: Partial<AdminSettings>): Promise<AdminSettings> {
+    this.adminSettings = { ...this.adminSettings, ...settings };
+    return this.adminSettings;
+  }
+
+  async getAdminAlertLogs(): Promise<any[]> {
+    const allLogs = getEmailLogs();
+    return allLogs.slice(0, 50);
   }
 }
 

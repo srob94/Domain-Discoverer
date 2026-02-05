@@ -8,6 +8,7 @@ The project follows a full-stack TypeScript architecture with a React frontend a
 
 ## Recent Changes
 
+- **Admin Portal** (Feb 2026): Added admin-only portal at /admin with dashboard, domain moderation, user management, and settings pages
 - **Pricing Page & Portal** (Feb 2026): Added dedicated /pricing page with two-tier layout (Starter Free vs Pro $79/mo), feature comparison table, FAQ section, and CTA sections
 - **ProFeatureLock Enhancements** (Feb 2026): Updated with specific gating copy for each feature type (ai_builder, saved_searches, portfolio, alerts, trend_signals, investor_interest)
 - **ProWelcome Component** (Feb 2026): Added post-upgrade success modal with onboarding CTA
@@ -34,6 +35,7 @@ Preferred communication style: Simple, everyday language.
 
 The frontend is organized under `client/src/` with:
 - `pages/` - Route-level components (daily-drop-feed, watchlist, builder, portfolio, pricing, landing)
+- `pages/admin/` - Admin portal pages (dashboard, domains, users, settings, layout)
 - `components/` - Reusable UI components including domain cards, filters, modals, Pro locks, and ProWelcome
 - `components/ui/` - shadcn/ui primitives (buttons, cards, dialogs, accordions, etc.)
 - `contexts/` - React contexts for user state and plan management
@@ -105,6 +107,22 @@ Current data models include:
   - POST /api/emails/send - Send transactional email (authenticated)
   - GET /api/emails/logs - Get user's email logs (authenticated)
   - POST /api/emails/preview - Preview email template with variables
+
+### Admin Portal
+- **Access Control**: Protected by isAdmin flag on user; requireAdmin middleware on API routes
+- **Pages**: Dashboard, Domains, Users, Settings (under /admin/* routes)
+- **Dashboard Features**: Pipeline health stats, MRR calculations, user/domain counts, alert tracking
+- **Domain Management**: Hide/flag/feature domains, score adjustments, search/filter
+- **User Management**: View all users, grant/revoke Pro status, search by email/name
+- **Settings**: Enabled/blocked TLD lists, premium renewal threshold, feature flags (AI Builder, Trend Badges, Investor Interest)
+- **API Routes**:
+  - GET /api/admin/stats - Pipeline stats and metrics
+  - GET /api/admin/domains - All domains with moderation state
+  - PATCH /api/admin/domains/:id - Update domain flags/score
+  - GET /api/admin/users - Search/list all users
+  - PATCH /api/admin/users/:id - Update user Pro/Admin status
+  - GET/PUT /api/admin/settings - TLD lists and feature flags
+  - GET /api/admin/alerts - Email alert logs
 
 ### Shared Code
 The `shared/` directory contains TypeScript types and schemas used by both frontend and backend, ensuring type safety across the stack.
