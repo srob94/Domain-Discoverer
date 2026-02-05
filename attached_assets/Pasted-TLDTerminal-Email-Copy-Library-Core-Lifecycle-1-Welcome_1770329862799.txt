@@ -1,0 +1,322 @@
+TLDTerminal Email Copy Library (Core Lifecycle)
+1. Welcome Email (Signup)
+
+Subject: Welcome to TLDTerminal — today’s best drops are live
+Preview: Your daily domain deal terminal starts now.
+
+Hi {{first_name}},
+
+Welcome to TLDTerminal.
+
+You now have access to today’s ranked drop feed — domains dropping soon, scored for resale potential, and flagged for premium renewal traps.
+
+Start here:
+→ View today’s drop list
+
+Pro tip: Watch a few domains so we can notify you before they drop.
+
+See you inside,
+— TLDTerminal
+
+2. Activation Nudge (No Watchlist Yet)
+
+Subject: Watch your first domain (it’s the fastest way to win drops)
+Preview: Most investors start with 3–5 watches.
+
+Hi {{first_name}},
+
+Quick tip: the best way to use TLDTerminal is to watch domains early.
+
+When you watch a name, you’ll be ready when it drops — before everyone else.
+
+Start watching here:
+→ Today’s Drop Feed
+
+— TLDTerminal
+
+3. Watchlist Confirmation
+
+Subject: Added to your watchlist: {{domain}}
+Preview: We’ll track this drop timing for you.
+
+Hi {{first_name}},
+
+You just watched: {{domain}}
+
+Drop status: {{status}}
+Drops in: {{drops_in}}
+Renewal: ${{renewal_price}}/yr
+
+We’ll notify you when it gets close.
+
+→ View Watchlist
+
+— TLDTerminal
+
+4. Watchlist Limit Upgrade Trigger (Free → Pro)
+
+Subject: Your watchlist is full — don’t miss drops
+Preview: Upgrade for unlimited tracking + alerts.
+
+Hi {{first_name}},
+
+You’ve hit the Starter watchlist limit (10 domains).
+
+Pro investors use TLDTerminal to track unlimited names and get drop alerts automatically.
+
+Upgrade unlocks:
+
+Unlimited watchlist
+
+Drop notifications
+
+Saved searches
+
+AI Domain Builder
+
+→ Upgrade to Pro
+
+— TLDTerminal
+
+5. Saved Search Locked (High Intent Upgrade)
+
+Subject: Automate your deal flow with Saved Searches
+Preview: Get alerted when new high-score domains drop.
+
+Hi {{first_name}},
+
+Saved Searches are how serious investors never miss opportunities.
+
+Example:
+“2-word AI .com, score > 80, renewal < $30”
+
+Pro unlocks:
+
+Unlimited saved searches
+
+Instant match alerts
+
+Trend + investor interest signals
+
+→ Start Pro Trial
+
+— TLDTerminal
+
+6. Trial Start Email
+
+Subject: Your Pro trial is active — alerts are now running
+Preview: The terminal is fully unlocked.
+
+Hi {{first_name}},
+
+Welcome to Pro. Your trial is now active.
+
+You’ve unlocked:
+
+Unlimited watchlist
+
+Saved searches + alerts
+
+AI Domain Builder
+
+Trend + investor interest signals
+
+Portfolio renewal tracking
+
+Start here:
+→ Create your first saved search
+
+— TLDTerminal
+
+7. Drop Alert Email (Most Valuable)
+
+Subject: {{domain}} drops soon ({{drops_in}})
+Preview: This is your window to act.
+
+Hi {{first_name}},
+
+A watched domain is dropping soon:
+
+{{domain}}
+Drops in: {{drops_in}}
+Score: {{score}}
+Renewal: ${{renewal_price}}/yr
+
+Buy now before it’s gone:
+→ Purchase Link
+
+— TLDTerminal Alerts
+
+8. Saved Search Match Alert (Pro)
+
+Subject: New domains match your search: “{{search_name}}”
+Preview: {{match_count}} new opportunities today.
+
+Hi {{first_name}},
+
+Your saved search just found {{match_count}} new matches:
+
+Top results:
+
+{{domain_1}} (Score {{score_1}})
+
+{{domain_2}} (Score {{score_2}})
+
+{{domain_3}} (Score {{score_3}})
+
+→ View Matches
+
+— TLDTerminal
+
+9. Premium Renewal Warning
+
+Subject: Renewal warning on {{domain}}
+Preview: Premium renewals can destroy ROI.
+
+Hi {{first_name}},
+
+Heads up — one of your watched domains has a premium renewal cost:
+
+{{domain}}
+Renewal: ${{renewal_price}}/yr ⚠️
+
+Premium renewals can be a long-term holding risk.
+
+→ Review Domain
+
+— TLDTerminal
+
+10. Investor Interest Signal (Pro Engagement)
+
+Subject: Investors are watching {{domain}}
+Preview: Rising interest may mean competition.
+
+Hi {{first_name}},
+
+Investor interest is increasing:
+
+{{domain}}
+Watchlisted by: {{watch_count}} investors
+Score: {{score}}
+Drops in: {{drops_in}}
+
+This may get competitive quickly.
+
+→ View Domain
+
+— TLDTerminal
+
+11. Trial Ending Soon
+
+Subject: Your Pro trial ends in {{days_left}} days
+Preview: Keep alerts running without interruption.
+
+Hi {{first_name}},
+
+Your Pro trial ends in {{days_left}} days.
+
+To keep:
+
+Drop alerts
+
+Saved searches
+
+AI Builder
+
+Investor interest signals
+
+Continue Pro here:
+→ Manage Subscription
+
+— TLDTerminal
+
+12. Conversion Email (Trial → Paid)
+
+Subject: Keep your edge — Pro stays active
+Preview: Don’t lose automation right before drops.
+
+Hi {{first_name}},
+
+Investors who win consistently don’t rely on manual searching.
+
+Pro keeps your deal flow automated with:
+
+Alerts
+
+Saved searches
+
+Trend + watch signals
+
+Renewal protection
+
+→ Stay on Pro
+
+— TLDTerminal
+
+13. Churn Save / Cancellation Email
+
+Subject: Before you go — want to pause instead?
+Preview: Don’t lose your watchlists and searches.
+
+Hi {{first_name}},
+
+Sorry to see you go.
+
+If cost is the issue, you can pause instead of canceling — your watchlist and searches stay saved.
+
+Or tell us what would make Pro worth it.
+
+→ Manage Subscription
+
+— TLDTerminal Team
+
+14. Weekly Digest (Retention Driver)
+
+Subject: Weekly Drop Digest — top domains this week
+Preview: Best opportunities + trending keywords.
+
+Hi {{first_name}},
+
+Here are the top opportunities this week:
+
+Top drops:
+
+{{domain_1}} (Score {{score_1}})
+
+{{domain_2}} (Score {{score_2}})
+
+Trending keywords:
+
+“agent” ↑
+
+“vault” ↑
+
+“ledger” ↑
+
+→ View Full Digest
+
+— TLDTerminal
+
+Core Email Set Summary (Must Ship)
+
+Welcome
+
+Activation nudge
+
+Watchlist confirmation
+
+Watchlist limit upgrade
+
+Saved search upgrade
+
+Trial start
+
+Drop alert
+
+Search match alert
+
+Trial ending
+
+Weekly digest
+
+That’s enough to monetize.

@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ProFeatureLock } from "@/components/ProFeatureLock";
 import { 
   Briefcase, 
   Crown, 
@@ -16,6 +17,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/contexts/UserContext";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { PortfolioItem } from "@shared/schema";
 import {
@@ -31,6 +33,7 @@ import { Label } from "@/components/ui/label";
 import { differenceInDays, format, parseISO } from "date-fns";
 
 export default function Portfolio() {
+  const { isPro } = useUser();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
     domain: "",
@@ -115,41 +118,46 @@ export default function Portfolio() {
         </Badge>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
-        <Card className="p-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <DollarSign className="w-5 h-5 text-primary" />
+      <ProFeatureLock 
+        feature="Portfolio Tracking" 
+        description="Track your owned domains, renewal costs, and get alerts before expiration."
+      >
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Card className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <DollarSign className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Annual Renewal Cost</p>
+                <p className="text-xl font-bold text-foreground">${totalRenewalCost.toFixed(2)}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Annual Renewal Cost</p>
-              <p className="text-xl font-bold text-foreground">${totalRenewalCost.toFixed(2)}</p>
+          </Card>
+          <Card className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
+                <Calendar className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Renewals Due (30 days)</p>
+                <p className="text-xl font-bold text-foreground">{renewalsDueSoon.length}</p>
+              </div>
             </div>
-          </div>
-        </Card>
-        <Card className="p-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
-              <Calendar className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+          </Card>
+          <Card className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                <Briefcase className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Total Domains</p>
+                <p className="text-xl font-bold text-foreground">{portfolio.length}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Renewals Due (30 days)</p>
-              <p className="text-xl font-bold text-foreground">{renewalsDueSoon.length}</p>
-            </div>
-          </div>
-        </Card>
-        <Card className="p-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-              <Briefcase className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Total Domains</p>
-              <p className="text-xl font-bold text-foreground">{portfolio.length}</p>
-            </div>
-          </div>
-        </Card>
-      </div>
+          </Card>
+        </div>
+      </ProFeatureLock>
 
       <Card className="p-6 border-dashed border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-900/10">
         <div className="flex items-start gap-4">

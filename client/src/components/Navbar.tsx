@@ -1,16 +1,28 @@
 import { Link, useLocation } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Terminal, Crown, Home, Bookmark, Sparkles, Briefcase } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Search, Terminal, Crown, Home, Bookmark, Sparkles, Briefcase, LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/contexts/UserContext";
+import type { User as AuthUser } from "@shared/schema";
 
 interface NavbarProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
+  user?: AuthUser | null;
 }
 
-export function Navbar({ searchQuery, onSearchChange }: NavbarProps) {
+export function Navbar({ searchQuery, onSearchChange, user }: NavbarProps) {
   const [location] = useLocation();
+  const { triggerUpgrade } = useUser();
 
   const navLinks = [
     { href: "/", label: "Feed", icon: Home },
@@ -18,6 +30,20 @@ export function Navbar({ searchQuery, onSearchChange }: NavbarProps) {
     { href: "/builder", label: "AI Builder", icon: Sparkles },
     { href: "/portfolio", label: "Portfolio", icon: Briefcase }
   ];
+
+  const handleUpgradeClick = () => {
+    triggerUpgrade("Upgrade to Pro to unlock all features");
+  };
+
+  const getInitials = () => {
+    if (user?.firstName && user?.lastName) {
+      return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
+    }
+    if (user?.email) {
+      return user.email[0].toUpperCase();
+    }
+    return "U";
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
@@ -78,10 +104,41 @@ export function Navbar({ searchQuery, onSearchChange }: NavbarProps) {
           variant="default"
           size="sm"
           className="gap-1.5 hidden sm:flex"
+          onClick={handleUpgradeClick}
         >
           <Crown className="w-4 h-4" />
           Upgrade to Pro
         </Button>
+
+        {user && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="rounded-full" data-testid="button-user-menu">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={user.profileImageUrl || undefined} alt={user.firstName || "User"} />
+                  <AvatarFallback>{getInitials()}</AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <div className="px-2 py-1.5">
+                <p className="text-sm font-medium text-foreground">
+                  {user.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : user.email}
+                </p>
+                {user.email && user.firstName && (
+                  <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                )}
+              </div>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <a href="/api/logout" className="flex items-center gap-2 cursor-pointer">
+                  <LogOut className="w-4 h-4" />
+                  Log out
+                </a>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
 
         <nav className="flex md:hidden items-center gap-1">
           {navLinks.map((link) => {

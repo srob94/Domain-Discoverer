@@ -1,0 +1,337 @@
+Core Features (Investor MVP)
+1. Daily Drop Feed (Primary Product)
+
+Ranked list of dropping/expiring domains
+
+Score badge (0–100)
+
+Drop countdown (“Drops in 12h”)
+
+Status pill (Dropping / Expiring / Auction)
+
+Renewal price shown clearly
+
+Premium renewal warning badge
+
+Actions: Watch + Buy Link
+
+2. Domain Scoring Engine (Decision Layer)
+
+Scoring inputs (V1):
+
+Length bonus (shorter = higher)
+
+Clean format (no hyphens/numbers)
+
+Extension weighting (.com > .io > others)
+
+Keyword quality/readability
+
+Trend boost (optional)
+
+Renewal risk penalty
+
+Outputs:
+
+Total score
+
+Simple reason tags (“Trending”, “Strong Buy”)
+
+3. Premium Renewal Trap Detection (Key Differentiator)
+
+For every surfaced domain:
+
+Registration price
+
+Renewal price/year
+
+Premium renewal warning if renewal is unusually high
+
+Example:
+Renewal: $250/year ⚠️ Premium Renewal
+
+4. Filtering + Search (Workflow)
+
+TLD selector (.com, .io, .ai…)
+
+Minimum score threshold (75+, 85+)
+
+Hide premium renewals toggle
+
+Trending-only toggle (Pro)
+
+Global domain search bar
+
+5. Watchlist (Retention Core)
+
+Save/unwatch domains
+
+Dedicated Watchlist page
+
+Drop countdown + renewal cost visible
+
+Starter limit (10) → upgrade trigger
+
+6. Saved Searches + Alerts Builder (Highest SaaS Value)
+
+Saved search modal includes:
+
+Search name
+
+Keywords (chips input)
+
+TLD multi-select
+
+Status filter
+
+Minimum score slider
+
+Max renewal cost cap
+
+Alerts toggle
+
+Saved searches show:
+
+Match count
+
+Alerts status
+
+7. Notifications Widget (Sticky UX)
+
+Top-nav bell icon with:
+
+Drop soon alerts
+
+Saved search matches (Pro)
+
+Premium renewal warnings
+
+Upgrade prompts
+
+8. Email Alerts (MVP Delivery)
+
+Triggers:
+
+Domain drops in <12h
+
+New saved search match
+
+Domain becomes available
+
+Delivery:
+
+Email only (push later)
+
+9. AI Domain Builder (Pro Feature)
+
+Workflow:
+
+User enters niche (“AI accounting”)
+
+AI generates 20–50 candidate names
+
+App checks availability + renewal safety
+
+User can Watch or Buy immediately
+
+10. Trend Signals (Google Trends-lite, Pro)
+
+Keyword trending badge (“agent ↑”)
+
+Simple trend score: Flat / Rising / Breakout
+
+No heavy charts in MVP
+
+11. Investor Interest Metrics (Pro Monetization Feature)
+
+Pro users see:
+
+“Watchlisted by 12 investors”
+
+“Saved in 4 portfolios”
+
+Starter users see:
+
+“Investor interest (Pro)”
+
+12. Portfolio Lite (Renewal Exposure Tracker, Pro)
+
+Users manually add domains:
+
+Domain name
+
+Purchase price
+
+Renewal date
+
+Renewal cost
+
+Strategy: Hold / Drop
+
+Dashboard shows:
+
+Annual renewal exposure
+
+Renewals due soon
+
+Drop candidates (low score + high cost)
+
+Integrations + Data Sources
+Domain Supply (Dropping Domains)
+
+Apify ExpiredDomains Scraper API
+
+Pending delete + drop lists
+
+MVP shortcut before paid enterprise feeds
+
+Availability + Pricing + Renewal Data
+Namecheap API (Recommended)
+
+domains.check
+
+domains.get-tld-list
+
+Pricing + premium detection
+
+Spaceship API (Optional alternative)
+
+Bulk availability + renewal checks
+
+Investor-friendly pricing
+
+Canonical TLD Database
+
+Namecheap get-tld-list for supported TLDs
+
+IANA Root Zone file later for full authoritative coverage
+
+Payments + Monetization
+
+Stripe subscriptions (Starter vs Pro)
+
+Feature gating enforced server-side
+
+Alerts + Messaging
+
+SendGrid or Mailgun (email delivery)
+
+Cron job / queue runner
+
+Databases / Storage (Supabase-first)
+Supabase Core Tables
+domains
+
+fqdn
+
+tld
+
+length
+
+clean_flag
+
+domain_status
+
+status (dropping/expiring/available)
+
+drop_time
+
+domain_pricing
+
+reg_price
+
+renewal_price
+
+premium_renewal_flag
+
+domain_scores
+
+score
+
+score_reason_json
+
+watchlists
+
+user_id
+
+domain_id
+
+saved_searches
+
+user_id
+
+query_json
+
+alerts_enabled
+
+notifications
+
+user_id
+
+type
+
+message
+
+read_at
+
+portfolio_domains (Pro)
+
+purchase_price
+
+renewal_date
+
+notes
+
+AI Features (High-Leverage Only)
+1. AI Domain Builder (Core AI Feature)
+
+Keyword → brandable domain suggestions
+
+Availability + renewal safety overlay
+
+2. AI Score Explanations (Trust Layer)
+
+Example:
+“Ranks high because it’s short, clean, trending keyword, safe renewal.”
+
+3. AI Junk Filtering (Automation)
+
+Auto-remove:
+
+spam patterns
+
+unbrandable strings
+
+low-quality drops
+
+4. Conversational Search (Phase 2)
+
+User query:
+“Show me 2-word AI .com domains dropping this week under $30 renewal.”
+
+Final MVP + Pro Package (Perfect Launch)
+Starter (Free / $29)
+
+Daily feed (Top 25)
+
+Watchlist (10 max)
+
+Scoring + renewal warnings
+
+Pro ($79–$149)
+
+Unlimited watchlist
+
+Saved searches + alerts
+
+AI Builder
+
+Trend badges
+
+Investor interest counts
+
+Portfolio Lite
+
+Summary One-Liner
+
+TLDTerminal Lite is a daily ranked domain drop terminal with scoring, renewal trap protection, watchlists, AI discovery tools, and Pro automation signals for serious investors.

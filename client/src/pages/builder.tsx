@@ -5,8 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ScoreBadge";
+import { ProFeatureLock } from "@/components/ProFeatureLock";
 import { Sparkles, Crown, Wand2, Lock, ArrowRight, Eye, ExternalLink, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/contexts/UserContext";
 import { apiRequest } from "@/lib/queryClient";
 import type { GeneratedDomain } from "@shared/schema";
 import {
@@ -16,6 +18,7 @@ import {
 } from "@/components/ui/tooltip";
 
 export default function Builder() {
+  const { isPro } = useUser();
   const [keyword, setKeyword] = useState("");
   const [generatedDomains, setGeneratedDomains] = useState<GeneratedDomain[]>([]);
   const [explanation, setExplanation] = useState<{ domain: string; text: string } | null>(null);
@@ -89,40 +92,45 @@ export default function Builder() {
         </Badge>
       </div>
 
-      <Card className="p-6 bg-gradient-to-br from-primary/5 via-background to-accent/10 border-primary/20">
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="relative flex-1">
-            <Wand2 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-            <Input
-              data-testid="input-keyword"
-              type="text"
-              placeholder="Enter a keyword or niche (e.g., fintech, health, crypto)"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="pl-10 h-12 text-base"
-            />
+      <ProFeatureLock 
+        feature="AI Domain Builder" 
+        description="Generate high-quality domain ideas with AI-powered suggestions and market analysis."
+      >
+        <Card className="p-6 bg-gradient-to-br from-primary/5 via-background to-accent/10 border-primary/20">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="relative flex-1">
+              <Wand2 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <Input
+                data-testid="input-keyword"
+                type="text"
+                placeholder="Enter a keyword or niche (e.g., fintech, health, crypto)"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="pl-10 h-12 text-base"
+              />
+            </div>
+            <Button
+              data-testid="button-generate"
+              onClick={handleGenerate}
+              disabled={!keyword.trim() || generateMutation.isPending}
+              className="h-12 px-6 gap-2"
+            >
+              {generateMutation.isPending ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4" />
+                  Generate Domains
+                </>
+              )}
+            </Button>
           </div>
-          <Button
-            data-testid="button-generate"
-            onClick={handleGenerate}
-            disabled={!keyword.trim() || generateMutation.isPending}
-            className="h-12 px-6 gap-2"
-          >
-            {generateMutation.isPending ? (
-              <>
-                <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-                Generating...
-              </>
-            ) : (
-              <>
-                <Sparkles className="w-4 h-4" />
-                Generate Domains
-              </>
-            )}
-          </Button>
-        </div>
-      </Card>
+        </Card>
+      </ProFeatureLock>
 
       <Card className="p-6 border-dashed border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-900/10">
         <div className="flex items-start gap-4">

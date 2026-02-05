@@ -1,9 +1,12 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/components/ScoreBadge";
 import { StatusPill } from "@/components/StatusPill";
-import { Clock, Eye, ExternalLink, TrendingUp, AlertTriangle } from "lucide-react";
+import { ProBadgeLock } from "@/components/ProFeatureLock";
+import { Clock, Eye, ExternalLink, TrendingUp, AlertTriangle, Users, Zap, Lock } from "lucide-react";
 import type { Domain } from "@shared/schema";
+import { useUser } from "@/contexts/UserContext";
 
 interface DomainCardProps {
   domain: Domain;
@@ -12,7 +15,31 @@ interface DomainCardProps {
   isWatched?: boolean;
 }
 
+function getReasonTag(domain: Domain): { label: string; variant: "trending" | "strongBuy" | "solid" } | null {
+  if (domain.score >= 90) {
+    return { label: "Strong Buy", variant: "strongBuy" };
+  }
+  if (domain.trending && domain.score >= 80) {
+    return { label: "Trending", variant: "trending" };
+  }
+  if (domain.score >= 85) {
+    return { label: "Solid Pick", variant: "solid" };
+  }
+  return null;
+}
+
+function getInvestorCount(domain: Domain): number {
+  const baseCount = Math.floor(domain.score / 10);
+  if (domain.trending) return baseCount + 5;
+  if (domain.premiumRenewal) return Math.max(1, baseCount - 2);
+  return baseCount;
+}
+
 export function DomainCard({ domain, onWatch, onBuy, isWatched = false }: DomainCardProps) {
+  const { isPro, triggerUpgrade } = useUser();
+  const reasonTag = getReasonTag(domain);
+  const investorCount = getInvestorCount(domain);
+
   return (
     <Card 
       data-testid={`domain-card-${domain.id}`}
@@ -28,11 +55,21 @@ export function DomainCard({ domain, onWatch, onBuy, isWatched = false }: Domain
               >
                 {domain.fqdn}
               </h3>
-              {domain.trending && (
-                <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
-                  <TrendingUp className="w-3 h-3" />
-                  Trending
-                </span>
+              {reasonTag && (
+                <Badge 
+                  variant="secondary"
+                  className={
+                    reasonTag.variant === "strongBuy" 
+                      ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" 
+                      : reasonTag.variant === "trending"
+                      ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                      : "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
+                  }
+                >
+                  {reasonTag.variant === "trending" && <TrendingUp className="w-3 h-3 mr-1" />}
+                  {reasonTag.variant === "strongBuy" && <Zap className="w-3 h-3 mr-1" />}
+                  {reasonTag.label}
+                </Badge>
               )}
             </div>
             <div className="flex items-center gap-2 mt-1 flex-wrap">
@@ -54,14 +91,32 @@ export function DomainCard({ domain, onWatch, onBuy, isWatched = false }: Domain
             </span>
           </div>
           
-          {domain.premiumRenewal && (
-            <div className="flex items-center gap-1.5 px-2 py-1 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-md">
-              <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-              <span className="text-xs font-medium text-amber-700 dark:text-amber-400">
-                Premium Renewal
-              </span>
-            </div>
-          )}
+          <div className="flex items-center gap-2">
+            {domain.premiumRenewal && (
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-md">
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                <span className="text-xs font-medium text-amber-700 dark:text-amber-400">
+                  Premium
+                </span>
+              </div>
+            )}
+            
+            {isPro ? (
+              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                <Users className="w-3.5 h-3.5" />
+                <span>{investorCount} watching</span>
+              </div>
+            ) : (
+              <button
+                onClick={() => triggerUpgrade("See who's watching this domain with Pro")}
+                className="flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400 hover:underline cursor-pointer"
+                data-testid={`investor-interest-locked-${domain.id}`}
+              >
+                <Lock className="w-3 h-3" />
+                <span>Investor interest</span>
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="flex items-center gap-2 pt-2">

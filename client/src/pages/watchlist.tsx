@@ -8,12 +8,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ScoreBadge } from "@/components/ScoreBadge";
 import { SavedSearchCard } from "@/components/SavedSearchCard";
 import { SavedSearchModal } from "@/components/SavedSearchModal";
+import { ProFeatureLock } from "@/components/ProFeatureLock";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/contexts/UserContext";
 import { Plus, Eye, Bookmark, Trash2, Search, AlertCircle } from "lucide-react";
 import type { SavedSearch, WatchlistItem, InsertSavedSearch } from "@shared/schema";
 
 export default function Watchlist() {
   const { toast } = useToast();
+  const { isPro } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { 
@@ -152,21 +155,25 @@ export default function Watchlist() {
         </div>
       </div>
 
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-            <Search className="w-5 h-5 text-muted-foreground" />
-            Saved Searches
-          </h2>
-          <Button
-            data-testid="button-new-search"
-            onClick={() => setIsModalOpen(true)}
-            size="sm"
-          >
-            <Plus className="w-4 h-4 mr-1.5" />
-            New Search
-          </Button>
-        </div>
+      <ProFeatureLock 
+        feature="Saved Searches" 
+        description="Save your search filters and get alerts when matching domains are about to drop."
+      >
+        <section className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+              <Search className="w-5 h-5 text-muted-foreground" />
+              Saved Searches
+            </h2>
+            <Button
+              data-testid="button-new-search"
+              onClick={() => setIsModalOpen(true)}
+              size="sm"
+            >
+              <Plus className="w-4 h-4 mr-1.5" />
+              New Search
+            </Button>
+          </div>
 
         {searchesLoading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -200,7 +207,8 @@ export default function Watchlist() {
             ))}
           </div>
         )}
-      </section>
+        </section>
+      </ProFeatureLock>
 
       <section className="space-y-4">
         <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">

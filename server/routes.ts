@@ -8,6 +8,7 @@ import {
   generateDomainsRequestSchema, 
   explainScoreRequestSchema 
 } from "@shared/schema";
+import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
 
 const insertSavedSearchSchema = z.object({
   name: z.string().min(1),
@@ -27,6 +28,9 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  await setupAuth(app);
+  registerAuthRoutes(app);
+
   app.get("/api/domains", async (req, res) => {
     try {
       const domains = await storage.getDomains();

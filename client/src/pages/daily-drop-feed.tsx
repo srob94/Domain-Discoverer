@@ -5,8 +5,11 @@ import { DomainCard } from "@/components/DomainCard";
 import { FilterBar } from "@/components/FilterBar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/contexts/UserContext";
 import { TrendingUp, Calendar, AlertCircle } from "lucide-react";
 import type { Domain, DomainFilters, WatchlistItem } from "@shared/schema";
+
+const FREE_WATCHLIST_LIMIT = 10;
 
 interface DailyDropFeedProps {
   searchQuery: string;
@@ -14,6 +17,7 @@ interface DailyDropFeedProps {
 
 export default function DailyDropFeed({ searchQuery }: DailyDropFeedProps) {
   const { toast } = useToast();
+  const { isPro, triggerUpgrade } = useUser();
   const [filters, setFilters] = useState<DomainFilters>({
     tld: "all",
     minScore: 75,
@@ -86,6 +90,10 @@ export default function DailyDropFeed({ searchQuery }: DailyDropFeedProps) {
     if (watchlistItem) {
       removeFromWatchlistMutation.mutate(watchlistItem.id);
     } else {
+      if (!isPro && watchlist.length >= FREE_WATCHLIST_LIMIT) {
+        triggerUpgrade(`You've reached your ${FREE_WATCHLIST_LIMIT} domain watchlist limit. Upgrade to Pro for unlimited watchlist items.`);
+        return;
+      }
       addToWatchlistMutation.mutate(domain.id);
     }
   };
