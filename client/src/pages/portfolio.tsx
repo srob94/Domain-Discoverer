@@ -119,8 +119,7 @@ export default function Portfolio() {
       </div>
 
       <ProFeatureLock 
-        feature="Portfolio Tracking" 
-        description="Track your owned domains, renewal costs, and get alerts before expiration."
+        featureType="portfolio"
       >
         <div className="grid gap-4 sm:grid-cols-3">
           <Card className="p-4">

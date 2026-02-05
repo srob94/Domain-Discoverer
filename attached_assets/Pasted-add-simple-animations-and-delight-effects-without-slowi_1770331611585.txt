@@ -1,0 +1,132 @@
+add simple animations and “delight” effects without slowing the app down or making it feel gimmicky. For an investor tool, keep animations subtle and purposeful.
+
+What to add first
+1) Micro-interactions (lowest effort, best payoff)
+
+Button hover/press (scale 0.98 on press)
+
+Card hover lift (2–4px + shadow)
+
+Toggle/checkbox smooth transitions
+
+Badge count “pop” when it increments
+
+Where it matters
+
+Watch button
+
+Save Search
+
+Upgrade CTA
+
+2) Loading skeletons
+
+Replace spinners with skeleton cards on:
+
+Feed load
+
+Saved search results
+
+Watchlist
+
+This makes the app feel fast even when data is slow.
+
+3) Toast notifications
+
+Use a simple toast for actions:
+
+“Added to watchlist”
+
+“Search saved”
+
+“Pro unlocked”
+
+Keep them short, auto-dismiss, no blocking modals.
+
+Confetti (use very sparingly)
+When confetti is appropriate
+
+Only for “milestone moments”:
+
+Pro upgrade success
+
+First saved search created
+
+First watchlist add (optional)
+
+When not to use it
+
+Every watch click
+
+Every alert
+
+Any repeated action
+
+Rule: confetti should happen at most once per session.
+
+Recommended libraries (Next.js)
+
+Pick one animation approach:
+
+A) Framer Motion (best overall)
+
+Use for:
+
+page transitions
+
+card entrance animations
+
+modal open/close
+
+subtle hover effects
+
+B) Canvas confetti (best for confetti only)
+
+Use for:
+
+Pro upgrade success page/modal
+
+Suggested animation patterns (safe for “terminal” vibe)
+Feed card entrance
+
+fade in + slight upward translate
+
+stagger by 20–40ms (max)
+
+Watch action
+
+instant UI update
+
+toast confirmation
+
+small heart/star icon pulse (150–250ms)
+
+Notifications bell
+
+tiny shake/pulse when new notifications arrive
+
+badge count animates once
+
+Implementation tips (so it doesn’t feel cheesy)
+
+Durations: 150–250ms (fast)
+
+Avoid bouncy easing everywhere (use it only for confetti)
+
+Respect “reduced motion” setting:
+
+disable fancy animations if user prefers reduced motion
+
+Where these fit in your MVP
+
+Add these in order:
+
+Hover/press + transitions (1 hour)
+
+Toasts (1–2 hours)
+
+Skeleton loaders (2–4 hours)
+
+Confetti on Pro upgrade (30 minutes)
+
+Optional subtle page transitions (later)

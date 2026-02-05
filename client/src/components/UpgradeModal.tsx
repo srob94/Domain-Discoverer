@@ -1,6 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Crown, Check, Zap, Bell, Sparkles, TrendingUp, Users, Briefcase } from "lucide-react";
+import { Link } from "wouter";
 
 interface UpgradeModalProps {
   open: boolean;
@@ -99,6 +100,16 @@ export function UpgradeModal({ open, onOpenChange, triggerReason }: UpgradeModal
           <p className="text-xs text-center text-muted-foreground">
             No credit card required for trial. Cancel anytime.
           </p>
+          
+          <Link href="/pricing" onClick={() => onOpenChange(false)}>
+            <Button 
+              variant="link" 
+              className="w-full text-sm"
+              data-testid="link-view-pricing"
+            >
+              View all plans
+            </Button>
+          </Link>
         </div>
       </DialogContent>
     </Dialog>

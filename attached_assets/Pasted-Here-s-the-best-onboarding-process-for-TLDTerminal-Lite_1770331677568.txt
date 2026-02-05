@@ -1,0 +1,266 @@
+Here’s the best onboarding process for **TLDTerminal Lite** — designed for fast activation, habit formation, and natural Pro upgrades.
+
+This is the exact MVP onboarding flow you should ship.
+
+---
+
+# Onboarding Goals (MVP)
+
+You want every new user to reach this moment within 2 minutes:
+
+## “I just found a domain worth watching.”
+
+Onboarding should create:
+
+* immediate value (feed)
+* first action (watch)
+* upgrade trigger (alerts/saved searches)
+
+---
+
+# User Onboarding Flow (Step-by-Step)
+
+---
+
+## 1. Visitor Landing (Logged Out)
+
+### Experience
+
+User lands on homepage and immediately sees:
+
+* sample Daily Drop Feed preview
+* “Premium renewal warning” example
+* clear CTA
+
+### CTA
+
+**Start Free Account**
+
+No pricing wall yet.
+
+---
+
+## 2. Signup (Minimal Friction)
+
+### Required fields only:
+
+* Email
+* Password
+
+Optional later:
+
+* Name
+* Investor preferences
+
+### Copy
+
+“Create your free account to watch domains and track drops.”
+
+---
+
+## 3. First Login → Welcome Screen (1-time)
+
+### Title
+
+**Welcome to TLDTerminal**
+
+### Message
+
+“Your daily ranked drop feed is live. Let’s personalize it.”
+
+Button:
+**Set Preferences (30 seconds)**
+
+Skip option:
+“Skip for now”
+
+---
+
+## 4. Preference Setup (Ultra Light)
+
+Only ask 3 things:
+
+### Step 1: Preferred Extensions
+
+Checkbox pills:
+
+* .com
+* .io
+* .ai
+* Other
+
+### Step 2: Investor Style
+
+Choose one:
+
+* Brandable names
+* Keyword domains
+* Short domains
+* AI/startup niches
+
+### Step 3: Renewal Sensitivity
+
+Dropdown:
+
+* Under $30/year (recommended)
+* Under $100/year
+* Show all
+
+Save button:
+**Generate My Feed**
+
+---
+
+## 5. Activation Moment: First Feed View
+
+User lands directly in:
+
+## Daily Drop Feed (personalized)
+
+Show:
+
+* Top 25 domains
+* Score badges
+* Drop countdown
+* Premium renewal warnings
+
+Add a helper tooltip:
+
+👉 “Click Watch to track domains and get alerts before they drop.”
+
+---
+
+## 6. First Key Action: Watch a Domain
+
+When user clicks Watch:
+
+Toast:
+✅ Added to Watchlist
+
+Immediately show:
+
+“Watched domains can send drop alerts on Pro.”
+
+Subtle upgrade hook.
+
+---
+
+## 7. Watchlist Page Prompt
+
+After 2–3 watched domains:
+
+Banner:
+
+**Want alerts before these domains drop?**
+Pro investors get notified automatically.
+
+Button:
+**Start Pro Trial**
+
+---
+
+## 8. Saved Search Hook (Best Upgrade Trigger)
+
+When user clicks “New Saved Search”:
+
+Locked modal:
+
+**Automate your deal flow with Pro**
+Saved searches alert you when high-score domains appear.
+
+CTA:
+**Start 7-Day Trial**
+
+---
+
+## 9. AI Builder Teaser (Secondary Hook)
+
+Sidebar item:
+
+AI Builder (Pro)
+
+Click → upsell screen:
+
+“Generate investable domain ideas instantly.”
+
+CTA:
+Unlock Pro
+
+---
+
+## 10. Pro Trial Start (Moment of Delight)
+
+After upgrade:
+
+Success screen:
+
+**Welcome to Pro**
+Alerts and saved searches are now active.
+
+Next action button:
+
+**Create Your First Saved Search**
+
+Optional confetti here only.
+
+---
+
+# Onboarding Email Sequence (Simple)
+
+Day 0: Welcome
+Day 1: Watch your first domain
+Day 3: Saved searches automate deal flow
+Day 5: Trial offer reminder
+
+---
+
+# Starter vs Pro Onboarding Experience
+
+## Starter user completes:
+
+* Set preferences
+* Watch 3 domains
+* Hit upgrade trigger naturally
+
+## Pro user completes:
+
+* Create saved search
+* Enable alerts
+* Receive first notification
+
+That’s retention.
+
+---
+
+# MVP Onboarding Screens Needed
+
+1. Signup/Login
+2. Welcome modal
+3. Preferences mini-stepper
+4. Daily Feed with tooltip
+5. Watchlist banner upsell
+6. Pro upgrade success screen
+
+No more.
+
+---
+
+# Key Rule
+
+Onboarding should take:
+
+* <60 seconds setup
+* <2 minutes to first “aha”
+* Upgrade triggers only after intent
+
+---
+
+# Final MVP Onboarding Summary
+
+**Show feed → Watch domain → Offer automation → Upgrade**
+
+That’s the entire funnel.
+
+---
+
+If you want, I can write the exact UI copy for each onboarding modal + the Next.js route guard logic (logged out vs Starter vs Pro).

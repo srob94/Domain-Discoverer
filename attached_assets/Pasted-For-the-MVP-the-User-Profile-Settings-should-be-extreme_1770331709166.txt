@@ -1,0 +1,235 @@
+For the MVP, the **User Profile + Settings** should be extremely minimal — only what supports:
+
+* personalization
+* Pro gating
+* alerts
+* billing
+* investor workflow
+
+Nothing else.
+
+Here is the clean, final spec.
+
+---
+
+# User Profile + Settings (MVP Requirements)
+
+## 1. Account Basics
+
+### Fields
+
+* Email (primary identifier)
+* Display name (optional)
+* Plan status: Starter / Pro / Trial
+* Member since date
+
+### Page Actions
+
+* Change password
+* Logout
+
+That’s it.
+
+---
+
+## 2. Subscription & Billing (Pro)
+
+### Show
+
+* Current plan
+* Trial end date (if active)
+* Next billing date
+* Manage subscription button (Stripe portal)
+
+### Actions
+
+* Upgrade to Pro
+* Cancel plan
+
+Keep billing out of “Settings” clutter — separate tab is fine.
+
+---
+
+## 3. Investor Preferences (Personalization)
+
+These should be set once during onboarding and editable later.
+
+### Preferred Extensions
+
+Multi-select:
+
+* .com
+* .io
+* .ai
+* .co
+* Other
+
+### Domain Style
+
+Pick one or more:
+
+* Brandable
+* Keyword domains
+* Short names
+* Startup-style
+
+### Renewal Sensitivity
+
+Dropdown:
+
+* Under $30/year (default)
+* Under $100/year
+* Show all
+
+These drive feed defaults.
+
+---
+
+## 4. Alerts & Notifications Settings
+
+### Email Alerts Toggle
+
+* Drop alerts (watched domains)
+* Saved search alerts (Pro)
+* Weekly digest (optional)
+
+### Timing Control (simple)
+
+* Notify when domain drops in:
+
+  * 24h
+  * 12h (default)
+  * 3h
+
+### Notification Frequency
+
+* Immediate
+* Daily summary (Phase 2)
+
+---
+
+## 5. Watchlist & Saved Search Limits (Starter UX)
+
+In profile, show:
+
+* Watchlist used: 7 / 10
+* Saved searches: Locked (Pro)
+
+This creates upgrade pressure.
+
+---
+
+## 6. AI Usage (Pro Cost Control)
+
+If you include Conversation Search or AI Builder:
+
+Show:
+
+* AI generations remaining this month
+  Example:
+* 34 / 200 searches used
+
+Optional for MVP but useful for pricing control.
+
+---
+
+## 7. Security (Minimal)
+
+### Sessions
+
+* Active device list (Phase 2)
+
+MVP only needs:
+
+* Password reset
+* Email verification (optional)
+
+---
+
+## 8. Support Links (Footer in Settings)
+
+* Contact support
+* Terms of service
+* Privacy policy
+
+No need for full help center yet.
+
+---
+
+# Pages Needed
+
+## `/account`
+
+* Profile basics
+* Plan badge
+* Logout
+
+## `/billing`
+
+* Upgrade + Stripe portal
+
+## `/settings`
+
+* Preferences
+* Notifications
+
+That’s enough.
+
+---
+
+# Database Fields (Supabase)
+
+### `profiles`
+
+* id (auth user id)
+* email
+* display_name
+* role (user/admin)
+* plan (starter/pro)
+* trial_ends_at
+
+### `user_preferences`
+
+* user_id
+* preferred_tlds (array)
+* min_score_default
+* max_renewal_default
+* style_tags (array)
+
+### `notification_settings`
+
+* user_id
+* drop_alerts_enabled
+* search_alerts_enabled
+* notify_window_hours
+
+---
+
+# What NOT to Build Yet
+
+Skip all of these until scale:
+
+* avatars
+* social profiles
+* public investor pages
+* team accounts
+* complex notification rules
+* full portfolio valuation settings
+
+---
+
+# Final MVP Settings Summary
+
+User profile/settings only need:
+
+1. Account basics
+2. Plan + billing
+3. Feed preferences (TLD + renewal cap)
+4. Alert toggles + timing
+5. AI usage quota (optional)
+
+That’s it.
+
+---
+
+If you want, I can generate the exact Settings UI layout (React + Tailwind) and the Supabase schema migrations to implement this cleanly.

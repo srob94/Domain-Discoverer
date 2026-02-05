@@ -8,6 +8,9 @@ The project follows a full-stack TypeScript architecture with a React frontend a
 
 ## Recent Changes
 
+- **Pricing Page & Portal** (Feb 2026): Added dedicated /pricing page with two-tier layout (Starter Free vs Pro $79/mo), feature comparison table, FAQ section, and CTA sections
+- **ProFeatureLock Enhancements** (Feb 2026): Updated with specific gating copy for each feature type (ai_builder, saved_searches, portfolio, alerts, trend_signals, investor_interest)
+- **ProWelcome Component** (Feb 2026): Added post-upgrade success modal with onboarding CTA
 - **Notifications System** (Feb 2026): Added NotificationBell component with 4 notification types (drop_soon, search_match, premium_warning, upgrade_signal), badge count, dropdown panel, and mark-as-read functionality
 - **Pro Features & Upgrade System** (Feb 2026): Added $79/mo Pro tier with upgrade modal, feature gating, and contextual upgrade prompts with 7-day trial offer
 - **Replit Auth Integration**: Implemented OIDC-based authentication with session management
@@ -30,17 +33,20 @@ Preferred communication style: Simple, everyday language.
 - **Authentication**: Replit Auth via OIDC integration
 
 The frontend is organized under `client/src/` with:
-- `pages/` - Route-level components (daily-drop-feed, watchlist, builder, portfolio, landing)
-- `components/` - Reusable UI components including domain cards, filters, modals, and Pro locks
-- `components/ui/` - shadcn/ui primitives (buttons, cards, dialogs, etc.)
+- `pages/` - Route-level components (daily-drop-feed, watchlist, builder, portfolio, pricing, landing)
+- `components/` - Reusable UI components including domain cards, filters, modals, Pro locks, and ProWelcome
+- `components/ui/` - shadcn/ui primitives (buttons, cards, dialogs, accordions, etc.)
 - `contexts/` - React contexts for user state and plan management
 - `hooks/` - Custom React hooks for auth, mobile detection, and toast notifications
 - `lib/` - Utilities including the query client
 
 ### Pro Feature System
 - **Plan Tiers**: visitor (logged out), starter (free logged in), pro ($79/mo)
-- **Feature Gating**: ProFeatureLock component wraps Pro-only content with blur overlay
-- **Upgrade Modal**: Displays pricing, feature comparison, and Stripe-ready CTA
+- **Pricing Page**: Dedicated /pricing route with two-tier comparison, FAQ, and CTAs
+- **Feature Gating**: ProFeatureLock component with specific gating copy per feature type
+- **Feature Types**: ai_builder, saved_searches, portfolio, alerts, trend_signals, investor_interest, watchlist_limit, generic
+- **Upgrade Modal**: Displays pricing, feature comparison, and Stripe-ready CTA with link to pricing page
+- **ProWelcome Modal**: Post-upgrade success flow with onboarding CTA
 - **Contextual Triggers**: Upgrade prompts at friction points (watchlist limit, locked features)
 
 ### Domain Scoring & Tags

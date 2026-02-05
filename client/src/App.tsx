@@ -12,6 +12,7 @@ import DailyDropFeed from "@/pages/daily-drop-feed";
 import Watchlist from "@/pages/watchlist";
 import Builder from "@/pages/builder";
 import Portfolio from "@/pages/portfolio";
+import Pricing from "@/pages/pricing";
 import Landing from "@/pages/landing";
 import NotFound from "@/pages/not-found";
 
@@ -24,6 +25,7 @@ function Router({ searchQuery }: { searchQuery: string }) {
       <Route path="/watchlist" component={Watchlist} />
       <Route path="/builder" component={Builder} />
       <Route path="/portfolio" component={Portfolio} />
+      <Route path="/pricing" component={Pricing} />
       <Route component={NotFound} />
     </Switch>
   );

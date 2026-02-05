@@ -23,7 +23,7 @@ interface NavbarProps {
 
 export function Navbar({ searchQuery, onSearchChange, user }: NavbarProps) {
   const [location] = useLocation();
-  const { triggerUpgrade } = useUser();
+  const { isPro } = useUser();
 
   const navLinks = [
     { href: "/", label: "Feed", icon: Home },
@@ -31,10 +31,6 @@ export function Navbar({ searchQuery, onSearchChange, user }: NavbarProps) {
     { href: "/builder", label: "AI Builder", icon: Sparkles },
     { href: "/portfolio", label: "Portfolio", icon: Briefcase }
   ];
-
-  const handleUpgradeClick = () => {
-    triggerUpgrade("Upgrade to Pro to unlock all features");
-  };
 
   const getInitials = () => {
     if (user?.firstName && user?.lastName) {
@@ -47,7 +43,7 @@ export function Navbar({ searchQuery, onSearchChange, user }: NavbarProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+    <header className="sticky top-0 z-[1000] w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
         <Link href="/">
           <div 
@@ -103,16 +99,19 @@ export function Navbar({ searchQuery, onSearchChange, user }: NavbarProps) {
         <div className="flex items-center gap-2">
           <NotificationBell />
           
-          <Button
-            data-testid="button-upgrade"
-            variant="default"
-            size="sm"
-            className="gap-1.5 hidden sm:flex"
-            onClick={handleUpgradeClick}
-          >
-            <Crown className="w-4 h-4" />
-            Upgrade to Pro
-          </Button>
+          {!isPro && (
+            <Link href="/pricing">
+              <Button
+                data-testid="button-upgrade"
+                variant="default"
+                size="sm"
+                className="gap-1.5 hidden sm:flex"
+              >
+                <Crown className="w-4 h-4" />
+                Upgrade to Pro
+              </Button>
+            </Link>
+          )}
         </div>
 
         {user && (

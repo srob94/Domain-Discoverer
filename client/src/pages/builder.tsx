@@ -93,8 +93,7 @@ export default function Builder() {
       </div>
 
       <ProFeatureLock 
-        feature="AI Domain Builder" 
-        description="Generate high-quality domain ideas with AI-powered suggestions and market analysis."
+        featureType="ai_builder"
       >
         <Card className="p-6 bg-gradient-to-br from-primary/5 via-background to-accent/10 border-primary/20">
           <div className="flex flex-col sm:flex-row gap-4">

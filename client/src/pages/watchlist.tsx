@@ -156,8 +156,7 @@ export default function Watchlist() {
       </div>
 
       <ProFeatureLock 
-        feature="Saved Searches" 
-        description="Save your search filters and get alerts when matching domains are about to drop."
+        featureType="saved_searches"
       >
         <section className="space-y-4">
           <div className="flex items-center justify-between">
