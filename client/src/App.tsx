@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -56,9 +56,40 @@ function AuthenticatedApp({ searchQuery, setSearchQuery }: {
   );
 }
 
+function PublicPricingPage() {
+  return (
+    <UserProvider authUser={null}>
+      <div className="min-h-screen bg-background">
+        <header className="sticky top-0 z-[1000] w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+          <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="/" className="flex items-center gap-2">
+              <div className="p-1.5 bg-primary rounded-md">
+                <svg className="w-5 h-5 text-primary-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="4 17 10 11 4 5"></polyline>
+                  <line x1="12" y1="19" x2="20" y2="19"></line>
+                </svg>
+              </div>
+              <span className="text-lg font-bold text-foreground">TLDTerminal</span>
+            </a>
+            <a href="/api/login">
+              <button className="px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium hover-elevate">
+                Log in
+              </button>
+            </a>
+          </div>
+        </header>
+        <main className="container mx-auto px-4 py-6">
+          <Pricing />
+        </main>
+      </div>
+    </UserProvider>
+  );
+}
+
 function AppContent() {
   const [searchQuery, setSearchQuery] = useState("");
   const { user, isLoading, isAuthenticated } = useAuth();
+  const [location] = useLocation();
 
   if (isLoading) {
     return (
@@ -69,6 +100,9 @@ function AppContent() {
   }
 
   if (!isAuthenticated) {
+    if (location === "/pricing") {
+      return <PublicPricingPage />;
+    }
     return (
       <UserProvider authUser={null}>
         <Landing />

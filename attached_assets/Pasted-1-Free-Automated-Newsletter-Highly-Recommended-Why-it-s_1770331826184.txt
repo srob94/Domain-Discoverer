@@ -1,0 +1,203 @@
+1. Free Automated Newsletter (Highly Recommended)
+Why it’s valuable
+
+Domain investors already subscribe to:
+
+drop lists
+
+auction digests
+
+weekly sales recaps
+
+A newsletter gives you:
+
+recurring engagement
+
+retention
+
+upsell channel
+
+SEO + referral growth
+
+It’s a perfect top-of-funnel product.
+
+Newsletter MVP: “Daily Drop Digest”
+Frequency
+
+Start with Weekly, not daily.
+
+Daily is too noisy early.
+
+Content (Simple)
+
+Subject: Weekly Drop Digest — Top Domains Dropping Soon
+
+Email sections:
+
+Top 10 Drops This Week
+
+domain + score + drop date
+
+Trending Keywords
+
+“agent” ↑
+
+“vault” ↑
+
+“ledger” ↑
+
+Premium Renewal Warnings
+
+domains to avoid
+
+CTA
+→ View full ranked feed in TLDTerminal
+
+Pro Upsell Built-In
+
+Free newsletter shows:
+
+Top 10 only
+
+Pro users get:
+
+Full list + alerts + saved searches
+
+Copy:
+
+“Pro investors get instant alerts before these drop.”
+
+2. Email Popup for New Customers (Yes)
+Purpose
+
+Capture emails before people bounce.
+
+Best Popup Offer
+
+“Get the Weekly Drop Digest (Top 10 domains + trends)”
+
+Not:
+
+“Subscribe for updates”
+
+Make it specific.
+
+Popup Copy (High-Converting)
+Headline
+
+Get the Best Domains Dropping This Week
+
+Subtext
+
+Weekly digest of the top scored drops + renewal trap warnings.
+
+Input
+
+[Email address]
+
+Button:
+Send Me the Digest
+
+Small:
+No spam. Unsubscribe anytime.
+
+Timing Rules (Do it right)
+
+Show after 15–30 seconds
+
+Or on exit intent
+
+Never immediately
+
+3. Newsletter + Product Flywheel
+
+This creates the perfect funnel:
+
+Visitor → Email digest → Signup → Watchlist → Pro upgrade
+
+Funnel Steps
+
+User joins newsletter (no account needed)
+
+Receives weekly list of top drops
+
+Clicks into the app
+
+Creates free account to watch domains
+
+Hits Pro triggers (alerts, saved searches)
+
+Converts
+
+This is the cleanest acquisition loop.
+
+4. What You Need Technically (MVP)
+Data Source
+
+Use your existing feed:
+
+Top scored domains
+
+Trend keywords
+
+Premium renewal flags
+
+Automation Job (Weekly Cron)
+
+Every Monday:
+
+select top 10 domains
+
+generate email template
+
+send to subscribers
+
+Tools
+
+Pick one:
+
+Loops.so (fastest)
+
+Mailchimp
+
+Customer.io
+
+Resend (developer-friendly)
+
+5. Newsletter Tiers
+Public Free Digest
+
+Top 10 drops weekly
+
+Pro Investor Alerts
+
+Real-time notifications
+
+Unlimited saved searches
+
+Newsletter becomes marketing, Pro becomes automation.
+
+6. Pages Needed for Newsletter
+
+In footer:
+
+/newsletter (signup landing page)
+
+In onboarding:
+
+checkbox: “Send me the weekly digest”
+
+Final Recommendation
+Yes — add newsletter + popup early.
+
+It’s one of the few “extra” features that directly helps growth.
+
+MVP Newsletter Bundle
+
+Weekly Drop Digest (Top 10)
+
+Popup email capture
+
+Pro upsell CTA inside every email
+
+That’s it.
