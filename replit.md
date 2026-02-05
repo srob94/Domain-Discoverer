@@ -88,6 +88,18 @@ Current data models include:
   - PATCH /api/notifications/:id/read - Mark single notification as read (with ownership check)
   - PATCH /api/notifications/read-all - Mark all user's notifications as read
 
+### Transactional Email System
+- **Service**: server/emailService.ts with Resend integration (mock mode when API key not set)
+- **14 Email Types**: welcome, activation_nudge, watchlist_confirmation, watchlist_limit_upgrade, saved_search_locked, trial_start, drop_alert, search_match_alert, premium_renewal_warning, investor_interest, trial_ending, conversion, churn_save, weekly_digest
+- **Template Engine**: Mustache-style variable interpolation using {{variable_name}} syntax
+- **Email Triggers**:
+  - Watchlist add: Sends watchlist_confirmation email with domain details
+  - Watchlist limit (10 domains): Sends watchlist_limit_upgrade email
+- **API Routes**:
+  - POST /api/emails/send - Send transactional email (authenticated)
+  - GET /api/emails/logs - Get user's email logs (authenticated)
+  - POST /api/emails/preview - Preview email template with variables
+
 ### Shared Code
 The `shared/` directory contains TypeScript types and schemas used by both frontend and backend, ensuring type safety across the stack.
 

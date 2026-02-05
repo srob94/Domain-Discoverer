@@ -317,6 +317,9 @@ export async function registerRoutes(
 
   app.post("/api/emails/preview", async (req, res) => {
     try {
+      if (!req.user) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const typeResult = emailTypeEnum.safeParse(req.body.type);
       if (!typeResult.success) {
         return res.status(400).json({ error: "Invalid email type" });

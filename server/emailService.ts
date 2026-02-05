@@ -61,7 +61,7 @@ const templates: Record<EmailType, EmailTemplate> = {
   premium_renewal_warning: {
     subject: "Renewal warning on {{domain}}",
     preview: "Premium renewals can destroy ROI.",
-    body: "Hi {{first_name}},\n\nHeads up — one of your watched domains has a premium renewal cost:\n\n{{domain}}\nRenewal: ${{renewal_price}}/yr ⚠️\n\nPremium renewals can be a long-term holding risk.\n\n→ Review Domain\n\n— TLDTerminal"
+    body: "Hi {{first_name}},\n\nHeads up — one of your watched domains has a premium renewal cost:\n\n{{domain}}\nRenewal: ${{renewal_price}}/yr (Warning: Premium)\n\nPremium renewals can be a long-term holding risk.\n\n→ Review Domain\n\n— TLDTerminal"
   },
 
   investor_interest: {
