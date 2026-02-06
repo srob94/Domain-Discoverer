@@ -1,7 +1,7 @@
 import { users, type User, type UpsertUser } from "@shared/models/auth";
 import { db } from "../../db";
 import { eq } from "drizzle-orm";
-import type { OnboardingPreferences } from "@shared/schema";
+import type { OnboardingPreferences, UpdateProfile, NotificationSettings } from "@shared/schema";
 
 // Interface for auth storage operations
 // (IMPORTANT) These user operations are mandatory for Replit Auth.
@@ -12,6 +12,8 @@ export interface IAuthStorage {
   completeOnboarding(id: string): Promise<User | undefined>;
   markWelcomeEmailSent(id: string): Promise<void>;
   markActivationNudgeSent(id: string): Promise<void>;
+  updateProfile(id: string, profile: UpdateProfile): Promise<User | undefined>;
+  updateNotificationSettings(id: string, settings: NotificationSettings): Promise<User | undefined>;
 }
 
 class AuthStorage implements IAuthStorage {
@@ -73,6 +75,34 @@ class AuthStorage implements IAuthStorage {
       .update(users)
       .set({ activationNudgeSent: true })
       .where(eq(users.id, id));
+  }
+
+  async updateProfile(id: string, profile: UpdateProfile): Promise<User | undefined> {
+    const [user] = await db
+      .update(users)
+      .set({
+        ...(profile.firstName !== undefined && { firstName: profile.firstName }),
+        ...(profile.lastName !== undefined && { lastName: profile.lastName }),
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, id))
+      .returning();
+    return user;
+  }
+
+  async updateNotificationSettings(id: string, settings: NotificationSettings): Promise<User | undefined> {
+    const [user] = await db
+      .update(users)
+      .set({
+        dropAlertsEnabled: settings.dropAlertsEnabled,
+        searchAlertsEnabled: settings.searchAlertsEnabled,
+        weeklyDigestEnabled: settings.weeklyDigestEnabled,
+        notifyWindowHours: settings.notifyWindowHours,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, id))
+      .returning();
+    return user;
   }
 }
 

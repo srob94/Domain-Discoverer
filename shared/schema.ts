@@ -199,6 +199,26 @@ export const onboardingPreferencesSchema = z.object({
 
 export type OnboardingPreferences = z.infer<typeof onboardingPreferencesSchema>;
 
+// Profile update schema
+export const updateProfileSchema = z.object({
+  firstName: z.string().max(50).optional(),
+  lastName: z.string().max(50).optional(),
+}).refine(data => data.firstName !== undefined || data.lastName !== undefined, {
+  message: "At least one field must be provided",
+});
+
+export type UpdateProfile = z.infer<typeof updateProfileSchema>;
+
+// Notification settings schema
+export const notificationSettingsSchema = z.object({
+  dropAlertsEnabled: z.boolean(),
+  searchAlertsEnabled: z.boolean(),
+  weeklyDigestEnabled: z.boolean(),
+  notifyWindowHours: z.number().refine(v => [3, 12, 24].includes(v)),
+});
+
+export type NotificationSettings = z.infer<typeof notificationSettingsSchema>;
+
 // Admin types
 export interface AdminStats {
   totalUsers: number;

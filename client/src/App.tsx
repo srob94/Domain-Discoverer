@@ -21,6 +21,9 @@ import Landing from "@/pages/landing";
 import Privacy from "@/pages/privacy";
 import Terms from "@/pages/terms";
 import About from "@/pages/about";
+import Account from "@/pages/account";
+import SettingsPage from "@/pages/settings";
+import Billing from "@/pages/billing";
 import NotFound from "@/pages/not-found";
 import AdminLayout from "@/pages/admin/layout";
 import AdminDashboard from "@/pages/admin/dashboard";
@@ -38,6 +41,9 @@ function Router({ searchQuery }: { searchQuery: string }) {
       <Route path="/builder" component={Builder} />
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/pricing" component={Pricing} />
+      <Route path="/account" component={Account} />
+      <Route path="/settings" component={SettingsPage} />
+      <Route path="/billing" component={Billing} />
       <Route component={NotFound} />
     </Switch>
   );

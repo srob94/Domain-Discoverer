@@ -1,8 +1,9 @@
 import type { Express } from "express";
 import { authStorage } from "./storage";
 import { isAuthenticated } from "./replitAuth";
-import { onboardingPreferencesSchema } from "@shared/schema";
+import { onboardingPreferencesSchema, updateProfileSchema, notificationSettingsSchema } from "@shared/schema";
 import { sendEmail } from "../../emailService";
+import { storage } from "../../storage";
 
 // Register auth-specific routes
 export function registerAuthRoutes(app: Express): void {
@@ -72,6 +73,119 @@ export function registerAuthRoutes(app: Express): void {
       res.json(user);
     } catch (error) {
       res.status(500).json({ message: "Failed to complete onboarding" });
+    }
+  });
+
+  app.get("/api/account", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await authStorage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      const conversationUsage = await storage.getConversationSearchUsage(userId);
+
+      const allWatchlist = await storage.getWatchlist();
+      const allSearches = await storage.getSavedSearches();
+
+      res.json({
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        profileImageUrl: user.profileImageUrl,
+        isPro: user.isPro,
+        isAdmin: user.isAdmin,
+        createdAt: user.createdAt,
+        watchlistCount: allWatchlist.length,
+        watchlistLimit: user.isPro ? 999 : 10,
+        savedSearchCount: allSearches.length,
+        aiSearchesUsed: conversationUsage.count,
+        aiSearchesLimit: conversationUsage.limit,
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch account" });
+    }
+  });
+
+  app.patch("/api/account", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const parsed = updateProfileSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.issues });
+      }
+      const user = await authStorage.updateProfile(userId, parsed.data);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update profile" });
+    }
+  });
+
+  app.get("/api/settings/notifications", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await authStorage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json({
+        dropAlertsEnabled: user.dropAlertsEnabled ?? true,
+        searchAlertsEnabled: user.searchAlertsEnabled ?? false,
+        weeklyDigestEnabled: user.weeklyDigestEnabled ?? false,
+        notifyWindowHours: user.notifyWindowHours ?? 12,
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch notification settings" });
+    }
+  });
+
+  app.put("/api/settings/notifications", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const parsed = notificationSettingsSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.issues });
+      }
+      const user = await authStorage.updateNotificationSettings(userId, parsed.data);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json({
+        dropAlertsEnabled: user.dropAlertsEnabled,
+        searchAlertsEnabled: user.searchAlertsEnabled,
+        weeklyDigestEnabled: user.weeklyDigestEnabled,
+        notifyWindowHours: user.notifyWindowHours,
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update notification settings" });
+    }
+  });
+
+  app.get("/api/billing", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await authStorage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const plan = user.isPro ? "pro" : "starter";
+      const trialActive = user.trialEndsAt && new Date(user.trialEndsAt) > new Date();
+
+      res.json({
+        plan,
+        trialActive: trialActive || false,
+        trialEndsAt: user.trialEndsAt ? user.trialEndsAt.toISOString() : null,
+        nextBillingDate: user.isPro ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() : null,
+        monthlyPrice: 79,
+        currency: "USD",
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch billing info" });
     }
   });
 }

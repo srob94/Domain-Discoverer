@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { NotificationBell } from "@/components/NotificationBell";
 import { ConversationSearch } from "@/components/ConversationSearch";
-import { Search, Terminal, Crown, Home, Bookmark, Sparkles, Briefcase, LogOut, Lock, Settings } from "lucide-react";
+import { Search, Terminal, Crown, Home, Bookmark, Sparkles, Briefcase, LogOut, Lock, Settings, User, CreditCard } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUser } from "@/contexts/UserContext";
 import type { User as AuthUser } from "@shared/schema";
@@ -170,11 +170,24 @@ export function Navbar({ searchQuery, onSearchChange, user }: NavbarProps) {
               </div>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href="/pricing" className="flex items-center gap-2 cursor-pointer">
+                <Link href="/account" className="flex items-center gap-2 cursor-pointer">
+                  <User className="w-4 h-4" />
+                  Account
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/settings" className="flex items-center gap-2 cursor-pointer">
                   <Settings className="w-4 h-4" />
+                  Settings
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/billing" className="flex items-center gap-2 cursor-pointer">
+                  <CreditCard className="w-4 h-4" />
                   Billing
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <a href="/api/logout" className="flex items-center gap-2 cursor-pointer">
                   <LogOut className="w-4 h-4" />
