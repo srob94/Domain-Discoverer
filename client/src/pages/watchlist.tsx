@@ -8,6 +8,7 @@ import { ScoreBadge } from "@/components/ScoreBadge";
 import { SavedSearchCard } from "@/components/SavedSearchCard";
 import { SavedSearchModal } from "@/components/SavedSearchModal";
 import { ProFeatureLock } from "@/components/ProFeatureLock";
+import { WatchlistBanner } from "@/components/WatchlistBanner";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/contexts/UserContext";
 import { Plus, Eye, Bookmark, Trash2, Search, AlertCircle } from "lucide-react";
@@ -153,6 +154,8 @@ export default function Watchlist() {
           </p>
         </div>
       </div>
+
+      <WatchlistBanner watchCount={watchlist.length} />
 
       <ProFeatureLock 
         featureType="saved_searches"

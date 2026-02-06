@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import type { User as AuthUser } from "@shared/schema";
 
 type UserPlan = "visitor" | "starter" | "pro";
@@ -8,6 +8,7 @@ interface UserContextType {
   plan: UserPlan;
   isLoggedIn: boolean;
   isPro: boolean;
+  needsOnboarding: boolean;
   upgradeToPro: () => void;
   showUpgradeModal: boolean;
   setShowUpgradeModal: (show: boolean) => void;
@@ -30,6 +31,7 @@ export function UserProvider({ children, authUser }: UserProviderProps) {
   const isLoggedIn = authUser !== null && authUser !== undefined;
   const plan: UserPlan = manualPro ? "pro" : (isLoggedIn ? "starter" : "visitor");
   const isPro = plan === "pro";
+  const needsOnboarding = isLoggedIn && (authUser as any)?.onboardingCompleted === false;
 
   const upgradeToPro = useCallback(() => {
     setManualPro(true);
@@ -47,6 +49,7 @@ export function UserProvider({ children, authUser }: UserProviderProps) {
         plan,
         isLoggedIn,
         isPro,
+        needsOnboarding,
         upgradeToPro,
         showUpgradeModal,
         setShowUpgradeModal,

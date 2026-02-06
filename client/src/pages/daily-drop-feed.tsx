@@ -4,6 +4,7 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { DomainCard } from "@/components/DomainCard";
 import { DomainCardSkeleton } from "@/components/DomainCardSkeleton";
 import { FilterBar } from "@/components/FilterBar";
+import { FeedTooltip } from "@/components/FeedTooltip";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/contexts/UserContext";
 import { TrendingUp, Calendar, AlertCircle } from "lucide-react";
@@ -141,6 +142,8 @@ export default function DailyDropFeed({ searchQuery }: DailyDropFeedProps) {
       </div>
 
       <FilterBar filters={filters} onFiltersChange={setFilters} />
+
+      <FeedTooltip />
 
       {isLoading ? (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

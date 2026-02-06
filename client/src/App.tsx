@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Switch, Route, useLocation, Redirect } from "wouter";
-import { queryClient } from "./lib/queryClient";
+import { queryClient, apiRequest } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navbar } from "@/components/Navbar";
 import { UpgradeModal } from "@/components/UpgradeModal";
+import { WelcomeModal } from "@/components/WelcomeModal";
+import { PreferenceStepper } from "@/components/PreferenceStepper";
 import { MarketingHeader } from "@/components/MarketingHeader";
 import { MarketingFooter } from "@/components/MarketingFooter";
 import { UserProvider, useUser } from "@/contexts/UserContext";
@@ -41,6 +43,42 @@ function Router({ searchQuery }: { searchQuery: string }) {
   );
 }
 
+function OnboardingFlow() {
+  const { needsOnboarding } = useUser();
+  const [stage, setStage] = useState<"welcome" | "preferences" | "done">("done");
+
+  useEffect(() => {
+    if (needsOnboarding) {
+      setStage("welcome");
+    }
+  }, [needsOnboarding]);
+
+  if (stage === "done") return null;
+
+  const handleSkip = async () => {
+    try {
+      await apiRequest("POST", "/api/onboarding/complete");
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+    } catch (e) {}
+    setStage("done");
+  };
+
+  return (
+    <>
+      <WelcomeModal
+        open={stage === "welcome"}
+        onSetPreferences={() => setStage("preferences")}
+        onSkip={handleSkip}
+      />
+      <PreferenceStepper
+        key={stage === "preferences" ? "active" : "inactive"}
+        open={stage === "preferences"}
+        onComplete={() => setStage("done")}
+      />
+    </>
+  );
+}
+
 function AuthenticatedApp({ searchQuery, setSearchQuery }: { 
   searchQuery: string; 
   setSearchQuery: (query: string) => void;
@@ -62,6 +100,7 @@ function AuthenticatedApp({ searchQuery, setSearchQuery }: {
         onOpenChange={setShowUpgradeModal}
         triggerReason={upgradeReason}
       />
+      <OnboardingFlow />
     </div>
   );
 }

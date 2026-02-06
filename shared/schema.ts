@@ -190,6 +190,15 @@ export interface ConversationSearchUsage {
   limit: number;
 }
 
+// Onboarding types
+export const onboardingPreferencesSchema = z.object({
+  preferredTlds: z.array(z.string()).min(1),
+  investorStyle: z.enum(["brandable", "keyword", "short", "ai_startup"]),
+  renewalSensitivity: z.number().min(0).max(500),
+});
+
+export type OnboardingPreferences = z.infer<typeof onboardingPreferencesSchema>;
+
 // Admin types
 export interface AdminStats {
   totalUsers: number;
