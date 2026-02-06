@@ -15,6 +15,10 @@ import type {
   AdminSettings,
   ConversationSearchUsage
 } from "@shared/schema";
+import type { NewsletterSubscriber } from "@shared/models/auth";
+import { newsletterSubscribers } from "@shared/models/auth";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 import { getEmailLogs } from "./emailService";
 
 export interface IStorage {
@@ -51,6 +55,13 @@ export interface IStorage {
   getConversationSearchUsage(userId: string): Promise<ConversationSearchUsage>;
   incrementConversationSearchUsage(userId: string): Promise<ConversationSearchUsage>;
   getConversationSearchStats(): Promise<{ totalQueries: number; uniqueUsers: number; queriesThisMonth: number }>;
+
+  subscribeNewsletter(email: string, source?: string): Promise<NewsletterSubscriber>;
+  unsubscribeNewsletter(email: string): Promise<NewsletterSubscriber | undefined>;
+  getNewsletterSubscriber(email: string): Promise<NewsletterSubscriber | undefined>;
+  getActiveNewsletterSubscribers(): Promise<NewsletterSubscriber[]>;
+  getNewsletterSubscriberCount(): Promise<number>;
+  updateSubscriberLastSent(email: string): Promise<void>;
 }
 
 const mockDomains: Domain[] = [
@@ -564,6 +575,65 @@ export class MemStorage implements IStorage {
       uniqueUsers: new Set(allUsage.map(u => u.userId)).size,
       queriesThisMonth: thisMonthUsage.reduce((sum, u) => sum + u.count, 0)
     };
+  }
+
+  async subscribeNewsletter(email: string, source: string = "website"): Promise<NewsletterSubscriber> {
+    const existing = await this.getNewsletterSubscriber(email);
+    if (existing) {
+      if (existing.status === "unsubscribed") {
+        const [updated] = await db
+          .update(newsletterSubscribers)
+          .set({ status: "subscribed", unsubscribedAt: null, source })
+          .where(eq(newsletterSubscribers.email, email))
+          .returning();
+        return updated;
+      }
+      return existing;
+    }
+    const [subscriber] = await db
+      .insert(newsletterSubscribers)
+      .values({ email, source })
+      .returning();
+    return subscriber;
+  }
+
+  async unsubscribeNewsletter(email: string): Promise<NewsletterSubscriber | undefined> {
+    const [updated] = await db
+      .update(newsletterSubscribers)
+      .set({ status: "unsubscribed", unsubscribedAt: new Date() })
+      .where(eq(newsletterSubscribers.email, email))
+      .returning();
+    return updated;
+  }
+
+  async getNewsletterSubscriber(email: string): Promise<NewsletterSubscriber | undefined> {
+    const [subscriber] = await db
+      .select()
+      .from(newsletterSubscribers)
+      .where(eq(newsletterSubscribers.email, email));
+    return subscriber;
+  }
+
+  async getActiveNewsletterSubscribers(): Promise<NewsletterSubscriber[]> {
+    return db
+      .select()
+      .from(newsletterSubscribers)
+      .where(eq(newsletterSubscribers.status, "subscribed"));
+  }
+
+  async getNewsletterSubscriberCount(): Promise<number> {
+    const subscribers = await db
+      .select()
+      .from(newsletterSubscribers)
+      .where(eq(newsletterSubscribers.status, "subscribed"));
+    return subscribers.length;
+  }
+
+  async updateSubscriberLastSent(email: string): Promise<void> {
+    await db
+      .update(newsletterSubscribers)
+      .set({ lastSentAt: new Date() })
+      .where(eq(newsletterSubscribers.email, email));
   }
 }
 

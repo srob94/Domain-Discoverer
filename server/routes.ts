@@ -9,7 +9,9 @@ import {
   explainScoreRequestSchema,
   insertNotificationSchema,
   sendEmailRequestSchema,
-  emailTypeEnum
+  emailTypeEnum,
+  newsletterSubscribeSchema,
+  newsletterUnsubscribeSchema
 } from "@shared/schema";
 import { sendEmail, getEmailLogs, renderEmailPreview } from "./emailService";
 import { setupAuth, registerAuthRoutes, authStorage } from "./replit_integrations/auth";
@@ -58,6 +60,51 @@ export async function registerRoutes(
 ): Promise<Server> {
   await setupAuth(app);
   registerAuthRoutes(app);
+
+  app.post("/api/newsletter/subscribe", async (req, res) => {
+    try {
+      const parsed = newsletterSubscribeSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.issues });
+      }
+      const subscriber = await storage.subscribeNewsletter(
+        parsed.data.email,
+        parsed.data.source || "website"
+      );
+      res.json({ status: subscriber.status, email: subscriber.email });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to subscribe" });
+    }
+  });
+
+  app.post("/api/newsletter/unsubscribe", async (req, res) => {
+    try {
+      const parsed = newsletterUnsubscribeSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.issues });
+      }
+      const subscriber = await storage.unsubscribeNewsletter(parsed.data.email);
+      if (!subscriber) {
+        return res.status(404).json({ error: "Subscriber not found" });
+      }
+      res.json({ status: "unsubscribed", email: subscriber.email });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to unsubscribe" });
+    }
+  });
+
+  app.get("/api/newsletter/status", async (req, res) => {
+    try {
+      const email = req.query.email as string;
+      if (!email) {
+        return res.status(400).json({ error: "Email is required" });
+      }
+      const subscriber = await storage.getNewsletterSubscriber(email);
+      res.json({ subscribed: subscriber?.status === "subscribed" || false });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to check status" });
+    }
+  });
 
   app.get("/api/domains", async (req, res) => {
     try {

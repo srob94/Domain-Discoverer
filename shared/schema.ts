@@ -219,6 +219,18 @@ export const notificationSettingsSchema = z.object({
 
 export type NotificationSettings = z.infer<typeof notificationSettingsSchema>;
 
+// Newsletter types
+export const newsletterSubscribeSchema = z.object({
+  email: z.string().email(),
+  source: z.string().max(50).optional(),
+});
+
+export type NewsletterSubscribeRequest = z.infer<typeof newsletterSubscribeSchema>;
+
+export const newsletterUnsubscribeSchema = z.object({
+  email: z.string().email(),
+});
+
 // Admin types
 export interface AdminStats {
   totalUsers: number;
