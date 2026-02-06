@@ -8,6 +8,7 @@ The project follows a full-stack TypeScript architecture with a React frontend a
 
 ## Recent Changes
 
+- **Onboarding System** (Feb 2026): Added personalized onboarding flow with WelcomeModal, 3-step PreferenceStepper (TLDs, investor style, renewal sensitivity), FeedTooltip for first-time users, WatchlistBanner upsell after 2+ watches, welcome email on first login, and scheduled activation nudge (24h).
 - **Conversation Search** (Feb 2026): Added AI-powered natural language search for domains. Users can ask "Find AI .com domains under $30" or "Why is VaultLedger.io scored high?". Pro feature with 200 queries/month limit. Admin dashboard shows search stats.
 - **Admin Portal** (Feb 2026): Added admin-only portal at /admin with dashboard, domain moderation, user management, and settings pages
 - **Pricing Page & Portal** (Feb 2026): Added dedicated /pricing page with two-tier layout (Starter Free vs Pro $79/mo), feature comparison table, FAQ section, and CTA sections
